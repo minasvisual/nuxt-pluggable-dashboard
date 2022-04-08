@@ -106,6 +106,26 @@
                 </transition>
             </Menu>
         </div>
+         <FormKit
+            type="form"
+            v-model="form" 
+            :actions="false"
+          >
+            <FormKit
+              type="email"
+              name="email"
+              label="E-mail"
+              placeholder="E-mail"
+              validation="required"
+            />
+            <FormKit
+              type="password"
+              name="password"
+              label="Senha"
+              placeholder="Senha"
+              validation="required"
+            />
+        </FormKit>
     </div>
 </template>
 
@@ -125,5 +145,10 @@ export default {
         AcademicCapIcon,
         ArrowLeftIcon,
     },
+    setup(){
+      return {
+        form: {}
+      }
+    }
 }
 </script>

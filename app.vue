@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import './assets/tailwind.scss'
+import '@formkit/themes/genesis'
 </script>
 
 
 <template>
   <div>
+    <Navbar />  
     <NuxtPage />
   </div>
 </template>

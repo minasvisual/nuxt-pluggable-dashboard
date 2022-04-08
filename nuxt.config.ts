@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from "nuxt3";
 
 export default defineNuxtConfig({
+    modules: ['@formkit/nuxt'],
     buildModules: [
         // pinia plugin - https://pinia.esm.dev
         "@pinia/nuxt",

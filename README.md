@@ -86,3 +86,11 @@ info Color legend :
 - Twitter - [@productdevbook](https://twitter.com/productdevbook)
 
 Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+
+
+let errPage = () => { render:() => ({}) }
+let Error404 = errPage 
+let Error500 = errPage 
+let ErrorDev = errPage 
+
+npm install -d @nuxt/ui-templates@npm:@nuxt/ui-templates-edge@latest
