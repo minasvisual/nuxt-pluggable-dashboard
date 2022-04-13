@@ -17,11 +17,16 @@
           </div>
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
-              <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+              <NuxtLink v-for="item in navigation" :key="item.name" :to="item.href" 
+                       :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" 
+                       :aria-current="item.current ? 'page' : undefined">
+                {{ item.name }}
+              </NuxtLink>
             </div>
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div>{{ current.name }}</div>
           <button type="button" class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
             <span class="sr-only">View notifications</span>
             <BellIcon class="h-6 w-6" aria-hidden="true" />
@@ -68,10 +73,17 @@ import {
 } from '@headlessui/vue'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
 
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-]
+import { useAppContext } from '~/store/global';
+
+const { current={} } = useAppContext()
+
+const navigation = current.resources && Object.keys(current.resources).map( 
+  i => ({ name: current.resources[i].label, href: `/api-${current.code}/${i}`, current: false })
+)
+// [
+//   { name: 'Dashboard', href: '/', current: true },
+//   { name: 'Team', href: '/modal', current: false },
+//   { name: 'Projects', href: '/api-videos', current: false },
+//   { name: 'Calendar', href: '#', current: false },
+// ]
 </script>

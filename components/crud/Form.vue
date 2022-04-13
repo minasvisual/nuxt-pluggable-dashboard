@@ -1,20 +1,12 @@
 <template>
   <div class="form">
-    <FormKitSchema
-      v-if="schema"
-      :schema="schema"
-      :data="{
-        id:1,
-        title:'HTML Tutorials For Beginners',
-        cover:'https://i.ytimg.com/vi/Y1BlT4_c_SU/sddefault.jpg',
-        tags:'HTML|Beginners',
-        url:'PL4cUxeGkcC9ibZ2TSBaGGNrgh4ZgYE6Cc',
-        channel:'The Net Ninja',
-        channel_url:'UCW5YeuERMmlnqo4oq8vwUpg',
-        lang:'EN',
-        created_at:'2021-12-17T23:12:53.000Z'
-      }"
-    />
+    <div v-if="res.message" class="text-red">{{ res.message }}</div>
+    <FormKit v-if="schema" type="form" method="post" submit-label="Submit"
+             v-model="data" 
+             @submit="save" 
+    >
+      <FormKitSchema :schema="schema" />
+    </FormKit> 
     <div v-else>
       schema nao encontrado
     </div>
@@ -25,7 +17,12 @@
 
 <script setup>
   import _ from 'lodash'
-  import { FormKitSchema } from '@formkit/vue'
+  import { FormKit, FormKitSchema } from '@formkit/vue'
+  import Resource from '~/libs/core/resource'
+
+  let { $axios } = useNuxtApp() 
+  let Instance = Resource({ $axios })
+  const emit = defineEmits(['saved'])
 
   const { model, data } = defineProps({
     model: {
@@ -42,10 +39,36 @@
     return model.properties.map((row) => {
       return {
         ...row,
-        $formkit: _.get(row, 'type', 'text')
+        $formkit: _.get(row, 'type', 'text'), 
       }
     })
   })
 
+  const save = (data) => {
+    console.log('Save', data)
+    Instance.saveData(data).then((rs) => {
+      alert("Saved ")
+      res.value = rs
+      emit('saved', rs)
+    }).catch(err => res.value = get(err, 'response.data', err) )
+  }
 
+  let row = ref(data)
+  let res = ref({})
+
+  onMounted(async () => {
+    try { 
+      console.log("onmounted")
+      Instance.setModel(JSON.parse(JSON.stringify(model)))
+      row.value = await Instance.getData(row.value)
+ 
+      // Instance.setModel(model.value)
+      // resource.value = await Instance.getData()
+    } catch (error) {
+      console.error("onmounted", error)
+    }
+  })
+  onUnmounted(() => { 
+    console.log("onmounted")
+  })
 </script>
