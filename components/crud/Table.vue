@@ -7,7 +7,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="(row, index) in resource" :key="index"> 
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="(row, index) in table" :key="index"> 
                 <td class="px-6 py-4" v-for="col in schema" :key="col.key">{{ row[col.key] }}</td> 
                 <td class="px-6 py-4" >
                   <a class="cursor-pointer mr-3" @click="() => emit('edit', { target: 'edit', row})">Edit</a>
@@ -23,11 +23,17 @@
 
 <script setup>
   import _ from 'lodash' 
-  import {schemaColumns} from '~/libs/core/helpers'
+  import { schemaColumns } from '~/libs/core/helpers' 
+  import { getData } from '~/libs/core/models' 
+  import Resource from '~/libs/core/resource'
+
+  let { $axios } = useNuxtApp() 
+  let Instance = Resource({ $axios })
+  let route = useRoute() 
 
   const emit = defineEmits(['edit','delete'])
     
-  const { model, resource } = defineProps({
+  let { model, resource } = defineProps({
     model: {
       type: Object,
       default: () => ({ properties: [] })
@@ -47,5 +53,20 @@
 
   let schema = computed(() => {
     return schemaColumns(model.properties) 
+  })
+  
+  let table = ref(resource)
+    
+  onMounted(async () => {
+    try { 
+      Instance.setModel(JSON.parse(JSON.stringify(model)))
+      let { rows, total } = await Instance.getData()
+
+      table.value = rows
+      // Instance.setModel(model.value)
+      // resource.value = await Instance.getData()
+    } catch (error) {
+      console.error("onmounted", error)
+    }
   })
 </script>

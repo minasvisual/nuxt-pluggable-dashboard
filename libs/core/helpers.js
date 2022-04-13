@@ -114,27 +114,27 @@ const { has, sortBy, get, isNil, isObject, omit, isEqual, capitalize } = _
 //     }
 // }
 
-// const interpolate = (string, scope, def) => {
-//     if( typeof string !== 'string' ) return string; 
+export const interpolate = (string, scope, def) => {
+    if( typeof string !== 'string' ) return string; 
 
-//     return string.replace(/\{([^}]*)}/g, (r,k) => get(scope, k, (def ? def:'{'+k+'}')) );
-// }
+    return string.replace(/\{([^}]*)}/g, (r,k) => get(scope, k, (def ? def:'{'+k+'}')) );
+}
 
-// const queryString = (params, join, data) => {
-//     let rtn = ''
-//     let arrQuery = []
-//     if( isObject(params) && Object.keys(params).length > 0 ){
-//         Object.keys(params).map(k => {
-//             if( Array.isArray(params[k]) )
-//                 params[k].map(i => arrQuery.push([ interpolate(k, data), interpolate(i, data)]) )
-//             else
-//                 arrQuery.push([interpolate(k, data), interpolate(params[k], data)])
-//         })
+export const queryString = (params, join, data) => {
+    let rtn = ''
+    let arrQuery = []
+    if( isObject(params) && Object.keys(params).length > 0 ){
+        Object.keys(params).map(k => {
+            if( Array.isArray(params[k]) )
+                params[k].map(i => arrQuery.push([ interpolate(k, data), interpolate(i, data)]) )
+            else
+                arrQuery.push([interpolate(k, data), interpolate(params[k], data)])
+        })
 
-//         rtn = join+new URLSearchParams( arrQuery )
-//     }
-//     return rtn
-// }
+        rtn = join+new URLSearchParams( arrQuery )
+    }
+    return rtn
+}
 
 // const filterParams = (api, queryInfo) => { 
 //     let { page, pageSize, sort, filters } = queryInfo || {}
