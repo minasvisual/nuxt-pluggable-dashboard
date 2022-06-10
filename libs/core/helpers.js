@@ -60,23 +60,23 @@ const { has, sortBy, get, isNil, isObject, omit, isEqual, capitalize, round } = 
 //     })
 // }
 
-// const getErrorMessage = (error) => {
-//     if(error){
-//         if( get(error, 'code', '') == "ECONNREFUSED" ){
-//             return error.message + "( " + get(error, 'config.url') + ")"
-//         }
+export const getErrorMessage = (error) => {
+    if(error){
+        if( get(error, 'code', '') == "ECONNREFUSED" ){
+            return error.message + "( " + get(error, 'config.url') + ")"
+        }
 
-//         if( has(error, 'response.data.message') )
-//             return get(error, 'response.data.message')
+        if( has(error, 'response.data.message') )
+            return get(error, 'response.data.message')
 
-//         if( get(error, 'message') )
-//             return get(error, 'message')
+        if( get(error, 'message') )
+            return get(error, 'message')
 
-//         if( typeof error == 'string' )
-//             return error
-//     }
-//     return ""
-// }
+        if( typeof error == 'string' )
+            return error
+    }
+    return ""
+}
 
 // const formatModel = (columns=[], data) => {
 //     columns.map(i => {

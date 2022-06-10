@@ -1,20 +1,27 @@
 <template>
-  <section class="content mx-12" v-if="model">
-    <CommonsModal v-model:show="form.__isOpen" >
-      <template #title>Create/Edit {{ form.id }}</template>
-      <CrudForm :model="model" :data="form" @saved="postActions" />
-    </CommonsModal>
-    <CrudTable :resource="resource" @new="actions" @edit="actions" @delete="actions" />
-  </section>
+  <NuxtLayout class="content" >
+    <section class="content mx-12" v-if="model">
+      <CrudAuth :project="current" :schema="model">
+        <CommonsModal v-model:show="form.__isOpen" >
+          <template #title>Create/Edit {{ form.id }}</template>
+          <CrudForm :model="model" :data="form" @saved="postActions" />
+        </CommonsModal>
+        <CrudTable :resource="resource" @new="actions" @edit="actions" @delete="actions" />
+      </CrudAuth>
+    </section>
+  </NuxtLayout>
 </template>
 
 <script setup>
   import _ from 'lodash'   
+  import { useAppContext } from '~/store/global';
+  const { current={} } = useAppContext()
    
   let route = useRoute() 
 
-  const { data:model } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {  
-    return $axios.get(`/models/${route.params.file}.json`).then( ({data}) => data )
+  const { data:model } = await useAsyncData('data_'+route.params.file, ({ $axios }) => {  
+    console.log(`${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`)
+    return $axios.get(`${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
   })
 
   provide('model', model) 

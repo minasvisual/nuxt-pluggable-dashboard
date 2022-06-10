@@ -39,7 +39,7 @@
     return model.properties.map((row) => {
       return {
         ...row,
-        $formkit: _.get(row, 'type', 'text')
+        $formkit: _.get(row, 'type', 'text'), 
       }
     })
   })
@@ -58,6 +58,7 @@
 
   onMounted(async () => {
     try { 
+      console.log("onmounted")
       Instance.setModel(JSON.parse(JSON.stringify(model)))
       // row.value = await Instance.getData(row.value)
  
@@ -66,6 +67,9 @@
     } catch (error) {
       console.error("onmounted", error)
     }
+  })
+  onUnmounted(() => { 
+    console.log("onmounted")
   })
 </script>
 
