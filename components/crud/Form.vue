@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <div v-if="res.message" class="text-red">{{ res.message }}</div>
-    <FormKit v-if="schema" type="form" method="post" submit-label="Submit"
+    <FormKit v-if="schema" type="form" method="post" submit-label="Submit" form-class="w-full"
              v-model="data" 
              @submit="save" 
     >
@@ -59,7 +59,7 @@
   onMounted(async () => {
     try { 
       Instance.setModel(JSON.parse(JSON.stringify(model)))
-      row.value = await Instance.getData(row.value)
+      // row.value = await Instance.getData(row.value)
  
       // Instance.setModel(model.value)
       // resource.value = await Instance.getData()
@@ -68,3 +68,9 @@
     }
   })
 </script>
+
+<style>
+.formkit-wrapper{
+	max-width: 100% !important;
+}
+</style>

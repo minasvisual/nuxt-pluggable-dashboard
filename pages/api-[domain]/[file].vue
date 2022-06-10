@@ -4,15 +4,21 @@
       <template #title>Create/Edit {{ form.id }}</template>
       <CrudForm :model="model" :data="form" @saved="postActions" />
     </CommonsModal>
-    <CrudTable :model="model" :resource="resource" @edit="actions" @delete="actions" />
+    <CrudTable :resource="resource" @new="actions" @edit="actions" @delete="actions" />
   </section>
 </template>
 
 <script setup>
-  import _ from 'lodash'  
- 
+  import _ from 'lodash'   
+   
   let route = useRoute() 
-    
+
+  const { data:model } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {  
+    return $axios.get(`/models/${route.params.file}.json`).then( ({data}) => data )
+  })
+
+  provide('model', model) 
+
   let form = ref({}) 
   let resource = ref([]) 
 
@@ -27,17 +33,9 @@
     if( type == 'saved')
       form.value = {}
   }
- 
-  const { data:model } = await useAsyncData('data_'+route.params.file, ({ $axios }) => { 
-    console.log(JSON.stringify(route.params.file))  
-    return $axios.get(`/models/${route.params.file}.json`).then( ({data}) => data )
-  })
-
+  
   onMounted(async() => {
     try { 
-       console.log(JSON.stringify(model))  
-      // Instance.setModel(model.value)
-      // resource.value = await Instance.getData()
     } catch (error) {
       console.error("onmounted", error)
     }

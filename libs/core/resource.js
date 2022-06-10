@@ -28,8 +28,11 @@ export default ({ $axios,  }) => {
   //   })
   // }
   const setModel = (modelObj={}) => {
-    model = modelObj
-    schema = modelObj.properties
+    model = JSON.parse(JSON.stringify(modelObj))
+    schema = model.properties
+  }
+  const getModel = (modelObj={}) => {
+    return this.model
   }
 
   const loadModelByUrl = async (path='', file) => {
@@ -49,6 +52,7 @@ export default ({ $axios,  }) => {
   }
 
   const getData = async (data={}, config={}) => {
+    console.log("called get data", data, config)
     let { api = {} } = model;
     if( api.resource && isEmpty(data.data) ) data.data = api.resource
 
@@ -192,6 +196,7 @@ export default ({ $axios,  }) => {
   return {
     loadModelByUrl,
     setModel,
+    getModel,
     getData,
     getDataObject,
     saveData,

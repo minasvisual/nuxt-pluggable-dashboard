@@ -5,6 +5,14 @@
   "primaryKey": "id",
   "properties": [  
         {
+          "name": "cover",
+          "label": "Cover",
+          "config": {
+            "grid": true,
+            "type": "image"
+          }
+        },
+        {
           "name": "title",
           "label": "Title",
           "config": {
