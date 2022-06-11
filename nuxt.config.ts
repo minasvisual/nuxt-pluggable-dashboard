@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from "nuxt3";
+import { defineNuxtConfig } from "nuxt";
 import dotenv from 'dotenv'
 import { pick } from 'lodash'
 

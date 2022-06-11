@@ -2,25 +2,25 @@
   {
     "code": "nightfy",
     "name": "Nigthfy",
-    "url": "https://nightfy.com.br",
+    "url": "https://api-dev.myguild.com.br",
     "resources_path": "/models/",
     "resources":{
       "events":{
-        "resource":"events.json",
+        "resource":"nightfy_events.json",
         "label": "Events"
       },
-      "cidades":{
-        "resource":"cities.json",
-        "label": "Cidades"
+      "cursos":{
+        "resource":"cursos.json",
+        "label": "Cursos"
       }
     },
     "api":{
       "headers":{
-        "app-key": "entertheshadows"
+        "app-key": "1234567890"
       }
     },
     "auth":{
-      "url_login": "https://api.mantovaniarts.com/auth/login",
+      "url_login": "https://api-dev.myguild.com.br/auth/login",
       "url_method": "post",
       "field_username":"email",
       "field_secret":"password",
@@ -29,7 +29,7 @@
       "response_token":"token",
       "request_mode": "header",
       "request_token": "access-token",
-      "logged_url":"https://api.mantovaniarts.com/auth/logged",
+      "logged_url":"https://api-dev.myguild.com.br/auth/logged",
       "logged_model":{
         "id": "_id",
         "name": "fullname",

@@ -30,9 +30,9 @@
         <!-- <span v-else-if="cell.type == 'date'" v-on:click="emitAction" >
             {{ data[cell.key] | formatDate(cell.action.format || 'MM/DD/YYYY hh:mm', cell.action.from || null, cell.action.utc || false) }}
         </span> -->
-        <span v-else-if="cell.type == 'action'"  >
+        <!-- <span v-else-if="cell.type == 'action'"  >
             <Actions :data.sync="data[cell.key]" :cell.sync="cell" :row.sync="data" />
-        </span>
+        </span> -->
         <span v-else-if="cell.type == 'object'" v-text="get(data, `row.${cell.action.name}`, data[cell.key])" v-on:click="emitAction" ></span>
         <span v-else-if="cell.type == 'html'" v-html="data[cell.key]" v-on:click="emitAction" ></span>
         <span v-else v-text="data[cell.key]" v-on:click="emitAction" ></span>
@@ -47,7 +47,7 @@ import Tags from './tags'
 import HrefLink from './link'
 import Expression from './expression'
 import GridSelect from './select'
-import Actions from './action'
+// import Actions from './action'
 // import BelongsTo from './belongsTo'
 
 export default {
@@ -57,7 +57,7 @@ export default {
         Tags,
         HrefLink,
         Expression,
-        // GridSelect,
+        GridSelect,
         // Actions,
         // BelongsTo,
     },

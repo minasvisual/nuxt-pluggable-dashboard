@@ -31,8 +31,17 @@ export default ({ $axios,  }) => {
     model = JSON.parse(JSON.stringify(modelObj))
     schema = model.properties
   }
-  const getModel = (modelObj={}) => {
-    return this.model
+  const getModel = () => {
+    return model
+  }
+
+  const loadModel = async (url, options) => {
+    return await $axios.get(url, options).then( res => {
+        console.log("loadModel "+url, res)
+        if( !res.api ) throw { message: "Model Load error" }
+
+        return res
+    })
   }
 
   const loadModelByUrl = async (path='', file) => {
@@ -52,7 +61,7 @@ export default ({ $axios,  }) => {
   }
 
   const getData = async (data={}, config={}) => {
-    console.log("called get data", data, config)
+    // console.log("called get data", data, config)
     let { api = {} } = model;
     if( api.resource && isEmpty(data.data) ) data.data = api.resource
 
@@ -78,7 +87,7 @@ export default ({ $axios,  }) => {
     
     url = interpolate(url, {...data, query })
   
-    console.debug('get data', url, options, sessionConfig)
+    // console.debug('get data', url, options, sessionConfig)
     return $axios(url, options, sessionConfig)
     .then( data => {  
       data = sessionConfig.wrap === false ? data : data.data
@@ -194,6 +203,7 @@ export default ({ $axios,  }) => {
   }
 
   return {
+    loadModel,
     loadModelByUrl,
     setModel,
     getModel,

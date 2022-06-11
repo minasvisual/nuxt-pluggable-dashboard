@@ -1,4 +1,5 @@
 <template>
+  <NuxtLayout class="content" >
     <div class="max-w-sm mx-auto mt-4">
         <div class="flex items-center">
             <img
@@ -27,6 +28,7 @@
             </li>
         </ul>
     </div>
+  </NuxtLayout>
 </template>
 
 <script lang="ts">
@@ -45,10 +47,10 @@ export default {
     setup() {
         const router = useRouter()
         const lists = ref<links[]>([
-            { id: 1, title: 'Pinia Store', url: 'pinia' },
-            { id: 1, title: 'Modal', url: 'modal' },
-             { id: 1, title: 'Menu', url: 'menu' },
-            { id: 1, title: 'New soon...', url: '' },
+            { id: 1, title: 'Login', url: '/auth/login' },
+            // { id: 1, title: 'Modal', url: 'modal' },
+            //  { id: 1, title: 'Menu', url: 'menu' },
+            // { id: 1, title: 'New soon...', url: '' },
         ])
         return {
             lists

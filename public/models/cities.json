@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "title": "Cursos",
+  "domain": "cursos",
+  "primaryKey": "id",
+  "properties": [  
+        {
+          "name": "city",
+          "label": "City",
+          "config": {
+            "grid": true
+          }
+        }
+  ],
+  "api": {
+    "rootApi": "https://api.mantovaniarts.com/nightfy/events",
+    "wrapData": "rows",
+    "totalData": "count", 
+    "pagination": {
+      "pageField": "page",
+      "limitField": "limit",
+      "sortField": "sort",
+      "sortExp": "{sort}{prop}",
+      "sortAscChar": "",
+      "sortDescChar": "-",
+      "filterField": "filter",
+      "filterExp": "{prop},like,%{value}%"
+    },
+    "params": {
+      "limit": 5,
+      "sort": "-id"
+    }
+  }
+}

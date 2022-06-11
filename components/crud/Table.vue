@@ -44,7 +44,7 @@
         <tfoot>
           <tr class="pd-footer">
             <td :colspan="totalCols" class="w-full text-center p-2 pt-4">
-              <CrudTablesPagination :pages="calcPages(tableCount, perPage)" :actual="1" @change="changePage" />
+              <CrudCommonPagination :pages="totalPages" :actual="1" @change="changePage" />
             </td>
           </tr>
         </tfoot>
@@ -93,6 +93,10 @@
     
   let totalCols = computed(() => { 
     return schema.value.length + 2
+  })
+    
+  let totalPages = computed(() => { 
+    return calcPages(tableCount.value, perPage.value)
   })
 
   const deleteEmit = (row) =>{
@@ -167,14 +171,27 @@
       alert("Error to getData")
     }
   }
+
+  // watch([schema], () => {
+  //   Instance.setModel({ ...model.value })
+
+  //   getDatasource()
+  // })
     
   onMounted(async () => {
     try { 
-      Instance.setModel(model.value)
+      // console.error("table mounted", model.value)
+      Instance.setModel({ ...model.value })
 
       await getDatasource()
     } catch (error) {
       console.error("onmounted", error)
     }
+  })
+
+  
+  onUnmounted(() => {
+      // console.error("table unmountedmounted", model.value)
+      Instance.setModel({ })
   })
 </script>

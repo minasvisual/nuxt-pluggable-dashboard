@@ -1,4 +1,4 @@
-// import deepmerge from 'deepmerge'
+import deepmerge from 'deepmerge'
 import _ from 'lodash'
 // import moment from 'moment'
 
@@ -52,13 +52,13 @@ const { has, sortBy, get, isNil, isObject, omit, isEqual, capitalize, round } = 
 
 // // const mergeAll = (arr) =>  deepmerge.all(arr)
 
-// const mergeDeep  = (a = {}, b = {}) => {
-//     return deepmerge(a, b, {
-//         arrayMerge: (d, s) => {
-//             return [ ...d, ...s ]
-//         }
-//     })
-// }
+export const mergeDeep  = (a = {}, b = {}) => {
+    return deepmerge(a, b, {
+        arrayMerge: (d, s) => {
+            return [ ...d, ...s ]
+        }
+    })
+}
 
 export const getErrorMessage = (error) => {
     if(error){

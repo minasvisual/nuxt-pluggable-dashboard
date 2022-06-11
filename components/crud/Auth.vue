@@ -61,13 +61,14 @@ import { useAppContext } from '~/store/global'
   let model = ref({})
   let login = ref(false)
   let hasAuth = computed(() => {
-    return app.current.auth
+    return !!app.current.auth
   })
   let session = computed(() => {
     return get(auth, `[${app.current.code}]`, {})
   })
 
   const emit = defineEmits(['auth:failed','auth:logged'])
+
   const { schema, project } = defineProps({
     schema: {
       type: Object,
@@ -151,12 +152,16 @@ import { useAppContext } from '~/store/global'
   // beforeMount(){
   //   this.login = false
   // },
+  
+  provide('sessions', auth) 
+  provide('project', app.current) 
+
   onMounted(async () => {
     try{
       schema.api = merge(get(app.current, 'api', {}), schema.api)
 
       console.debug('caled mounted auth')
-      if( !hasAuth ) return login.value = true 
+      if( !hasAuth.value ) return login.value = true 
 
       console.debug('auth process start')
       let token = sessionStorage.getItem(`${schema.session || app.current.code}_session`)
@@ -182,6 +187,7 @@ import { useAppContext } from '~/store/global'
         loading.value = false;
         login.value = false;
         console.debug('show login form')
+
       } 
     }catch(e){
       login.value = false;

@@ -6,7 +6,7 @@
   const app = useAppContext()
 
   const { data:projects } = await useAsyncData('data_projects', ({ $axios }) => {  
-    return $axios.get(env.VUE_APP_DATABASE).then( ({data}) => data )
+    return $axios.get(env.VUE_APP_BASE_API + env.VUE_APP_DATABASE).then( ({data}) => data )
   })
 
   app.projects = projects.value

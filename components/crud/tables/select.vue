@@ -1,42 +1,40 @@
 <template>
-    <FormKit
-        type="select"
+    <select 
         class="table-select"
         v-if="renderComponent"
         v-model="data"
-        :options="(cell.options || options)"
-        size="sm"
-        :disabled="true"
-        v-on="$listeners"
-    />
+        size="sm" 
+    >
+        <!-- v-on="$listeners" -->
+      <option v-for="(opt, idx) in (cell.options || options)" :key="idx" :value="opt.value">{{ opt.label }}</option>
+    </select>
 </template>
 
 
-<script>
-import { mergeDeep } from 'lodash'
-import { filterParams } from '~/libs/core/helpers'
-// import InputMixin from '~/libs/input.mixin'
+<script> 
+import { filterParams, mergeDeep } from '~/libs/core/helpers'
+import InputMixin from '~/libs/core/input.mixin'
 
 export default {
   props:['data', 'cell'],
-  // mixins: [InputMixin],
+  mixins: [InputMixin],
   data(){return{ 
   }},
   computed:{
 
   },
-  async created(){
+  async mounted(){
     let { action, schema } = this.cell
 
     if( schema )
       schema = await this.loadNestedSchema(schema)
       
-    if( action && action.fieldValue )
-      schema = { api: mergeDeep(this.convertAttributesToSchema(action), (schema.api || {})) }
+    // if( action && action.fieldValue )
+    //   schema = { api:  }
 
     if( schema && schema.api  )
       this.cell.options = await this.getOptions(
-          { ...schema.api }, 
+          { ...schema.api, ...action }, 
           this.data, 
           filterParams(schema.api, { filters:[{prop: action.fieldValue, value: this.data}] }) 
       )

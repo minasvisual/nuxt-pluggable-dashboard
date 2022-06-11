@@ -11,7 +11,7 @@ export default {
     }},
     methods: {
         replaceByDefault(e) {
-            e.target.src = '/img/image-error.jpg'
+            e.target.src = ''
         },
         showModal(item){
            this.$emit("click", this.data)

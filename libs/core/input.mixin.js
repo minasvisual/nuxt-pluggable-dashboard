@@ -1,30 +1,33 @@
-import { getDataObject, getData, loadModel } from './models'
-import { filterParams, mergeDeep, interpolate } from './helpers'
-import { get, set } from 'lodash'
+// import { getDataObject, getData, loadModel } from './models'
+import { filterParams, interpolate, mergeDeep } from './helpers'
+import { get, set, } from 'lodash'
+import ResorceClass from '~/libs/core/resource'
 
 export default { 
+  inject: ['project','sessions'],
   data () {
     return { 
       loading: false, 
       renderComponent: false,
-      options: []
+      options: [],
+      Instance: ResorceClass({ $axios: this.$axios }),  
     }
   },
   computed: { 
     model () {
-      return this.context.model
+      return this.context?.model
     }, 
     attributes () {
-      return this.context.attributes || {}
+      return this.context?.attributes || {}
     }, 
     currentProject(){
-      return this.$store.state.currentProject || null
+      return this.project || null
     }, 
     request(){
-      return get(this.$store, `state.auth.${this.currentProject.code}.request`, {})
+      return get(this.sessions, `${this.currentProject.code}.request`, {})
     },  
     formValues(){
-      return this.$store.state.crud.row || {}
+      return {}//this.$store.state.crud.row || {}
     }
   },
   methods:{
@@ -45,7 +48,7 @@ export default {
 
           schema.api = filterParams( ( schema.api || {} ), data )
 
-          return getDataObject(schema, data, opts).then((data) => {
+          return this.Instance.getDataObject(schema, data, opts).then((data) => {
             this.loading = false; 
             return data
           })
@@ -68,8 +71,10 @@ export default {
     },
     async loadNestedSchema(schema){
       if( schema && typeof schema  == 'string' )
-        return loadModel( this.currentProject.resources_path + schema).then( data =>  { 
+        return this.Instance.loadModel( this.currentProject.resources_path + schema).then( data =>  { 
           if( !data || !data.api ) throw { message: "Api fail" } 
+
+          
           return data
         }).catch( () => ({}) )
       else
@@ -77,7 +82,7 @@ export default {
     },
     async getOptions({ rootApi, fieldLabel, fieldValue, ...data }, model = {}, filter={}){
       try{ 
-        console.debug("input mixin get options", { rootApi, fieldLabel, fieldValue, ...data })
+        // console.debug("input mixin get options", { rootApi, fieldLabel, fieldValue, ...data })
         if( rootApi ){
           this.loading = true;
           data = mergeDeep(data, this.request)
@@ -85,7 +90,11 @@ export default {
             data = mergeDeep(data, filter)
 
           rootApi = interpolate(rootApi, { data: model })
-          let { rows } = await getData({ api: { ...data, rootApi, resource: this.formValues } }, { data: model }) 
+ 
+          this.Instance.setModel({ api: { ...data, rootApi, resource: this.formValues } })
+
+          // console.log("getOoptions", this.Instance.getModel())
+          let { rows } = await this.Instance.getData({ data: model }) 
 
          this.options = rows && rows.map((i, k) => ({ 
               label: get(i, fieldLabel, i.toString()), 
