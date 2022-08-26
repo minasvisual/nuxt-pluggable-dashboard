@@ -1,0 +1,41 @@
+[
+  {
+    "code": "nightfy",
+    "name": "Nigthfy",
+    "url": "https://api-dev.myguild.com.br",
+    "resources_path": "/models/",
+    "resources":{
+      "events":{
+        "resource":"nightfy_events.json",
+        "label": "Events"
+      },
+      "cursos":{
+        "resource":"cursos.json",
+        "label": "Cursos"
+      }
+    },
+    "api":{
+      "headers":{
+        "app-key": "1234567890"
+      }
+    },
+    "auth":{
+      "url_login": "https://api-dev.myguild.com.br/auth/login",
+      "url_method": "post",
+      "field_username":"email",
+      "field_secret":"password",
+      "field_remember": "remember",
+      "response_mode":"body",
+      "response_token":"token",
+      "request_mode": "header",
+      "request_token": "access-token",
+      "logged_url":"https://api-dev.myguild.com.br/auth/logged",
+      "logged_model":{
+        "id": "_id",
+        "name": "fullname",
+        "username": "email",
+        "role": "user_type"
+      }
+    }
+  }
+]

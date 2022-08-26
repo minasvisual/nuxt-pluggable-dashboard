@@ -2,11 +2,12 @@ import _ from 'lodash'
 import {createApp} from 'vue'
 import Modal from '~/components/commons/modal.vue'
 
-export default defineNuxtPlugin((nuxtApp) => {
-  if( !process.browser ) return {}
+export default defineNuxtPlugin((nuxtApp) => { 
 
-  const instance = createApp(Modal)
-  instance.mount(window.document.createElement('div'))
+  // const instance = createApp(Modal)
+ 
+  // instance.mount(document.createElement('div'))
+  
   // 4. adicionar um método de instância
   const message = function (msg, type='info', timeout=3) {
     // alguma lógica ...
@@ -24,19 +25,20 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       setTimeout(() => instance.isShow = false, timeout * 1000)
   }
-   
-  const modal = (msg) => {
-      document.body.appendChild(instance.$el)
+  
+  const modal = (msg, options={}) => {
+      console.error("Chamado modal antigo")
+      // document.body.appendChild(CompB.$el)
       // alert logic
-      instance.type = 'alert'
-      instance.msg = msg
-      instance.isShow = true
-      instance.instance = instance
+      // instance._data.type = 'alert'
+      // instance._data.msg = msg
+      // instance._data.isShow = true
+      // instance._data.instance = instance 
   }
 
-  nuxtApp.vueApp.config.globalProperties.modal = modal
-  nuxtApp.vueApp.config.globalProperties.message = message
-
+  nuxtApp.vueApp.config.globalProperties.$modal = modal
+  nuxtApp.vueApp.config.globalProperties.$message = message 
+    
   return {
     provide: {
       message,
