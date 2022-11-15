@@ -2,7 +2,7 @@
     <select 
         class="table-select"
         v-if="renderComponent"
-        v-model="data"
+        :valur="data"
         size="sm" 
     >
         <!-- v-on="$listeners" -->

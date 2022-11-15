@@ -49,36 +49,40 @@
 </template>
 
 <script setup> 
-import { has, get, merge } from 'lodash'
-import { getErrorMessage } from '~/libs/core/helpers'
-// import SessionMixin from '~/libs/core/session.mixin'
-import { useAuth } from '~/store/auth' 
-import { useAppContext } from '~/store/global' 
+  import { has, get, merge } from 'lodash'
+  import { getErrorMessage } from '~/libs/core/helpers'
+  // import SessionMixin from '~/libs/core/session.mixin'
+  import { useAuth } from '~/store/auth' 
+  import { useAppContext } from '~/store/global' 
 
   const auth = useAuth(); 
   const app = useAppContext(); 
   let loading = ref(false)
   let model = ref({})
   let login = ref(false)
+  let schema = inject('model')
+  let project = computed(() => app.current)
+
+
   let hasAuth = computed(() => {
-    return !!app.current.auth
+    return !!app.current?.auth
   })
   let session = computed(() => {
-    return get(auth, `[${app.current.code}]`, {})
+    return get(auth, `[${app.current?.code}]`, {})
   })
 
   const emit = defineEmits(['auth:failed','auth:logged'])
 
-  const { schema, project } = defineProps({
-    schema: {
-      type: Object,
-      default: () => ({ properties: [] })
-    }, 
-    project: {
-      type: Object,
-      default: () => ({})
-    }, 
-  })
+  // const { schema, project } = defineProps({
+  //   schema: {
+  //     type: Object,
+  //     default: () => ({ properties: [] })
+  //   }, 
+  //   project: {
+  //     type: Object,
+  //     default: () => ({})
+  //   }, 
+  // })
  
   // },
   // props:{
@@ -95,7 +99,7 @@ import { useAppContext } from '~/store/global'
   const doAuth = (form) => {
     try{
       loading.value = true;
-      return app.authenticate(form)
+      return auth.authenticate(form)
                 .then(success)
                 .catch(error)
     }catch(e){
@@ -104,14 +108,14 @@ import { useAppContext } from '~/store/global'
     }
   }
   const success = function(res){
-      let token = app.storageToken(res)
+      let token = auth.storageToken(res)
       let { data, headers } = res;
 
       if( !token ) {
         loading.value = false;
         return emit('auth:failed', {message: 'token not found', config, data, headers})
       }
-      let authRequest = app.authRequest(token)
+      let authRequest = auth.authRequest(token)
       
       emit('auth:logged', { logged: true, request: authRequest })
       loading.value = false;
@@ -127,12 +131,12 @@ import { useAppContext } from '~/store/global'
   }
   const checkLogged = async function (token){
     try{
-      let auth = await app.isLogged(token)
-      console.debug('checkLogged: isLogged', auth)
+      let logged = await auth.isLogged(token)
+      console.debug('checkLogged: isLogged', logged)
       
-      emit('auth:logged', auth)
+      emit('auth:logged', logged)
 
-      return auth
+      return logged
     }catch(e){
       console.debug('checkLogged failed: token', e)
       app.message( getErrorMessage(e) )
@@ -158,28 +162,28 @@ import { useAppContext } from '~/store/global'
 
   onMounted(async () => {
     try{
-      schema.api = merge(get(app.current, 'api', {}), schema.api)
+      schema.value.api = merge(get(app.current, 'api', {}), schema.value.api)
 
       console.debug('caled mounted auth')
       if( !hasAuth.value ) return login.value = true 
 
       console.debug('auth process start')
-      let token = sessionStorage.getItem(`${schema.session || app.current.code}_session`)
+      let token = sessionStorage.getItem(`${schema.value.session || app.current.code}_session`)
       console.debug('token session', token)
 
       loading.value = true;
       if( token && get(session, 'logged', false) ){
-        emit('auth:logged', {token, user: get(session, 'user', {}), request: app.authRequest(token) })
+        emit('auth:logged', {token, user: get(session, 'user', {}), request: auth.authRequest(token) })
         
-        console.debug('token and user exists', app.authRequest(token), session)
-        schema.api = Object.assign(schema.api, app.authRequest(token))
+        console.debug('token and user exists', auth.authRequest(token), session)
+        schema.value.api = Object.assign(schema.value.api, auth.authRequest(token))
         loading.value = false;
         login.value = true;
       }else if( token ){
         let { request={}, ...data } = await checkLogged(token)
 
         console.debug('token exists relogin', request, data)
-        schema.api = Object.assign(schema.api, request)
+        schema.value.api = Object.assign(schema.value.api, request)
         
         loading.value = false;
         login.value = true;

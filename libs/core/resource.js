@@ -172,15 +172,15 @@ export default ({ $axios,  }) => {
   }
 
   const deleteData = async (data, config={}) => {
-    let { api } = model;
-    if( api.resource && isEmpty(data.data) ) data.data = api.resource
+    let { api={} } = model;
+    if( api?.resource && isEmpty(data.data) ) data.data = api.resource
     
-    let primaryKey = (model.primaryKey || 'id')
+    let primaryKey = (model?.primaryKey || 'id')
 
     if( !has(data, primaryKey) ) return Promise.reject('Id not found')
 
     let sessionConfig = {
-      session: model.auth
+      session: model?.auth
     }
     
     let method = ( isNil(api.methodDelete) ? "DELETE":api.methodDelete )

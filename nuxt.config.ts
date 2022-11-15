@@ -1,4 +1,3 @@
-import { defineNuxtConfig } from "nuxt";
 import dotenv from 'dotenv'
 import { pick } from 'lodash'
 
@@ -15,7 +14,10 @@ export default defineNuxtConfig({
   privateRuntimeConfig: {
     ...pick(process.env, envs)
   },
-  modules: ['@formkit/nuxt'], 
+  modules: [
+    '@formkit/nuxt',
+    'nuxt-jsoneditor'
+  ], 
   buildModules: [
       // pinia plugin - https://pinia.esm.dev
       "@pinia/nuxt",
@@ -44,5 +46,16 @@ export default defineNuxtConfig({
               '@headlessui/vue', '@heroicons/vue/solid', '@heroicons/vue/outline', 'vue', 'pinia'
           ]
       }
+  },
+  jsoneditor: {
+    componentName: 'JsonEditor',
+    includeCss: true,
+    options: {
+        /**
+        *
+        * SET GLOBAL OPTIONS
+        * 
+        * */
+    }
   }
 });

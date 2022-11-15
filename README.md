@@ -1,3 +1,11 @@
+## BACKLOG
+
+- [ ] GRID - BUSCA POR RELACIONAMENTO
+- [ ] GRID - MANTER BUSCA NO REFRESH
+
+
+
+
 # Nuxt 3 Starter
 
 We recommend to look at the [documentation](https://v3.nuxtjs.org).

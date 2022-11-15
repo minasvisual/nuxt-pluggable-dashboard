@@ -1,12 +1,6 @@
 <template>
 <span >
     <img  @click="showModal(data)" :src="data" style="height: 30px; width:auto" @error="replaceByDefault" />
-    
-    <teleport to="body">
-        <CommonsModal ref="dialog" v-model:show="formopen" >
-            <img :src="data" />
-        </CommonsModal>
-    </teleport>
 </span>
 </template>
 <script>
@@ -22,7 +16,7 @@ export default {
         showModal(item){ 
            this.$emit("click", this.data)
            this.formopen = true
-            this.$message(`teste mensagem`)
+           this.$message(`<img src="${item}" />`, null, false)
         }
     }
 }

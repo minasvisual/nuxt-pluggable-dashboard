@@ -1,8 +1,8 @@
-import { plugin, defaultConfig, } from '@formkit/vue'
+import { plugin, defaultConfig, } from '@formkit/vue' 
 
 export default defineNuxtPlugin( (nuxtApp) => {
-  const helloWorld = 
-
+  const helloWorld = ''
+  
   nuxtApp.vueApp.use( 
     plugin, 
     defaultConfig({

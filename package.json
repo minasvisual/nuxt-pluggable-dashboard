@@ -20,17 +20,20 @@
     "@headlessui/vue": "1.4.3",
     "@heroicons/vue": "1.0.6",
     "@nuxt/ui-templates": "npm:@nuxt/ui-templates-edge@0.0.0-27479051.598a8a0",
-    "@pinia/nuxt": "0.1.8",
+    "@pinia/nuxt": "^0.4.3",
     "@tailwindcss/aspect-ratio": "0.4.0",
     "@tailwindcss/forms": "0.5.0",
     "@tailwindcss/line-clamp": "0.3.1",
     "@tailwindcss/typography": "0.5.2",
+    "@vueup/vue-quill": "^1.0.0",
     "axios": "^0.26.1",
     "deepmerge": "^4.2.2",
     "dotenv": "^16.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.2",
-    "pinia": "2.0.13"
+    "nuxt-jsoneditor": "^1.6.2",
+    "pinia": "2.0.13",
+    "quill-html-edit-button": "^2.2.12"
   },
   "engines": {
     "node": "^14.16.0 || ^16.11.0 || ^17.0.0"

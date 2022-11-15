@@ -62,13 +62,8 @@
   from '~/libs/core/helpers' 
   import ResourceClass from '~/libs/core/resource'
 
-  let { resource } = defineProps({ 
-    // {
-    //   model: {
-    //     type: Object,
-    //     default: () => ({ properties: [] })
-    //   }
-    // },
+  let { resource,   } = defineProps({  
+   
     resource: {
       type: Array,
       default: []
@@ -76,7 +71,7 @@
   })
 
   let model = inject('model') 
-  let { $axios } = useNuxtApp() 
+  let { $axios, $message } = useNuxtApp() 
   let Instance = ResourceClass({ $axios })
   let route = useRoute() 
   let filters = ref({})
@@ -102,10 +97,18 @@
   })
 
   const deleteEmit = (row) =>{
-    if( confirm('Are you sure?') ) 
-     emit('delete', { target: 'delete', row})
-    else
+    Instance.setModel({ ...model.value })
+
+    if( confirm('Are you sure?') ) { 
+     Instance.deleteData(row).then(e => {
+      $message("Removido com sucesso")
+      emit('delete', { target: 'delete', row})
+      getDatasource()
+    })
+     
+    }else{
      return false
+    }
   }
 
   const selectAll = () => {
@@ -113,11 +116,16 @@
     table.value = [ ...table.value ]
   }
 
-  const deleteSelected = () => {
-    if( confirm('Are you sure?') ) 
+  const deleteSelected = async () => {
+    if( confirm('Are you sure?') ) {
       for( let row of selected.value ){
-        emit('delete', { target: 'delete', row})
+        await Instance.deleteData(row).then(e => { 
+          emit('delete', { target: 'delete', row})
+        })
       }
+      $message("Removido com sucesso")
+      getDatasource()
+    }
   }
 
   const toggleSort = (col = {}) => {
@@ -179,17 +187,17 @@
     }
   }
 
-  // watch([schema], () => {
-  //   Instance.setModel({ ...model.value })
+  watch(model, () => {
+    Instance.setModel({ ...model.value })
 
-  //   getDatasource()
-  // })
+    getDatasource()
+  })
     
   onMounted(async () => {
     try { 
       // console.error("table mounted", model.value)
       Instance.setModel({ ...model.value })
-
+ 
       await getDatasource()
     } catch (error) {
       console.error("onmounted", error)

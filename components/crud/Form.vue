@@ -1,19 +1,17 @@
 <template>
   <div class="form">
     <div v-if="res.message" class="text-red">{{ res.message }}</div>
-      <FormKit v-if="schema" type="form" method="post" submit-label="Submit" form-class="w-full"
-              v-model="data" 
-              @submit="save" 
-      >
-        <FormKitSchema :schema="schema" />
-      </FormKit> 
+    <FormKit v-if="schema" type="form" method="post" submit-label="Submit" form-class="w-full"
+            v-model="row" 
+            @submit="save" 
+    >
+      <FormKitSchema :schema="schema" />
+    </FormKit> 
     <div v-else>
       schema nao encontrado
     </div>
   </div>
 </template>
-
-
 
 <script setup>
   import _ from 'lodash'
@@ -40,13 +38,18 @@
       return {
         ...row,
         $formkit: _.get(row, 'type', 'text'), 
+        label: _.get(row, 'label', _.capitalize(row?.name)),
+        placeholder: _.get(row, 'placeholder', _.capitalize(row?.name)),
       }
     })
-  })
+  }) 
 
   const save = (data) => {
+    Instance.setModel(JSON.parse(JSON.stringify(model)))
+
     console.log('Save', data)
-    Instance.saveData(data).then((rs) => {
+    let exclude = Object.keys(data).filter(i => i.includes('__'))
+    Instance.saveData(_.omit(data, exclude)).then((rs) => {
       alert("Saved ")
       res.value = rs
       emit('saved', rs)
@@ -55,6 +58,11 @@
 
   let row = ref(data)
   let res = ref({})
+
+  watch(model, (newVal) => {
+    console.log('form wathc', newVal)
+    Instance.setModel(JSON.parse(JSON.stringify(newVal))) 
+  })
 
   onBeforeMount(async () => {
     try {  

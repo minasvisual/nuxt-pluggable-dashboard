@@ -18,10 +18,11 @@ export const useAuth = defineStore('Auth', {
       authenticate({username, secret, remember}){
         try{  
           let $app = useAppContext()
+          let { $axios } = useNuxtApp()
   
-          if( !has($app.current, 'auth.url_login') ) return Promise.reject('url login doest exist');
+          if( !has($app.current, 'auth.url_login') ) return new Error('url login doest exist');
 
-          return this.$nuxt.$axios({
+          return $axios({
                   url: get($app.current, 'auth.url_login'),
                   method: get($app.current, 'auth.url_method', 'post'),
                   data: {
@@ -43,13 +44,13 @@ export const useAuth = defineStore('Auth', {
           })
         }catch(e){ 
           console.error(e)
-          return Promise.reject(e)
+          throw new Error(e)
         }
       },
       getToken(){
         let $app = useAppContext() 
         
-        return sessionStorage.getItem(`${$app.current?.code}_session`)
+        return sessionStorage.getItem(`${$app.current.code}_session`)
       },
       storageToken({data, headers}){
         let token = null

@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import {createApp} from 'vue'
-import Modal from '~/components/commons/modal.vue'
+import { createApp } from 'vue'
+import Alert from '~/components/commons/alert.vue'
 
 export default defineNuxtPlugin((nuxtApp) => { 
 
@@ -9,21 +9,29 @@ export default defineNuxtPlugin((nuxtApp) => {
   // instance.mount(document.createElement('div'))
   
   // 4. adicionar um método de instância
-  const message = function (msg, type='info', timeout=3) {
+  const message = function (msg, type='info', timeout=5) {  
+      const close = () => {
+        let doc = document.querySelector('.alert-wrap')
+        if(doc) doc.remove()
+      }
+      let div = document.createElement('div')
+      div.className = 'alert-wrap'
+      
+      var instance = createApp(Alert, { msg, type, expire: timeout * 1000 , close })  
+      instance.mount(div) // pass nothing
+      // this.$refs.container.appendChild(instance._container)    
     // alguma lógica ...
-      document.body.appendChild(instance.$el)
+      document.body.appendChild(div)
       // alert logic
-      instance.type = type
-      instance.msg = `<div class="card">
-        <div class="card-body">
-          ${msg}
-        </div>
-      </div>`
-      instance.isShow = true
-      instance.persistent = true
-      instance.instance = instance
-
-      setTimeout(() => instance.isShow = false, timeout * 1000)
+      // instance.type = type
+      // instance.msg = `<div class="card">
+      //   <div class="card-body">
+      //     ${msg}
+      //   </div>
+      // </div>`
+      // instance.isShow = true
+      // instance.persistent = true
+      // instance.instance = instance 
   }
   
   const modal = (msg, options={}) => {
