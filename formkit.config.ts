@@ -6,6 +6,8 @@ import CodeInput from '~/components/crud/inputs/code.vue'
 import JsonInput from '~/components/crud/inputs/json.vue'
 import EditorInput from '~/components/crud/inputs/editor.vue'
 import { autocomplete } from './components/crud/inputs/autocomplete'
+import { image } from './components/crud/inputs/image'
+import { dynamic } from './components/crud/inputs/dynamic'
 
 const inputByComponent = (comp, type = 'input', props = ['cell','data','row']) : any => ({
   // Node type: input, group, or list.
@@ -30,6 +32,8 @@ const config: DefaultConfigOptions = {
     'code': inputByComponent(CodeInput, 'input'),
     'json': inputByComponent(JsonInput, 'input'),
     'editor': inputByComponent(EditorInput, 'input'),
+    'image': image,
+    'dynamic': dynamic
   }
 }
   
