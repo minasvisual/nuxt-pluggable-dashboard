@@ -1,53 +1,86 @@
 import { createInput } from '@formkit/vue'
+import _ from 'lodash'
+import ResourceClass from '~/libs/core/resource'
+import { mergeDeep, interpolate } from '~~/libs/core/helpers' 
 
-/**
- * This is an input "feature" — a function that accepts a node and exposes
- * some additional functionality to an input. When using schemas, this can
- * take the place of a traditional "script" block in a Vue component. In this
- * example, we expose:
- *
- *   - An input handler `search`.
- *   - An input handler `selections`.
- *   - Commit middleware to place filtered options into the `matches` prop.
- *
- * Once written, input features are added via the input declaration.
- */
-const searchFeature = (node) => {
-  // We wait for our node to be fully  "created" before we start to add our
-  // handlers to ensure the core Vue plugin has added its context object:
-  node.on('created', () => {
+let arrOptions = []
+const searchFeature = async (node) => {
+  const { $axios } = useNuxtApp()
+  const schemaModel = inject('model')
+  const Instance = ResourceClass({ $axios })   
+
+  const getOptions = async ({ rootApi, fieldLabel, fieldValue, ...data }) => {
+    try{   
+      if( rootApi ){ 
+        rootApi = interpolate(rootApi, { data: node.value })
+        Instance.setModel({ api:{ ...data,  rootApi, resource:{} } })
+
+        let { rows } = await Instance.getData({ data: node.value}) 
+
+        arrOptions = rows && rows.map((i, k) => ({ 
+            label: _.get(i, fieldLabel, i.toString()), 
+            value: _.get(i, fieldValue, k)
+          }) 
+        )  
+      }
+    }catch(e){
+        alert('Erro to get data from '+ rootApi)
+        console.log('Erro select input', e)
+    }
+  }
+
+  const init = async () => { 
+    console.log('pre init', node.props)
+    if( !node.props?.model ) return 'DISMISSED';
+
+    let { model = {}, overwrite = {} } = node.props
+    model = mergeDeep(model, overwrite)
+    if( model && typeof model  == 'string' ) 
+      return console.error('model string not loaded')
+    
+    await getOptions(model.api)
+  }
+ 
+  node.on('created', async () => {
+    await init()
     // Ensure our matches prop starts as an array.
     node.props.matches = []
     node.props.selection = ''
-    node.props.active = ''
-    node.props.options = node.props.options.map((i, k) => {
+    node.props.active = '' 
+    node.props.allOptions = [...arrOptions, ...node.props.options].map((i, k) => {
       if( typeof i == 'string' )
          i = { value:k, label:i }
       return i
     })  
 
     if( node.value ){
-      let model = node.props.options.find(i => i.value == node.value)
-      node.props.active = model?.label ?? ''
+      let preSelected = node.props.allOptions.find(i => i.value == node.value)
+      node.props.active = preSelected?.label ?? '??'
     }
     // When we actually have an value to set:
     const setValue = async (e) => {
       if (e && typeof e.preventDefault === 'function') e.preventDefault()
-      let model = node.props.options.find(i => i.label == node.props.selection)
-      console.log("setvalue", model, 'value',node.value)
-      node.input( model?.value )
-      node.props.active = model?.label ?? node.props.selection
+      let selected = node.props.selection
+      let modelFound = node.props.allOptions.find(
+        i => {
+          return i.label === selected
+        }
+      )
+      
+      node.input( modelFound?.value )
+      node.props.active = modelFound?.label ?? selected
       node.props.selection = ''
       node.props.searchValue = ''
+
       await new Promise((r) => setTimeout(r, 50)) // "next tick"
-      if (document.querySelector('input#' + node.props.id)) {
+
+      if ( document.querySelector('input#' + node.props.id) ) {
         document.querySelector('input#' + node.props.id).focus()
       }
     }
 
     // Perform a soft selection, this is shown as a highlight in the dropdown
-    const select = (delta) => {
-      console.log('delta?', delta)
+    const select = (delta) => { 
       const available = node.props.matches
       let idx = available.indexOf(node.props.selection) + delta
       if (idx >= available.length) {
@@ -94,28 +127,17 @@ const searchFeature = (node) => {
 
   // Perform filtering when the search value changes
   node.on('prop:searchValue', ({ payload: value }) => {
-    const results = node.props.options.filter((option) => { 
+    const results = node.props.allOptions.filter((option) => { 
       return option.label.toLowerCase().startsWith(value.toLowerCase())
     })
-    if (!results.length) results.push('No matches')
+    if (!results.length) results.push({ label:'No matches' })
     node.props.matches = results
   })
-
-  // node.on('created', (e) => {
-  //   console.log("inputed", e)
-  //   setValue()
-  // })
 }
 
-/**
- * This is our input schema responsible for rendering the inner “input”
- * section. In our example, we render an text input which will be used
- * to filter search results, and an unordered list that shows all remaining
- * matches.
- */
 const schema = [ 
   {
-    if: '$value',
+    if: "$value && $active",
     then: [
       {
         $el: 'a',
@@ -142,7 +164,7 @@ const schema = [
       },
       {
         $el: 'ul',
-        if: '$matches.length < $options.length',
+        if: '$matches.length < $allOptions.length',
         attrs: {
           class: '$classes.dropdown',
         },
@@ -168,16 +190,22 @@ const schema = [
     ],
   }, 
 ]
-/**
- * Finally we create our actual input declaration by using `createInput` this
- * places our schema into a "standard" FormKit schema feature set with slots,
- * labels, help, messages etc. The return value of this function is a proper
- * input declaration.
- */
+
 export const autocomplete = createInput(schema, {
-  props: ['options', 'matches', 'selection', 'searchValue', 'active'],
+  props: ['options', 'allOptions', 'matches', 'selection', 'searchValue', 'active', 'overwrite', 'model'],
   features: [searchFeature],
 })
 
  
- 
+{/* 
+    EXAMPLE
+
+    <FormKit
+        type="autocomplete" 
+        name="campo1"
+        v-model="data" 
+        :options="[]"
+        :model="{}"
+        :overwrite="{}"
+    />
+*/}
