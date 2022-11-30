@@ -62,15 +62,18 @@
   from '~/libs/core/helpers' 
   import ResourceClass from '~/libs/core/resource'
 
-  let { resource,   } = defineProps({  
-   
+  let { resource, model:defModel } = defineProps({  
+    model:{
+      type: Object,
+      default: null
+    },
     resource: {
       type: Array,
       default: []
     }
   })
-
-  let model = inject('model') 
+ 
+  let model = defModel ? ref(defModel) : inject('model')  
   let { $axios, $message } = useNuxtApp() 
   let Instance = ResourceClass({ $axios })
   let route = useRoute() 
@@ -82,10 +85,10 @@
   let config = reactive({})
   let queryInfo = reactive({})
 
-  const emit = defineEmits(['create', 'edit','delete'])
+  const emit = defineEmits(['create','edit','delete','selected'])
     
   let schema = computed(() => { 
-    return schemaColumns(model.value.properties) 
+    return schemaColumns(model.value?.properties) 
   })
     
   let totalCols = computed(() => { 
@@ -192,6 +195,10 @@
 
     getDatasource()
   })
+
+  watch(() => selected, (dd) => {  
+    emit('selected', dd.value)
+  }, { deep: true })
     
   onMounted(async () => {
     try { 

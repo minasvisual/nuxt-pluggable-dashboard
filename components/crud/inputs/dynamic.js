@@ -116,3 +116,21 @@ export const dynamic = createInput(schema, {
   props: ['overwrite', 'model', 'options', 'arrOptions'],
   features: [features],
 })
+
+{/* 
+    EXAMPLE
+
+    <FormKit
+        type="dynamic" 
+        name="campo1"
+        v-model="data" 
+        :options="[]"
+        :model="{}"
+        :overwrite="{ 
+          api:{
+            fieldValue: 'id',
+            fieldLabel: 'city'
+          } 
+        }"
+    />
+*/}

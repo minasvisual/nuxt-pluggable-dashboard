@@ -5,11 +5,14 @@ import LinkComponent from '~/components/crud/tables/link.vue'
 import CodeInput from '~/components/crud/inputs/code.vue'
 import JsonInput from '~/components/crud/inputs/json.vue'
 import EditorInput from '~/components/crud/inputs/editor.vue'
+import ToggleInput from '~/components/crud/inputs/toggle.vue'
+import TagsInput from '~/components/crud/inputs/tags.vue'
+import GridInput from '~/components/crud/inputs/grid.vue'
 import { autocomplete } from './components/crud/inputs/autocomplete'
 import { image } from './components/crud/inputs/image'
 import { dynamic } from './components/crud/inputs/dynamic'
 
-const inputByComponent = (comp, type = 'input', props = ['cell','data','row']) : any => ({
+const inputByComponent = (comp, type = 'input', props = ['model','overwrite']) : any => ({
   // Node type: input, group, or list.
   type: 'input',
   // Schema to render (schema object or function that returns an object)
@@ -32,6 +35,9 @@ const config: DefaultConfigOptions = {
     'code': inputByComponent(CodeInput, 'input'),
     'json': inputByComponent(JsonInput, 'input'),
     'editor': inputByComponent(EditorInput, 'input'),
+    'toggle': inputByComponent(ToggleInput, 'input', ['model','overwrite', 'boolean']),
+    'tags': inputByComponent(TagsInput, 'input', ['model','overwrite', 'output']),
+    'grid': inputByComponent(GridInput, 'input', ['model','overwrite']),
     'image': image,
     'dynamic': dynamic
   }

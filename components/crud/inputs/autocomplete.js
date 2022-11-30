@@ -196,7 +196,6 @@ export const autocomplete = createInput(schema, {
   features: [searchFeature],
 })
 
- 
 {/* 
     EXAMPLE
 
@@ -206,6 +205,11 @@ export const autocomplete = createInput(schema, {
         v-model="data" 
         :options="[]"
         :model="{}"
-        :overwrite="{}"
+        :overwrite="{ 
+          api:{
+            fieldValue: 'id',
+            fieldLabel: 'city'
+          } 
+        }"
     />
 */}
