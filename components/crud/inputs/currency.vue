@@ -3,10 +3,10 @@
     <span class="formkit-label" :class="[props.labelClass ?? '']" v-if="context.label">
       {{ context.label }}
     </span> 
-    <div class="formkit-wrapper" :class="[props.wrapperClass ?? '']"> 
+    <div class="formkit-wrapper flex items-center" :class="[props.wrapperClass ?? '']">  
+        <component :is="$slots.prefix" />
         <input type='text' 
-              v-bind="context.attributes" 
-              placeholder="Type + Enter" 
+              v-bind="context.attributes"  
               class='formkit-input'
               v-model="field"
               @keyup='formataMoedaInput' 
@@ -14,9 +14,11 @@
               autocomplete="off"
               maxlength=16
         /> 
+        <component :is="$slots.suffix" />
     </div>
     <span class="formkit-help" :class="[props.helpClass ?? '']" v-if="context.help">
-      {{ context.help }}
+      {{ context.help }} 
+      <component :is="$slots.help" />
     </span>
     <ul class="formkit-messages" v-if="hasMessages"> 
       <li class="formkit-message" v-for="msg of context.messages" :key="msg.key">
@@ -27,7 +29,7 @@
 </template>
 
 <script setup> 
-  const { context } = defineProps(['context']) 
+  const { context, slots } = defineProps(['context']) 
   const props = computed(() => context.node?.props || {})
   const field = ref()
   const model = ref([])
@@ -35,7 +37,7 @@
   const formataMoedaInput = () => {
     field.value = formatarMoeda(field.value)
     
-    node.input( unformat(field.value) )
+    context.node.input( unformat(field.value) )
   }
   
   const formatarMoeda = (valor) => {
@@ -88,5 +90,7 @@
   
   onMounted(() => {
     field.value = parseNumber(context.value)
+
+    console.log(slots)
   })
 </script> 
