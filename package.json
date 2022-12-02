@@ -29,6 +29,7 @@
     "axios": "^0.26.1",
     "deepmerge": "^4.2.2",
     "dotenv": "^16.0.0",
+    "imask": "^6.4.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.2",
     "nuxt-jsoneditor": "^1.6.2",
