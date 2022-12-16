@@ -27,24 +27,25 @@
     {
       "name": "cover",
       "label": "Cover",
+      "type": "image",
       "config":{
         "grid": true,
         "filter": false,
-        "type": "image",
         "sort": 0
       }
     },
     {
       "name": "link",
-      "label": "Link"
+      "label": "Link",
+      "type": "url"
     },
     {
       "name": "info",
       "label": "Infos"
     },      
     {
-      "component": "div",
-      "class": "d-flex",
+      "$el": "div",
+      "attrs": {"class": "flex gap-4"},
       "children": [
           {
             "name": "initdate",
@@ -81,14 +82,25 @@
       ]
     },
     {
-      "component": "div",
-      "class": "d-flex",
+      "$el": "div",
+      "attrs": {"class": "flex gap-4"},
       "children": [
           {
             "name": "city",
             "label": "City",
+            "type": "dynamic",
+            "model": "cidades",
+            "overwrite":{
+              "api":{
+                "fieldValue": "city",
+                "fieldLabel": "city"
+              } 
+            },
             "config": {
-              "grid": true
+              "grid": true,
+              "filter":{
+                "type": "dynamic"
+              }
             }
           },
           {
@@ -106,8 +118,8 @@
       "label": "address"
     },   
     {
-      "component": "div",
-      "class": "d-flex",
+      "$el": "div",
+      "attrs": {"class": "flex gap-4"},
       "children": [
           {
             "name": "artists",
@@ -122,7 +134,7 @@
     {
       "name": "desc",
       "label": "Description",
-      "type": "textarea"
+      "type": "editor"
     },
     {
       "name": "created_at",
@@ -152,7 +164,7 @@
       "filterExp": "{prop},like,%{value}%"
     }, 
     "params": {
-      "limit": 15,
+      "limit": 5,
       "sort": "-id"
     }
   }

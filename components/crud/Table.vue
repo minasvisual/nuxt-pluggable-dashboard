@@ -1,6 +1,6 @@
 <template> 
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg" >
+    <table v-if="ready" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
            <tr class="pd-toolbar">
                 <th scope="col" :colspan="totalCols" class="py-2">
@@ -21,6 +21,9 @@
                 </th>
                 <th scope="col" class="px-2 py-1" v-for="col in schema" :key="col.key">
                   <FormKit v-if="col.filter" :type="_.get(col, 'filter.type', 'search')" :delay="500" outer-class="m-0 p-0"
+                          :model="_.get(col, 'model', {})"
+                          :overwrite="_.get(col, 'overwrite', {})"
+                          :options="_.get(col, 'options', [])"
                           @input="e => changeFilters({ [col.key]:{ value:e, filter: col?.filter }})"  
                   />
                 </th>
@@ -60,10 +63,11 @@
 <script setup>
   import _ from 'lodash' 
   import { schemaColumns, can, isSelected, selectionChange, selectionAll, fetchQueryInfo, filterParams, validateQueryInfo, 
-           calcPages } 
+           calcPages, mergeDeep } 
   from '~/libs/core/helpers' 
   import ResourceClass from '~/libs/core/resource'
-
+  import { useAppContext } from '~/store/global'; 
+  
   let { resource, model:defModel } = defineProps({  
     model:{
       type: Object,
@@ -74,11 +78,14 @@
       default: []
     }
   })
- 
+  
   let model = defModel ? ref(defModel) : inject('model')  
   let { $axios, $message } = useNuxtApp() 
+  const App = useAppContext()
   let Instance = ResourceClass({ $axios })
   let route = useRoute() 
+  let ready = ref(false)
+  let schema = ref([])
   let filters = ref({})
   let selected = ref([])
   let table = ref(resource)
@@ -88,11 +95,7 @@
   let queryInfo = reactive({})
 
   const emit = defineEmits(['create','edit','delete','selected'])
-    
-  let schema = computed(() => { 
-    return schemaColumns(model.value?.properties) 
-  })
-    
+      
   let totalCols = computed(() => { 
     return schema.value.length + 2
   })
@@ -192,6 +195,16 @@
     }
   }
 
+  const modifyColumn = async (input) => {
+    if( input.model && typeof input.model == 'string' ) 
+      input.model = await App.loadModel(input.model)
+
+    if( input.overwrite && typeof input.overwrite == 'object' )
+      input.model = mergeDeep(input.model, input.overwrite)
+ 
+    return input
+  }
+
   watch(model, () => {
     Instance.setModel({ ...model.value })
 
@@ -201,6 +214,14 @@
   watch(() => selected, (dd) => {  
     emit('selected', dd.value)
   }, { deep: true })
+
+  onBeforeMount(async () => {
+    schema.value = schemaColumns(model.value?.properties) 
+    for(let idx in schema.value){
+      console.log('onBeforeMount', schema.value[idx])
+      schema.value[idx] = await modifyColumn(schema.value[idx])
+    }
+  })
     
   onMounted(async () => {
     try { 
@@ -211,9 +232,9 @@
     } catch (error) {
       console.error("onmounted", error)
     }
+    ready.value = true
   })
-
-  
+ 
   onUnmounted(() => {
       // console.error("table unmountedmounted", model.value)
       Instance.setModel({ })

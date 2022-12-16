@@ -17,10 +17,14 @@
   import _ from 'lodash'
   import { FormKit, FormKitSchema } from '@formkit/vue'
   import Resource from '~/libs/core/resource'
+  import { useAppContext } from '~/store/global'; 
+  import { normalizeInput } from '~/libs/core/helpers'; 
 
   let { $axios } = useNuxtApp() 
   let Instance = Resource({ $axios })
   const emit = defineEmits(['saved'])
+  const App = useAppContext()
+  const schema = ref([])
 
   const { model, data } = defineProps({
     model: {
@@ -33,17 +37,25 @@
     }, 
   })
 
-  let schema = computed(() => {
-    return model.properties.map((row) => {
-      return {
-        ...row,
-        $formkit: _.get(row, 'type', 'text'), 
-        label: _.get(row, 'label', _.capitalize(row?.name)),
-        placeholder: _.get(row, 'placeholder', _.capitalize(row?.name)),
-      }
-    })
-  }) 
+  // const normalizeInput = async (row) => {  
+  //   if( row.children && Array.isArray(row.children) )
+  //     for(let idx in row.children){ 
+  //       row.children[idx] = await normalizeInput(row.children[idx])
+  //     }  
 
+  //   let input = {
+  //     ...row,
+  //     label: _.get(row, 'label', _.capitalize(row?.name)),
+  //     placeholder: _.get(row, 'placeholder', _.capitalize(row?.name)),
+  //   }
+  //   if( input['type'] || (!input['$cmp'] && !input['$el'] && !input['type']) ) input['$formkit'] = input.type || 'text'
+
+  //   if( input.model && typeof input.model == 'string' ) 
+  //     input.model = await App.loadModel(input.model)
+    
+  //   return input
+  // }
+ 
   const save = (data) => {
     Instance.setModel(JSON.parse(JSON.stringify(model)))
 
@@ -64,13 +76,24 @@
     Instance.setModel(JSON.parse(JSON.stringify(newVal))) 
   })
 
+  const modifyInput = async (input) => {
+    if( input.model && typeof input.model == 'string' ) 
+      input.model = await App.loadModel(input.model)
+
+    return input
+  }
+
   onBeforeMount(async () => {
     try {  
       Instance.setModel(JSON.parse(JSON.stringify(model)))
       // row.value = await Instance.getData(row.value)
  
       // Instance.setModel(model.value)
-      // resource.value = await Instance.getData()
+      // resource.value = await Instance.getData() 
+
+      for(let row of model.properties){ 
+        schema.value.push( await normalizeInput(row, modifyInput) )
+      } 
     } catch (error) {
       console.error("onmounted", error)
     }

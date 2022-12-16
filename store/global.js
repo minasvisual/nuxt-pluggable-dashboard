@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
-import { get, set, has } from 'lodash' 
-import { interpolate } from '~/libs/core/helpers'
-import { useAuth } from '~/store/auth'
+import _ from 'lodash'  
 
 export const useAppContext = defineStore('App', {
   state: () => ({
@@ -11,6 +9,13 @@ export const useAppContext = defineStore('App', {
   actions:{  
     message(message){
       alert(message)
+    },
+    loadModel(file){ 
+      let { $axios } = useNuxtApp() 
+      console.log('loadModel', file)
+      return $axios.get(`${this.current.resources_path}${ _.get(this.current, `resources[${file}].resource`, '404') }`)
+                  .then( ({data}) => data )
+                  .catch(console.error)
     }
   }
 })

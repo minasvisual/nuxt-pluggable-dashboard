@@ -19,39 +19,6 @@ const { has, sortBy, get, isNil, isObject, omit, isEqual, capitalize, round } = 
 //         return data
 // }
 
-// const manualMerge = (objA = {}, objB) => {
-//     let newObj = { ...objA }
-//     Object.keys(objB).map( key => {
-//         if( Array.isArray(objB[key]) ){
-//         	if( newObj[key] && Array.isArray(newObj[key]) )
-//                 newObj[key] = [ ...newObj[key], ...objB[key] ]
-//             else
-//                 newObj[key] = objB[key]
-//         }else if( typeof objB[key] == 'object' ){
-//             newObj[key] = manualMerge(newObj[key], {...objB[key]})
-//         }else{
-//             newObj[key] = objB[key]
-
-//         }
-//     })
-//     console.log('level', objB, newObj)
-//     return newObj
-// }
-
-// const objectDeepDiff = function(f,s) {
-//     if (f === s) return true;
-
-//     if (Array.isArray(f)&&Array.isArray(s)) {
-//         return isEqual(f.sort(), s.sort());
-//     }
-//     if (_.isObject(f)) {
-//         return isEqual(f, s);
-//     }
-//     return isEqual(f, s);
-// };
-
-// // const mergeAll = (arr) =>  deepmerge.all(arr)
-
 export const mergeDeep  = (a = {}, b = {}) => {
     return deepmerge(a, b, {
         arrayMerge: (d, s) => {
@@ -237,7 +204,8 @@ export const schemaColumns = (properties) => {
               type: get(col, 'config.type', (col.type || 'text')),
               action: Object.assign( get(col, 'config.action',{}), get(col, 'attributes', {}) ),
               options: get(col, 'options', {}),
-              schema: get(col, 'schema', {}),
+              model: get(col, 'model', {}),
+              overwrite: get(col, 'overwrite', {}),
               sorter: get(col, 'config.sorter', true),
               filter: get(col, 'config.filter', true),
               _classes: get(col, 'config.classes'),
@@ -307,8 +275,27 @@ export const validateQueryInfo = (queryInfo) => {
 
   return true
 }
+
 export const calcPages = (totalRows, perPage) => {
   let count = (totalRows || 1) / perPage
   let rounded = round(count)
   return count > rounded ? rounded + 1 : rounded
+}
+
+export const normalizeInput = async (row, modifier) => {  
+  if( row.children && Array.isArray(row.children) )
+    for(let idx in row.children){ 
+      row.children[idx] = await normalizeInput(row.children[idx], modifier)
+    }  
+
+  let input = {
+    ...row,
+    label: _.get(row, 'label', _.capitalize(row?.name)),
+    placeholder: _.get(row, 'placeholder', _.capitalize(row?.name)),
+  }
+  if( input['type'] || (!input['$cmp'] && !input['$el'] && !input['type']) ) input['$formkit'] = input.type || 'text'
+ 
+  if( modifier && typeof modifier == 'function') input = await modifier(input)
+
+  return input
 }

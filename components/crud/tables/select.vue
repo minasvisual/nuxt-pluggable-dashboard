@@ -24,19 +24,19 @@ export default {
 
   },
   async mounted(){
-    let { action, schema } = this.cell
+    let { action, model } = this.cell
 
-    if( schema )
-      schema = await this.loadNestedSchema(schema)
+    // if( schema )
+    //   schema = await this.loadNestedSchema(schema)
       
     // if( action && action.fieldValue )
     //   schema = { api:  }
 
-    if( schema && schema.api  )
+    if( model && model.api  )
       this.cell.options = await this.getOptions(
-          { ...schema.api, ...action }, 
+          { ...model.api, ...action }, 
           this.data, 
-          filterParams(schema.api, { filters:[{prop: action.fieldValue, value: this.data}] }) 
+          filterParams(model.api, { filters:[{prop: action.fieldValue, value: this.data}] }) 
       )
 
     this.renderComponent = true
