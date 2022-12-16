@@ -20,7 +20,9 @@
                   <input type="checkbox" :checked="selected.length == table.length " @change="selectAll" /> All
                 </th>
                 <th scope="col" class="px-2 py-1" v-for="col in schema" :key="col.key">
-                  <FormKit v-if="col.filter" :type="_.get(col, 'filter.type', 'search')" :delay="500" @input="e => changeFilters({ [col.key]:e })" outer-class="m-0 p-0" />
+                  <FormKit v-if="col.filter" :type="_.get(col, 'filter.type', 'search')" :delay="500" outer-class="m-0 p-0"
+                          @input="e => changeFilters({ [col.key]:{ value:e, filter: col?.filter }})"  
+                  />
                 </th>
                 <th class="px-6 py-4 flex items-center justify-end">
                   Limit <FormKit outer-class="m-0 p-0 pl-2" type="select" v-model="perPage" :options="[5,15,25,50,100,500]" @input="changeLimit" />

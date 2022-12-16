@@ -10,6 +10,7 @@ import EditorInput from '~/components/crud/inputs/editor.vue'
 import ToggleInput from '~/components/crud/inputs/toggle.vue'
 import TagsInput from '~/components/crud/inputs/tags.vue'
 import GridInput from '~/components/crud/inputs/grid.vue'
+import DateRange from '~/components/crud/inputs/daterange.vue'
 import { autocomplete } from './components/crud/inputs/autocomplete'
 import { image } from './components/crud/inputs/image'
 import { dynamic } from './components/crud/inputs/dynamic'
@@ -63,6 +64,7 @@ const config: DefaultConfigOptions = {
     'toggle': inputByComponent(ToggleInput, 'input', ['boolean']),
     'tags': inputByComponent(TagsInput, 'input', ['output']),
     'grid': inputByComponent(GridInput, 'input',),
+    'daterange': inputByComponent(DateRange, 'input', ['format']),
     'image': image,
     'dynamic': dynamic,
     'multiple': multiple,

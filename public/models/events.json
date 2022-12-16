@@ -54,7 +54,8 @@
               "grid": true,
               "type": "date",
               "filter":{
-                "type": "date"
+                "type": "daterange",
+                "filterExp": "{prop},between,{value.init}:{value.end}"
               },
               "action":{
                 "format": "D/M/YY \\a\\s hh:mm"
@@ -69,7 +70,8 @@
               "grid": true,
               "type": "date",
               "filter":{
-                "type": "date"
+                "type": "daterange",
+                "filterExp": "{prop},between,{value.init}:{value.end}"
               },
               "action":{
                 "format": "D/M/YY \\a\\s hh:mm"

@@ -275,7 +275,6 @@ export const selectionAll = (rows, data) =>{
   return rows
 }
 
-
 export const fetchQueryInfo = (type, data) => {
   console.debug("fetch query info", type, data)
   let queryInfo = { type }
