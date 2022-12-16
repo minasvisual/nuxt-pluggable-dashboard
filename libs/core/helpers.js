@@ -152,8 +152,9 @@ export const filterParams = (api, queryInfo) => {
     if( get(queryInfo, 'filters', []).length > 0 ){
       params[ filterField ] = []
       for(let i = 0; i < get(queryInfo, 'filters', []).length; i++ ){
-        if( has(filters, `[${i}].prop`) && has(filters, `[${i}].value`) && filters[i].value && has(pagination, 'filterField') && has(pagination, 'filterExp') )
-            params[ filterField ].push( interpolate( (pagination.filterExp || '{prop},like,%{value}%') , filters[i]) )
+        let filterExp = get(filters[i], 'filterExp', (pagination.filterExp || '{prop},like,%{value}%'))
+        if( has(filters, `[${i}].prop`) && has(filters, `[${i}].value`) && filters[i].value && has(pagination, 'filterField') && (has(pagination, 'filterExp') || has(filters[i], 'filterExp')) )
+            params[ filterField ].push( interpolate(filterExp, filters[i]) )
       }
     }else if( has(pagination, 'filterField') ){
           delete params[ filterField ]
@@ -255,9 +256,11 @@ export const schemaColumns = (properties) => {
 export const can = (schema, attr) => {
   return get(schema, attr, true)
 }
+
 export const isSelected = (rows, row) => {
     return rows.findIndex(i => _.isEqual(i, row) ) >= 0
 }
+
 export const selectionChange = (rows, row, index) => {
     let key = rows.findIndex(i => isEqual(i, row) )
     if( key >= 0 )   
@@ -282,7 +285,7 @@ export const fetchQueryInfo = (type, data) => {
     queryInfo.sort = { prop: data.column, order: data.asc === true ? 'ascending':'descending' }
   }
   if( type == 'filter' ){
-    queryInfo.filters = Object.keys(data).map((key) => ({ prop: key, value: data[key] }))
+    queryInfo.filters = Object.keys(data).map((key) => ({ prop: key, value: data[key]?.value, filterExp: data[key]?.filter?.filterExp }))
   }
   if( type == 'page' ){
     queryInfo.page = data
