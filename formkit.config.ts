@@ -9,8 +9,9 @@ import JsonInput from '~/components/crud/inputs/json.vue'
 import EditorInput from '~/components/crud/inputs/editor.vue'
 import ToggleInput from '~/components/crud/inputs/toggle.vue'
 import TagsInput from '~/components/crud/inputs/tags.vue'
-import GridInput from '~/components/crud/inputs/grid.vue'
-import DateRange from '~/components/crud/inputs/daterange.vue'
+import GridInput from '~/components/crud/inputs/grid.vue' 
+import DateRange from '~/components/crud/inputs/daterange.vue' 
+import CurrencyInput from '~/components/crud/inputs/currency.vue' 
 import { autocomplete } from './components/crud/inputs/autocomplete'
 import { image } from './components/crud/inputs/image'
 import { dynamic } from './components/crud/inputs/dynamic'
@@ -19,7 +20,7 @@ import { multiple } from './components/crud/inputs/multiple'
 const inputByComponent = (comp, type = 'input', props = []) : any => { 
   return {
     // Node type: input, group, or list.
-    type: 'input',
+    type: type,
     // Schema to render (schema object or function that returns an object)
     schema: [],
     // A Vue component to render (use schema _OR_ component, but not both)
@@ -63,8 +64,9 @@ const config: DefaultConfigOptions = {
     'editor': inputByComponent(EditorInput, 'input'),
     'toggle': inputByComponent(ToggleInput, 'input', ['boolean']),
     'tags': inputByComponent(TagsInput, 'input', ['output']),
-    'grid': inputByComponent(GridInput, 'input',),
-    'daterange': inputByComponent(DateRange, 'input', ['format']),
+    'grid': inputByComponent(GridInput, 'input',), 
+    'daterange': inputByComponent(DateRange, 'input', ['format']), 
+    'currency': inputByComponent(CurrencyInput, 'input',), 
     'image': image,
     'dynamic': dynamic,
     'multiple': multiple,

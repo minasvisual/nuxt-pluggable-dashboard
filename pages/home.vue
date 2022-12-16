@@ -3,14 +3,18 @@
     <div class="max-w-sm mx-auto mt-4">
       <p>Home</p> 
       <FormKit
-        type="editor"
+        type="currency"
         label="Hello world example"   
         help="Hello world example"   
         name="campo1"
         v-model="data"
         validation="required" 
         validation-visibility="live"
-        />
+      >
+        <template #prefix> 
+            <span>R$</span> 
+        </template>
+      </FormKit>
         <!-- :options="stateList.map((i,k) => ({ value:k, label:i }))" -->
   
       <pre wrap>{{ data }}</pre>
@@ -20,7 +24,7 @@
 </template>
 
 <script setup>
-const data = ref('huru!')
+const data = ref(220.99)
 const groupValues = ref({})
 </script>
 
