@@ -3,8 +3,8 @@
     <span class="formkit-label" :class="[props.labelClass ?? '']" v-if="context.label">
       {{ context.label }}
     </span> 
-    <div class="formkit-wrapper flex items-center cursor-pointer cm-toggle-wrapper"  
-          @click="setValue" :class="[props.wrapperClass ?? '']">
+    <div class="formkit-wrapper flex items-center cursor-pointer py-2"  
+          @click="setValue" :class="[props.wrapperClass ?? '', context.attrs?.readonly ? 'cursor-not-allowed':'']">
       <span class="font-semibold text-xs mr-1">
           Off
       </span>
@@ -31,8 +31,9 @@
   const props = computed(() => context.node?.props || {})
   const model = ref(context.value ?? false)
 
-  function setValue (value) {
-    console.log('value:', model.value) 
+  function setValue (value) { 
+    if( context.attrs?.readonly ) return;
+
     model.value = !model.value
     context.node.input(model.value)
   } 

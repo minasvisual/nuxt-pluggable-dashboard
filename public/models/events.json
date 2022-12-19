@@ -4,17 +4,36 @@
   "domain": "events",
   "properties": [ 
     {
-      "name": "id",
-      "label": "ID",
-      "type": "text",
-      "readonly": true,
-      "config": {
-        "grid": true,
-        "filter":{
-          "type": "number"
+      "$el": "div",
+      "attrs":{ "class":"grid grid-cols-3 gap-2" },
+      "children": [
+        {
+          "name": "id",
+          "label": "ID",
+          "type": "text",
+          "readonly": true,
+          "config": {
+            "grid": true,
+            "filter":{
+              "type": "number"
+            },
+            "sort": 1
+          }
         },
-        "sort": 1
-      }
+        {
+          "name": "migrated",
+          "label": "Migrated",
+          "type": "toggle",
+          "readonly": true,
+          "config": {
+            "grid": true,
+            "filter":{
+              "type": "number"
+            },
+            "sort": 1
+          }
+        }
+      ]
     },
     {
       "name": "title",
@@ -45,7 +64,7 @@
     },      
     {
       "$el": "div",
-      "attrs": {"class": "flex gap-4"},
+      "attrs": {"class": "grid grid-cols-3 gap-2"},
       "children": [
           {
             "name": "initdate",
@@ -83,7 +102,7 @@
     },
     {
       "$el": "div",
-      "attrs": {"class": "flex gap-4"},
+      "attrs": {"class": "grid grid-cols-3 gap-2"},
       "children": [
           {
             "name": "city",
@@ -115,19 +134,21 @@
     },   
     {
       "name": "address",
-      "label": "address"
+      "label": "Address"
     },   
     {
       "$el": "div",
-      "attrs": {"class": "flex gap-4"},
+      "attrs": {"class": "grid grid-cols-3 gap-2"},
       "children": [
           {
             "name": "artists",
-            "label": "Artists"
+            "label": "Artists",
+            "type": "tags"
           },      
           {
             "name": "categories",
-            "label": "Categories"
+            "label": "Categories",
+            "type": "tags"
           }
       ]
     },      

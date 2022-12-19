@@ -1,0 +1,330 @@
+{
+  "type": "object",
+  "title": "Advanced",
+  "primaryKey": "id",
+  "domain": "advanced",
+  "properties": [
+    {
+      "$el": "h3",
+      "children": "Example component (crud by datasource json, dont submit)"
+    },
+    {
+      "$el": "small",
+      "children": "Crud by datasource json, just read"
+    },
+    {
+      "$cmp": "Tabs",
+      "props":{
+        "tabs": [
+          {
+            "name": ".tab1",
+            "label": "Standard Form"
+          },
+          {
+            "name": ".tab2",
+            "label": "Nested grid"
+          },
+          {
+            "name": ".tab3",
+            "label": "Standalone form"
+          },
+          {
+            "name": ".tab4",
+            "label": "Standalone Widgets"
+          }
+        ]
+      }
+    },
+    {
+      "$el": "div",
+      "attrs":{"class": "flex tab1"},
+      "children": [ 
+        {
+          "name": "id",
+          "label": "ID",
+          "readonly": true,
+          "outer-class": "tab1",
+          "config": {
+            "grid": true,
+            "sort": 1
+          }
+        },
+        {
+          "name": "switch",
+          "label": "Switch",
+          "type": "toggle",
+          "config": {
+            "grid": true,
+            "type": "toggle"
+          },
+          "depth": 2
+        },
+        {
+          "name": "tags",
+          "label": "Tags",
+          "type": "tags",
+          "outer-class": "tab1",
+          "attributes": {
+            "output": "json"
+          },
+          "config": {
+            "grid": true,
+            "type": "tags"
+          }
+        }
+      ]
+    },
+    {
+      "$el": "div",
+      "attrs":{"class": "flex tab1"},
+      "children": [
+        {
+          "name": "autocomplete",
+          "label": "Select",
+          "type": "select",  
+          "options": [
+            {
+              "value": "1",
+              "label": "Jon Doe"
+            },
+            {
+              "value": "2",
+              "label": "Jane Roe"
+            }
+          ]
+        },
+        {
+          "name": "autocomplete",
+          "label": "Autocomplete",
+          "type": "autocomplete", 
+          "config": {
+            "grid": true,
+            "sort": 1,
+            "type": "action"
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "Jon Doe"
+            },
+            {
+              "value": "2",
+              "label": "Jane Roe"
+            }
+          ]
+        },
+        {
+          "name": "dynamicselect",
+          "label": "Dynamic Select",
+          "type": "dynamic",
+          "options": [],
+          "model": {
+            "api":{
+              "rootApi": "/examples/advanced_data.json",
+              "fieldLabel": "name",
+              "fieldValue": "id",
+              "wrapData": "users"
+            }
+          },
+          "config": {
+            "grid": true
+          }
+        }
+      ]
+    },
+    {
+      "$el": "div",
+      "attrs":{"class": "grid grid-cols-3 tab1"},
+      "children":[
+        {
+          "name": "imageText",
+          "label": "ImageText",
+          "type": "image",
+          "class": "tab1",
+          "config": {
+            "grid": true,
+            "type": "image"
+          }
+        },
+        {
+          "name": "imageTextPath",
+          "label": "ImageTextPath",
+          "type": "image",
+          "class": "tab1",
+          "baseUrl": "https://imagens-clubedoingresso.s3.amazonaws.com/",
+          "config": {
+            "grid": true,
+            "type": "expression",
+            "action":{
+              "template": "<img src='https://imagens-clubedoingresso.s3.amazonaws.com/{data}' height=30 width=auto />"
+            }
+          }
+        },
+        {
+          "name": "image",
+          "label": "Image with upload",
+          "type": "image",
+          "class": "tab1",
+          "validation": "mime:application/pdf",
+          "accept": "application/pdf",
+          "options": {
+            "fieldValue": "upload"
+          },
+          "api":{ 
+            "rootApi": "/examples/advanced_data.json"
+          },
+          "config": {
+            "grid": true,
+            "type": "image"
+          }
+        },
+        {
+          "name": "json",
+          "label": "Json View",
+          "type": "json",
+          "parse": true,
+          "class": "tab1",
+          "config": {
+            "grid": true,
+            "type": "expression",
+            "action": {
+              "template": "<code>{data}</code>"
+            }
+          }
+        }
+      ]
+    }, 
+    {
+      "name": "grid",
+      "label": "Grid Local",
+      "type": "grid",
+      "outer-class": "tab2",
+      "model": {
+        "api": {
+          "bypassGetData": true
+        },
+        "properties": [
+          {
+            "name": "name",
+            "label": "name",
+            "config": {
+              "grid": true
+            }
+          },
+          {
+            "name": "email",
+            "label": "Email",
+            "config": {
+              "grid": true
+            }
+          }
+        ]
+      }
+    }, 
+    {
+      "$el": "b",
+      "attrs":{"class": "tab2"},
+      "children": "Independent Crud"
+    },  
+    {
+      "name": "address",
+      "type": "group",
+      "outer-class": "tab1 flex gap-2",
+      "children": [
+        {
+          "$el": "div",
+          "class": "d-flex",
+          "children": [
+            {
+              "name": "street",
+              "label": "Street",
+              "config": {
+                "grid": true
+              },
+              "depth": 2
+            },
+            {
+              "name": "number",
+              "label": "number",
+              "depth": 2
+            },
+            {
+              "name": "country",
+              "label": "Country",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "code",
+      "label": "Code",
+      "type": "code",
+      "class": "tab1",
+      "config": {
+        "grid": true,
+        "type": "expression",
+        "action": {
+          "template": "<code>{data}</code>"
+        }
+      }
+    },
+    {
+      "name": "wysiwyg",
+      "label": "Wysiwyg",
+      "outer-class": "tab1",
+      "type": "editor"
+    },
+    {
+      "name": "created",
+      "label": "Created",
+      "format": "date",
+      "outer-class": "tab1",
+      "disabled": true,
+      "config": {
+        "grid": true,
+        "type": "date",
+        "action": {
+          "format": "D/M/YY \\a\\s hh:mm",
+          "utc": true
+        }
+      }
+    }
+  ],
+  "api": {
+    "rootApi": "/examples/advanced_data.json",
+    "wrapData": "rows",
+    "totalData": "count",
+    "wrapDataById": null,
+    "bypassGetById": true,
+    "urlGet": "",
+    "urlGetById": " ",
+    "urlPost": "/",
+    "urlPatch": "/{id}",
+    "urlDelete": "/{id}",
+    "methodGet": "GET",
+    "methodGetById": "GET",
+    "methodPost": "POST",
+    "methodPatch": "PUT",
+    "methodDelete": "GET",
+    "pagination": {
+      "pageField": "page",
+      "limitField": "per_page",
+      "sortField": "direction",
+      "sortExp": "{prop},{sort}",
+      "sortAscChar": "asc",
+      "sortDescChar": "desc",
+      "filterField": "filter",
+      "filterExp": "{prop},like,%{value}%"
+    },
+    "params": {
+      "page": 1,
+      "per_page": 20,
+      "direction": "id,desc"
+    },
+    "headers": {
+      "Accept": "application/json"
+    }
+  }
+}

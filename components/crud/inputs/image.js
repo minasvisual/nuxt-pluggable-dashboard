@@ -78,14 +78,28 @@ const schema = [
     if: '$value',
     then: [
       {
-        $el: 'img',
-        attrs: {
-          id: '$id',
-          src: '$value',
-          class: 'w-20',
-        },
-        children: '$active',
-      },
+        if: '$baseUrl',
+        then:[
+          {
+            $el: 'img',
+            attrs: {
+              id: '$id',
+              src: '$baseUrl + $value',
+              class: 'w-20',
+            },
+            children: ''
+          }
+        ],
+        else:{
+            $el: 'img',
+            attrs: {
+              id: '$id',
+              src: '$value',
+              class: 'w-20',
+            },
+            children: '',
+        } 
+      }
     ],
   }, 
   {   
@@ -129,6 +143,6 @@ const schema = [
 ]
  
 export const image = createInput(schema, {
-  props: ['wrap', 'api', 'model'],
+  props: ['wrap', 'api', 'model', 'baseUrl'],
   features: [features],
 })

@@ -1,0 +1,78 @@
+{
+  "type": "form",
+  "title": "Page building",
+  "domain": "controller",
+  "submit": false,
+  "properties": [
+    {
+      "component": "h4",
+      "children": "Page building example"
+    },
+    {
+      "component": "Tabs",
+      "tabs": [
+        {
+          "name": ".tab1",
+          "label": "Monitoring"
+        },
+        {
+          "name": ".tab2",
+          "label": "Management"
+        }
+      ]
+    },
+    {
+      "component": "div",
+      "class": "flex-row flex-wrap tab1",
+      "children": [
+        {
+          "component": "Crud",
+          "class": "w-100",
+          "context": { 
+            "schema": "widgets/widget_tiles.json"
+          },
+          "depth": 2
+        },
+        {
+          "component": "Crud",
+          "class": "w-50",
+          "context": {
+            "overwrite": {
+              "wrapperClass": "col-12"
+            },
+            "schema": "widgets/widget_example.json"
+          },
+          "depth": 2
+        },
+        {
+          "component": "Crud",
+          "class": "w-50",
+          "context": { 
+            "overwrite": {
+              "wrapperClass": "col-12"
+            },
+            "schema": "widgets/widget_example.json"
+          },
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "component": "Crud",
+      "class": "tab2",
+      "context": {
+        "schema": "tables/crud.json"
+      }
+    }
+  ],
+  "api": {
+    "rootApi": "/examples/advanced_data.json",
+    "urlGet": "/",
+    "urlGetById": "/",
+    "urlPut": "/",
+    "headers": {
+      "Accept": "application/json"
+    },
+    "bypassGetDataById": true
+  }
+}

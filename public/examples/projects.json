@@ -1,0 +1,44 @@
+[
+    {
+      "code": "example",
+      "name": "Example",
+      "url": "https://placeholder.com",
+      "resources_path": "/examples/",
+      "resources":{
+        "basic":{
+          "resource":"tables/crud.json",
+          "label": "CRUD Example"
+        },
+        "advanced":{
+          "resource":"tables/crud_advanced.json",
+          "label": "CRUD Advanced Example"
+        },
+        "graphql":{
+          "resource":"tables/graphql.json",
+          "label": "Graphql Example"
+        },
+        "standalone":{
+          "resource":"forms/form_standalone.json",
+          "label": "Form Standalone Example"
+        },
+        "building":{
+          "resource":"forms/page_builder.json",
+          "label": "Page block building"
+        }
+      },
+      "widgets":{
+        "tiles":{
+          "resource":"widgets/widget_tiles.json",
+          "label": "Tiles test"
+        },
+        "bar":{
+          "resource":"widgets/widget_example.json",
+          "label": "Bar Chart test"
+        },
+        "lines":{
+          "resource":"widgets/widget_advanced.json",
+          "label": "Advanced line test"
+        }
+      }
+    }
+]

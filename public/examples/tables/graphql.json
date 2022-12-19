@@ -1,0 +1,73 @@
+{
+  "type": "object",
+  "title": "GraphQL",
+  "primaryKey": "id",
+  "domain": "graphql",
+  "canCreate": false,  
+  "submit": false,
+  "properties": [
+    {
+      "name": "id",
+      "label": "ID",
+      "readonly": true,
+      "config": {
+        "grid": true,
+        "sort": 1
+      }
+    },
+    {
+      "name": "mission_name",
+      "label": "Mission",
+      "readonly": true,
+      "config": {
+        "grid": true,
+        "sort": 1
+      }
+    },
+    {
+      "name": "rocket",
+      "label": "Rocket",
+      "type": "object",
+      "options": [
+        {
+          "name": "rocket_name",
+          "label": "Name",
+          "readonly": true
+        }
+      ],
+      "readonly": true,
+      "config": {
+        "grid": true,
+        "sort": 1,
+        "type": "object",
+        "action": {
+          "name": "rocket.rocket_name"
+        }
+      }
+    },
+    {
+      "name": "launch_date_local",
+      "label": "Launch Date",
+      "readonly": true,
+      "config": {
+        "grid": true,
+        "sort": 1
+      }
+    }
+  ],
+  "api": {
+    "rootApi": "https://api.spacex.land/graphql",
+    "wrapData": "data.launches",
+    "wrapDataById": "data.launches",
+    "methodGet": "POST",
+    "methodGetById": "POST",
+    "urlGetById": "/",
+    "bypassGetById": true,
+    "body": { 
+      "query": "{launches {\n    id\n    mission_name\n    rocket {\n      rocket_name\n      rocket_type\n    }\n    launch_year\n    launch_date_local\n  }\n}\n"
+    }, 
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

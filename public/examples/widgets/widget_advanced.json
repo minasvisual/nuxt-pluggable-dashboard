@@ -1,0 +1,26 @@
+{
+  "type": "widget",
+  "title": false,
+  "primaryKey": "id",
+  "domain": "lines",
+  "wrapperClass": "col-6",
+  "class": "card bg-dark text-light",
+  "widgets": {
+      "type": "ChartLine",
+      "source": "json",
+      "class": "card-body d-flex-inline",
+      "prefix": "<h4 class='text-center'>Advanced Chart test</h4>",
+      "suffix": "<p class='text-center'>Average age between genders</p>",
+      "params": {
+        "rows": ["Sex"],
+        "cols": ["Age"],
+        "group": "Age",
+        "color": ["green", "pink"],
+        "action": "average",
+        "class": "bg-light"
+      }
+  },
+  "api": {
+    "rootApi": "/examples/dataset_example.json"
+  }
+}

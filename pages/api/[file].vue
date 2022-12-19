@@ -7,7 +7,7 @@
           <CrudForm :model="model" :data="form" @saved="postActions" />
         </CommonsModal>
 
-        <CrudTable :resource="resource" @new="actions" @edit="actions" @delete="actions"  />  
+        <CrudTable :resource="resource" @create="actions" @edit="actions" @delete="actions"  />  
       </CrudAuth>
     </section>
   </NuxtLayout>
@@ -34,12 +34,13 @@
   let resource = ref([]) 
 
   let actions = ({ target, row }) => { 
-    Instance.setModel(JSON.parse(JSON.stringify(model.value)))
+    row = JSON.parse(JSON.stringify(row))
+    // Instance.setModel(JSON.parse(JSON.stringify(model.value)))
 
     if( target == 'delete' )
       console.log("fiel deleted ")
     else
-      form.value = { ...JSON.parse(JSON.stringify(row)), __isOpen:true } 
+      form.value = { ...row, __isOpen:true } 
   }
 
   let postActions = (type) => {

@@ -1,0 +1,144 @@
+{
+  "type": "object",
+  "title": "Basic",
+  "primaryKey": "id",
+  "domain": "basic",
+  "properties": [
+    {
+      "$el": "h2",
+      "children": "Fake Rest API"
+    },
+    {
+      "name": "id",
+      "label": "ID",
+      "readonly": true,
+      "config": {
+        "grid": true,
+        "sort": 1
+      }
+    },
+    {
+      "$el": "div",
+      "attrs":{"class": "flex gap-2"},
+      "children": [
+        {
+          "name": "name",
+          "label": "Name",
+          "config": {
+            "grid": true,
+            "sort": 1
+          },
+          "depth": 2
+        },
+        {
+          "name": "email",
+          "label": "Email",
+          "config": {
+            "grid": true,
+            "sort": 1
+          },
+          "depth": 2
+        },
+        {
+          "name": "phone",
+          "label": "Phone",
+          "mask": "(000) [000] 0000-0000",
+          "config": {
+            "grid": true,
+            "sort": 1
+          },
+          "depth": 2
+        },
+        {
+          "name": "gender",
+          "label": "Gender",
+          "type": "select",
+          "config": {
+            "grid": true,
+            "type": "action",
+            "action": {
+              "handler": "basic:save",
+              "source": "row",
+              "type": "select"
+            },
+            "filter": {
+              "type": "select",
+              "options": [
+                {
+                  "value": "male",
+                  "label": "Male"
+                },
+                {
+                  "value": "female",
+                  "label": "Female"
+                }
+              ]
+            }
+          },
+          "options": [
+            {
+              "value": "male",
+              "label": "Male"
+            },
+            {
+              "value": "female",
+              "label": "Female"
+            }
+          ],
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "name": "address",
+      "type": "group",
+      "children": [
+        {
+          "$el": "div",
+          "attrs":{"class": "flex gap-2"},
+          "children": [
+            {
+              "name": "street",
+              "label": "Street",
+              "depth": 2
+            },
+            {
+              "name": "suite",
+              "label": "Suite",
+              "depth": 2
+            },
+            {
+              "name": "city",
+              "label": "City",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "website",
+      "label": "Website",
+      "type": "editor"
+    }
+  ],
+  "api": {
+    "rootApi": "https://jsonplaceholder.typicode.com/users",
+    "pagination": {
+      "pageField": "page",
+      "limitField": "per_page",
+      "sortField": "direction",
+      "sortExp": "{sort}",
+      "filterField": "filter",
+      "filterExp": "{prop},like,%{value}%"
+    },
+    "params": {
+      "page": 1,
+      "per_page": 15,
+      "direction": "desc"
+    },
+    "headers": {
+      "Accept": "application/json"
+    }
+  }
+}

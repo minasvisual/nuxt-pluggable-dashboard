@@ -1,0 +1,45 @@
+{
+    "rows":[
+        { 
+            "id": 1, 
+            "autocomplete": 1,
+            "dynamicselect": 1,
+            "code": "[2,3,5,6,7]",
+            "imageTextPath": "596d41cecf7d1599d28f8a6c72efa500.jpg",
+            "imageText": "https://imagens-clubedoingresso.s3.amazonaws.com/596d41cecf7d1599d28f8a6c72efa500.jpg",
+            "image": "https://imagens-clubedoingresso.s3.amazonaws.com/596d41cecf7d1599d28f8a6c72efa500.jpg",
+            "grid": [
+                { "id": 1, "name": "John Doe", "email": "john@doe.com" },
+                { "id": 2, "name": "Jane Roe", "email": "jane@roe.com" }
+            ],
+            "json": "[1,2,3,5,7,9]",
+            "address":{
+                "street": "Elmo St",
+                "number": "120",
+                "country": "USA"
+            },
+            "switch": true,
+            "tags": "[\"Pluggable\",\"Dashboard\"]",
+            "wysiwyg": "<h3>pluggable dashboard<h3><ul><li>List</li></ul>",
+            "created": "2021-04-09T23:59:00.000Z"
+        }
+    ],
+    "count": 0,
+    "users":[
+        { "id": 1, "name": "John Doe", "email": "john@doe.com" },
+        { "id": 2, "name": "Jane Roe", "email": "jane@roe.com" }
+    ],
+    "settings":{
+        "id": 1, 
+        "autocomplete": 1,
+        "dynamicselect": 1,
+        "code": "[2,3,5,6,7]",
+        "imageText": "https://imagens-clubedoingresso.s3.amazonaws.com/596d41cecf7d1599d28f8a6c72efa500.jpg",
+        "image": "https://imagens-clubedoingresso.s3.amazonaws.com/596d41cecf7d1599d28f8a6c72efa500.jpg",
+        "grid": [
+            { "id": 1, "name": "John Doe", "email": "john@doe.com" },
+            { "id": 2, "name": "Jane Roe", "email": "jane@roe.com" }
+        ]
+    },
+    "upload": "https://imagens-clubedoingresso.s3.amazonaws.com/596d41cecf7d1599d28f8a6c72efa500.jpg"
+}
