@@ -17,7 +17,7 @@
             </tr>
             <tr class="pd-filters">
                 <th class="px-6 py-4">
-                  <input type="checkbox" :checked="selected.length == table.length " @change="selectAll" /> All
+                  <input type="checkbox" :checked="(selected.length == table.length)" @change="selectAll" /> All
                 </th>
                 <th scope="col" class="px-2 py-1" v-for="col in schema" :key="col.key">
                   <FormKit v-if="col.filter" :type="_.get(col, 'filter.type', 'search')" :delay="500" outer-class="m-0 p-0"
@@ -25,7 +25,7 @@
                           :overwrite="_.get(col, 'overwrite', {})"
                           :options="_.get(col, 'options', [])"
                           @input="e => changeFilters({ [col.key]:{ value:e, filter: col?.filter }})"  
-                  />
+                  ></FormKit>
                 </th>
                 <th class="px-6 py-4 flex items-center justify-end">
                   Limit <FormKit outer-class="m-0 p-0 pl-2" type="select" v-model="perPage" :options="[5,15,25,50,100,500]" @input="changeLimit" />
@@ -54,11 +54,8 @@
           </tr>
         </tfoot>
     </table>
- 
   </div>
 </template>
-
-
 
 <script setup>
   import _ from 'lodash' 
@@ -80,6 +77,7 @@
   })
   
   let model = defModel ? ref(defModel) : inject('model')  
+  let session = inject('session') 
   let { $axios, $message } = useNuxtApp() 
   const App = useAppContext()
   let Instance = ResourceClass({ $axios })

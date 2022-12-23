@@ -11,3 +11,4 @@ nuxt.d.ts
 !.yarn/sdks
 !.yarn/versions
 temp
+public/models

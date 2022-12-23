@@ -46,8 +46,7 @@
 
 <script setup>  
   import _ from 'lodash'
-  import { getErrorMessage } from '~~/libs/core/helpers';
-  // import SessionMixin from '~/libs/core/session.mixin'
+  import { getErrorMessage } from '~~/libs/core/helpers'; 
   import { useAuth } from '~/store/auth' 
   import { useAppContext } from '~/store/global'  
 
@@ -60,10 +59,7 @@
 
   let hasAuth = computed(() => {
     return !!app.current.auth
-  })
-  // let session = computed(() => {
-  //   return auth.session
-  // })
+  }) 
 
   const emit = defineEmits(['auth:failed','auth:logged'])
  
@@ -83,7 +79,7 @@
       emit('auth:logged', auth.session)
       loading.value = false;
       login.value = true; 
-      navigateTo('/home')
+      navigateTo('/dash/home')
   }
 
   const error = function({ response, message, ...data }){
@@ -108,33 +104,12 @@
   // },
     
   onMounted(async () => {
-    try{
-      // schema.api = merge(get(app.current, 'api', {}), schema.api)
-
-      // console.debug('caled mounted auth')
-      // if( !hasAuth.value ) return login.value = true 
-
-      // console.debug('auth process start')
-      // let token = sessionStorage.getItem(`${schema.session || app.current.code}_session`)
-      // console.debug('token session', token)
-
+    try{ 
       loading.value = true;
       if( auth.getToken() && !_.get(auth, 'session.logged', false)  ){
-        await auth.isLogged().then(success)
-        // emit('auth:logged', {token, user: get(session, 'user', {}), request: app.authRequest(token) })
-        
-        // console.debug('token and user exists', app.authRequest(token), session)
-        // schema.api = mergeDeep(schema.api, app.authRequest(token))
+        await auth.isLogged().then(success) 
         loading.value = false;
-        login.value = true;
-      // }else if( token ){
-      //   let { request={}, ...data } = await checkLogged(token)
-
-      //   console.debug('token exists relogin', request, data)
-      //   schema.api = Object.assign(schema.api, request)
-        
-      //   loading.value = false;
-      //   login.value = true;
+        login.value = true; 
       }else{
         loading.value = false;
         login.value = false;

@@ -1,31 +1,12 @@
 <template>
   <NuxtLayout class="content" name="logged" >
-    <div class="max-w-sm mx-auto mt-4">
-      <p>Home</p> 
-      <FormKit
-        type="currency"
-        label="Hello world example"   
-        help="Hello world example"   
-        name="campo1"
-        v-model="data"
-        validation="required" 
-        validation-visibility="live"
-      >
-        <template #prefix> 
-            <span>R$</span> 
-        </template>
-      </FormKit>
-        <!-- :options="stateList.map((i,k) => ({ value:k, label:i }))" -->
-  
-      <pre wrap>{{ data }}</pre>
-
+    <div class="container mt-4">
+      <p>Home</p>  
     </div>
   </NuxtLayout>
 </template>
 
-<script setup>
-const data = ref(220.99)
-const groupValues = ref({})
+<script setup> 
 </script>
 
 <style>

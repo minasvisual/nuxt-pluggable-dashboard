@@ -8,20 +8,21 @@
   </main>
 </template>
 
-<script lang="ts" setup>
-  import './assets/tailwind.css'
+<script lang="ts" setup> 
+  import _ from 'lodash'
+  import './assets/tailwind.css' 
   import '@formkit/themes/genesis'
   import { useAppContext } from '~/store/global'
   const env = useRuntimeConfig()
   const app = useAppContext()
+  const currentCookie = useCookie('current')
 
   const { data:projects } = await useAsyncData('data_projects', ({ $axios }) => {  
     return $axios.get(env.VUE_APP_BASE_API + env.VUE_APP_DATABASE).then( ({data}) => data )
   })
-
+ 
   app.projects = projects.value
-  app.current = projects.value && projects.value[0]
-
+  app.current = currentCookie.value ? _.find(app.projects, ['code', currentCookie.value]): _.get(app.projects, '[0]', {})
 </script>
 
 <style lang="scss">

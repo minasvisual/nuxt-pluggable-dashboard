@@ -68,7 +68,7 @@
     return !!app.current?.auth
   })
   let session = computed(() => {
-    return get(auth, `[${app.current?.code}]`, {})
+    return get(auth, `[${app.current?.code}]_session`, {})
   })
 
   const emit = defineEmits(['auth:failed','auth:logged'])
@@ -157,7 +157,7 @@
   //   this.login = false
   // },
   
-  provide('sessions', auth) 
+  provide('session', session) 
   provide('project', app.current) 
 
   onMounted(async () => {
