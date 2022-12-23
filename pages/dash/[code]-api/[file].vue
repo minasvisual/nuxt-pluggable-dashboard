@@ -1,6 +1,6 @@
 <template>
-  <NuxtLayout class="content" name="logged" >
-    <section class="content mx-1 md:mx-12" v-if="model"> 
+  <NuxtLayout name="logged" >
+    <section class="content m-1 md:mx-12" v-if="model"> 
       <CrudAuth @auth:logged="doLogged">
         <CommonsModal v-model:show="form.__isOpen" >
           <template #title>Create/Edit {{ form.id }}</template>
@@ -23,13 +23,12 @@
   let Instance = Resource({ $axios })
   let route = useRoute() 
 
-  let { data:model } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {   
+  let { data:model } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {  
     return $axios.get(`${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
   })
 
   provide('model', model)  
-  
-
+   
   let form = ref({}) 
   let resource = ref([]) 
 

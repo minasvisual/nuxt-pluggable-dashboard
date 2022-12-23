@@ -37,5 +37,69 @@
         "role": "user_type"
       }
     }
+  },
+  {
+    "code": "cursos",
+    "name": "Cursos",
+    "url": "https://api.mantovaniarts.com/cursos",
+    "auth":{
+      "url_login": "https://api.mantovaniarts.com/auth/login",
+      "url_method": "post",
+      "field_username":"email",
+      "field_secret":"password",
+      "field_remember": "remember",
+      "response_mode":"body",
+      "response_token":"token",
+      "request_mode": "header",
+      "request_token": "access-token",
+      "logged_url":"https://api.mantovaniarts.com/auth/logged",
+      "logged_model":{
+        "id": "_id",
+        "name": "fullname",
+        "username": "email",
+        "role": "user_type"
+      }
+    },
+    "resources_path": "/models/coursestube/",
+    "resources": {
+      "users": {
+        "resource": "users.json",
+        "label": "Users"
+      },
+      "professions": {
+        "resource": "professions.json",
+        "label": "Professions"
+      },
+      "cursos": {
+        "resource": "cursos.json",
+        "label": "Courses"
+      },
+      "categories": {
+        "resource": "categories.json",
+        "label": "Categories"
+      },
+      "categorytags": {
+        "resource": "categorytags.json",
+        "label": "Category Engine"
+      }
+    },
+    "widgets": {
+      "courses": {
+        "resource": "widget_courses.json",
+        "label": "Courses count"
+      },
+      "videos": {
+        "resource": "widget_videos.json",
+        "label": "Videos count"
+      },
+      "tags": {
+        "resource": "widget_tags.json",
+        "label": "Tags count"
+      },
+      "users": {
+        "resource": "widget_users.json",
+        "label": "Users count"
+      }
+    }
   }
 ]
