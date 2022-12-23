@@ -1,7 +1,10 @@
 <template>
   <div :data-type="context.type" :class="[props.outerClass ?? '']">
-    <CrudTable :resource="[]" :model="model" @selected="changed" />  
-    <p>Selected: {{ selected.length }}</p>
+    <div class="flex flex-col py-2">
+      <CrudTable :resource="[]" :model="model" @selected="changed" />  
+      <p class="py-2">Selected: {{ selected.length }}</p>
+    </div>
+    <hr />
   </div>
 </template>
 
@@ -9,8 +12,8 @@
   import CrudTable from '../Table.vue' 
 
   const { context } = defineProps(['context']) 
-  const props = computed(() => context.node?.props || {}) 
-  const model = ref(context.model)
+  const props = computed(() => context.node?.props || {})  
+  const model = ref(props.value?.model) 
   const selected = ref([]) 
   
   function changed(rows) { 

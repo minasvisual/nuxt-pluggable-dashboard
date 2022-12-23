@@ -64,7 +64,7 @@ const config: DefaultConfigOptions = {
     'editor': inputByComponent(EditorInput, 'input'),
     'toggle': inputByComponent(ToggleInput, 'input', ['boolean']),
     'tags': inputByComponent(TagsInput, 'input', ['output']),
-    'grid': inputByComponent(GridInput, 'input',), 
+    'grid': inputByComponent(GridInput, 'input', ['model','overwrite']), 
     'daterange': inputByComponent(DateRange, 'input', ['format']), 
     'currency': inputByComponent(CurrencyInput, 'input',), 
     'image': image,

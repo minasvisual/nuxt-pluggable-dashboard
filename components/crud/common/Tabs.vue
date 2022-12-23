@@ -48,7 +48,7 @@ export default {
 
 			const css = `
 				${ this.tabs.map(i => i.name).join(',') }{
-					display: none !important;
+					display: none;
 				} 
 			    ${tb.name}{
 				  ${ tb.enabledStyle ? `${ tb.enabledStyle } ${ tb.enabledStyle.includes('important') ?'':'!important' }` : 'display: flex !important; flex-direction: column;' }

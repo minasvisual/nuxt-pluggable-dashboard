@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-  import './assets/tailwind.scss'
+  import './assets/tailwind.css'
   import '@formkit/themes/genesis'
   import { useAppContext } from '~/store/global'
   const env = useRuntimeConfig()
