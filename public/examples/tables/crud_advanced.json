@@ -18,32 +18,35 @@
         "tabs": [
           {
             "name": ".tab1",
-            "label": "Standard Form"
+            "label": "Standard Form",
+            "enabledStyle": "display: flex"
           },
           {
             "name": ".tab2",
-            "label": "Nested grid"
+            "label": "Nested grid",
+            "enabledStyle": "display: flex"
           },
           {
             "name": ".tab3",
-            "label": "Standalone form"
+            "label": "Standalone form",
+            "enabledStyle": "display: flex"
           },
           {
             "name": ".tab4",
-            "label": "Standalone Widgets"
+            "label": "Standalone Widgets",
+            "enabledStyle": "display: flex"
           }
         ]
       }
     },
     {
       "$el": "div",
-      "attrs":{"class": "flex tab1"},
+      "attrs":{"class": "grid grid-cols-3 gap-4 gap-4 tab1"},
       "children": [ 
         {
           "name": "id",
           "label": "ID",
-          "readonly": true,
-          "outer-class": "tab1",
+          "readonly": true, 
           "config": {
             "grid": true,
             "sort": 1
@@ -62,8 +65,7 @@
         {
           "name": "tags",
           "label": "Tags",
-          "type": "tags",
-          "outer-class": "tab1",
+          "type": "tags", 
           "attributes": {
             "output": "json"
           },
@@ -76,7 +78,7 @@
     },
     {
       "$el": "div",
-      "attrs":{"class": "flex tab1"},
+      "attrs":{"class": "grid grid-cols-3 gap-4 tab1"},
       "children": [
         {
           "name": "autocomplete",
@@ -134,13 +136,12 @@
     },
     {
       "$el": "div",
-      "attrs":{"class": "grid grid-cols-3 tab1"},
+      "attrs":{"class": "grid grid-cols-3 gap-4 tab1"},
       "children":[
         {
           "name": "imageText",
           "label": "ImageText",
-          "type": "image",
-          "class": "tab1",
+          "type": "image", 
           "config": {
             "grid": true,
             "type": "image"
@@ -149,8 +150,7 @@
         {
           "name": "imageTextPath",
           "label": "ImageTextPath",
-          "type": "image",
-          "class": "tab1",
+          "type": "image", 
           "baseUrl": "https://imagens-clubedoingresso.s3.amazonaws.com/",
           "config": {
             "grid": true,
@@ -163,8 +163,7 @@
         {
           "name": "image",
           "label": "Image with upload",
-          "type": "image",
-          "class": "tab1",
+          "type": "image", 
           "validation": "mime:application/pdf",
           "accept": "application/pdf",
           "options": {
@@ -177,64 +176,18 @@
             "grid": true,
             "type": "image"
           }
-        },
-        {
-          "name": "json",
-          "label": "Json View",
-          "type": "json",
-          "parse": true,
-          "class": "tab1",
-          "config": {
-            "grid": true,
-            "type": "expression",
-            "action": {
-              "template": "<code>{data}</code>"
-            }
-          }
         }
       ]
-    }, 
+    },   
     {
-      "name": "grid",
-      "label": "Grid Local",
-      "type": "grid",
-      "outer-class": "tab2",
-      "model": {
-        "api": {
-          "bypassGetData": true
-        },
-        "properties": [
-          {
-            "name": "name",
-            "label": "name",
-            "config": {
-              "grid": true
-            }
-          },
-          {
-            "name": "email",
-            "label": "Email",
-            "config": {
-              "grid": true
-            }
-          }
-        ]
-      }
-    }, 
-    {
-      "$el": "b",
-      "attrs":{"class": "tab2"},
-      "children": "Independent Crud"
-    },  
-    {
-      "name": "address",
-      "type": "group",
-      "outer-class": "tab1 flex gap-2",
-      "children": [
+      "$el": "div",
+      "attrs":{"class": "flex flex-row gap-4 tab1"},
+      "children":[
         {
-          "$el": "div",
-          "class": "d-flex",
-          "children": [
+          "name": "address",
+          "type": "group",
+          "wrapper": true, 
+          "children": [ 
             {
               "name": "street",
               "label": "Street",
@@ -252,16 +205,17 @@
               "name": "country",
               "label": "Country",
               "depth": 2
-            }
+            } 
           ]
         }
       ]
-    },
+    },  
     {
-      "name": "code",
-      "label": "Code",
-      "type": "code",
-      "class": "tab1",
+      "name": "json",
+      "label": "Json View",
+      "type": "json",
+      "parse": true, 
+      "outer-class": "tab1 flex flex-col w-full",
       "config": {
         "grid": true,
         "type": "expression",
@@ -273,8 +227,15 @@
     {
       "name": "wysiwyg",
       "label": "Wysiwyg",
-      "outer-class": "tab1",
+      "outer-class": "tab1 flex flex-col w-full",
       "type": "editor"
+    },
+    {
+      "name": "grid",
+      "label": "Grid Local",
+      "outer-class": "tab2",
+      "type": "grid", 
+      "model": "basic"
     },
     {
       "name": "created",

@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout  >
     <div class="mt-4 container">  
-      Index | <a href="/auth/login">dashboard</a>
+      Index | <a href="/dash/home">dashboard</a>
     </div>
   </NuxtLayout>
 </template>
