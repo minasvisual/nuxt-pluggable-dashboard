@@ -19,6 +19,7 @@
   import Resource from '~/libs/core/resource'
   const { $axios, $message } = useNuxtApp()
   const { current={} } = useAppContext() 
+  const env = useRuntimeConfig()
  
   let Instance = Resource({ $axios })
   let route = useRoute() 
