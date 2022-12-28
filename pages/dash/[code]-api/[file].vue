@@ -24,7 +24,7 @@
   let route = useRoute() 
 
   let { data:model } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {  
-    return $axios.get(`${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
+    return $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
   })
 
   provide('model', model)  
