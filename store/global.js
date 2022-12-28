@@ -14,7 +14,7 @@ export const useAppContext = defineStore('App', {
     loadModel(file){ 
       let { $axios } = useNuxtApp() 
       console.log('loadModel', file)
-      return $axios.get(`${this.current.resources_path}${ _.get(this.current, `resources[${file}].resource`, '404') }`)
+      return $axios.get(`${env.public.VUE_APP_BASE_API}${this.current.resources_path}${ _.get(this.current, `resources[${file}].resource`, '404') }`)
                   .then( ({data}) => data )
                   .catch(console.error)
     },

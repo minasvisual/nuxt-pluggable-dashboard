@@ -63,7 +63,7 @@
   
   onMounted(async() => {
     try { 
-      model.value = await $axios.get(`${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
+      // model.value = await $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
 
       console.table("controller mounted", model.value)
 
