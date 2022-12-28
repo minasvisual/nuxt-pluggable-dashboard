@@ -4,8 +4,8 @@
 
 <script>
 import { interpolate } from '~/libs/core/helpers'
-import { get } from 'lodash'
-
+import _ from 'lodash'
+const { get } = _
 export default {
     props:['data', 'cell', 'row'],
     computed:{ 

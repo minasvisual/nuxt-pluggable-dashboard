@@ -41,7 +41,7 @@
 
 <script>
 // import ActionsMixin from '../../../services/actions.mixin'
-import { get } from 'lodash'
+import _ from 'lodash'
 import ImgCell from './image'
 import Tags from './tags'
 import HrefLink from './link'
@@ -49,7 +49,7 @@ import Expression from './expression'
 import GridSelect from './select'
 // import Actions from './action'
 // import BelongsTo from './belongsTo'
-
+const { get } = _
 export default {
     // mixins: [ActionsMixin],
     components:{

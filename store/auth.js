@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
-import { get, set, has } from 'lodash'
+import _ from 'lodash'
 import { useAppContext } from "./global";
 import { interpolate } from '~/libs/core/helpers' 
+
+const { get, set, has } = _
 
 export const useAuth = defineStore('Auth', {
     state: () => ({

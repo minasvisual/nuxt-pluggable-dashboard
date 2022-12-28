@@ -1,8 +1,9 @@
 node_modules
 *.log
 .nuxt
-nuxt.d.ts
+.vscode
 .output
+nuxt.d.ts
 
 .yarn/*
 !.yarn/patches

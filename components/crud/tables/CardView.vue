@@ -72,12 +72,14 @@
 
 <script>  
 import { mapState } from 'vuex'
-import { get, has, debounce, isEqual, filter } from 'lodash'
+import _ from 'lodash'
 import { filterParams } from '../../../services/helpers'
 import { getData } from "../../../services/models";
 
 import TableMixin from '../../../services/table.mixin'
 import CellTypes from './index' 
+
+const { get, has, debounce, isEqual, filter } = _
 
 export default {
   name:"CardView",

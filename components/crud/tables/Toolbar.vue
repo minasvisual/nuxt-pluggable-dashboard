@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { get } from 'lodash'
+import _ from 'lodash'
 import ActionsMixin from '../../../services/actions.mixin'
 
 export default {
@@ -31,7 +31,7 @@ export default {
     },
     computed:{
         customActions(){
-            return get(this.schema, 'toolbar', []).filter(i => (!i.target && this.target == 'toolbar') || i.target == this.target )
+            return _.get(this.schema, 'toolbar', []).filter(i => (!i.target && this.target == 'toolbar') || i.target == this.target )
         }
     },
     methods:{

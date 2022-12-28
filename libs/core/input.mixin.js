@@ -1,8 +1,10 @@
 // import { getDataObject, getData, loadModel } from './models'
 import { filterParams, interpolate, mergeDeep } from './helpers'
-import _ from 'lodash'
 import ResorceClass from '~/libs/core/resource'
+import _ from 'lodash'
+
 const { get, set, } = _
+
 export default { 
   inject: ['project','sessions'],
   data () {

@@ -21,8 +21,9 @@
     />
 </template>
 <script>
-import { get, mergeDeep } from 'lodash'
+import _ from 'lodash'
 import { interpolate,  } from '~/libs/core/helpers'
+const { get, mergeDeep } = _
 export default {
     props:['data', 'cell', 'row'],
     computed:{

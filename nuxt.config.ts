@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
-import { pick } from 'lodash'
+import _ from 'lodash'
 
+const { pick } = _
 dotenv.config()
 
 let envs = Object.keys(process.env).filter(i => i.includes('VUE_APP_'))

@@ -5,11 +5,11 @@
 
 
 <script>
-import { get } from 'lodash'
+import _ from 'lodash'
 import { mergeDeep } from '../../../services/helpers'
 import { getData } from '../../../services/models'
 import InputMixin from '../../../services/input.mixin'
-
+const { get } = _ 
 export default {
   props:['data', 'cell'],
   mixins: [InputMixin],

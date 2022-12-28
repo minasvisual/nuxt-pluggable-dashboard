@@ -20,10 +20,10 @@
                   <input type="checkbox" :checked="(selected.length == table.length)" @change="selectAll" /> All
                 </th>
                 <th scope="col" class="px-2 py-1" v-for="col in schema" :key="col.key">
-                  <FormKit v-if="col.filter" :type="_.get(col, 'filter.type', 'search')" :delay="500" outer-class="m-0 p-0"
-                          :model="_.get(col, 'model', {})"
-                          :overwrite="_.get(col, 'overwrite', {})"
-                          :options="_.get(col, 'options', [])"
+                  <FormKit v-if="col.filter" :type="gete(col, 'filter.type', 'search')" :delay="500" outer-class="m-0 p-0"
+                          :model="gete(col, 'model', {})"
+                          :overwrite="gete(col, 'overwrite', {})"
+                          :options="gete(col, 'options', [])"
                           @input="e => changeFilters({ [col.key]:{ value:e, filter: col?.filter }})"  
                   ></FormKit>
                 </th>
@@ -202,6 +202,8 @@
  
     return input
   }
+
+  const gete = _.get
 
   watch(model, () => {
     Instance.setModel({ ...model.value })
