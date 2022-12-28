@@ -1,6 +1,6 @@
-import { get, set, has, isNil, isEmpty } from 'lodash'
+import _ from 'lodash'
 import { interpolate, queryString } from './helpers'
-
+const { get, set, has, isNil, isEmpty } = _
 export default ({ $axios,  }) => {
   let modelUrl = null
   let model = {}

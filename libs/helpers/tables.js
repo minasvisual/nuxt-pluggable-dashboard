@@ -1,5 +1,5 @@
-import { get, has, round, isEqual } from 'lodash'
-
+import _ from 'lodash'
+const { get, has, round, isEqual } = _
 // export const fetchQueryInfo(type, data){
 //   console.debug("fetch query info", type, data)
 //   this.queryInfo = { type }

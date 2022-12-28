@@ -1,6 +1,6 @@
- import { get } from 'lodash'
+ import _ from 'lodash'
  import { mergeDeep, sendType } from '../services/helpers'
- 
+ const { get } = _
  export default {
      data(){
         return{

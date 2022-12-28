@@ -1,6 +1,8 @@
-import { get, set, has, isNil, isEmpty } from 'lodash'
+import _ from 'lodash'
 // import { setup } from 'axios-cache-adapter'
 import { interpolate, queryString } from './helpers'
+
+const { get, set, has, isNil, isEmpty } = _
 // import Store from '../store'
 
 // Create `axios-cache-adapter` instance

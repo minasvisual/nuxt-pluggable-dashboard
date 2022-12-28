@@ -1,5 +1,6 @@
-import {  get } from 'lodash'
+import _ from 'lodash'
 import {  mapGetters } from 'vuex'
+const {  get } = _
 export default  {
     created() {
         // if( !get(this.auth, 'isLogged', false) && !get(this.$route, 'path', '').includes('pages') ) 

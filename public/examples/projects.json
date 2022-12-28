@@ -39,6 +39,11 @@
           "resource":"widgets/widget_advanced.json",
           "label": "Advanced line test"
         }
+      },
+      "pages":{
+        "/":{
+          "resource":"layouts/index.json"
+        }
       }
     }
 ]

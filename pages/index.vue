@@ -1,35 +1,19 @@
-<template>
-  <NuxtLayout  >
-    <div class="mt-4 container">  
-      Index | <a href="/dash/home">dashboard</a>
-    </div>
-  </NuxtLayout>
+<template> 
+  <FormKitSchema :schema="model.properties" />
 </template>
 
-<script lang="ts">
-import { ArrowNarrowRightIcon } from '@heroicons/vue/outline'
+<script setup> 
+import _ from 'lodash'   
+import { useAppContext } from '~/store/global'; 
+const { $axios, $message } = useNuxtApp()
+const { current={} } = useAppContext() 
+const route = useRoute() 
+const env = useRuntimeConfig()
 
-interface links {
-    id: number
-    title: string
-    url: any
-}
-
-export default {
-    components: {
-        ArrowNarrowRightIcon
-    },
-    setup() {
-        const router = useRouter()
-        const lists = ref<links[]>([
-            { id: 1, title: 'Login', url: '/auth/login' },
-            // { id: 1, title: 'Modal', url: 'modal' },
-            //  { id: 1, title: 'Menu', url: 'menu' },
-            // { id: 1, title: 'New soon...', url: '' },
-        ])
-        return {
-            lists
-        }
-    }
-}
+let { data:model } = await useAsyncData('model_'+route.path, ({ $axios }) => {  
+  return $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `pages['${route.path}'].resource`, '404') }`)
+  .then( ({data}) => {
+    return data 
+  }).catch(console.error)
+})
 </script>
