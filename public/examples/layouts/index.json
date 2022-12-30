@@ -1,8 +1,148 @@
 {
   "properties":[
     {
-      "$el": "h1",
-      "children": "Hello"
+      "$el": "nav",
+      "attrs": {
+        "class": "navbar navbar-expand-lg navbar-dark fixed-top",
+        "id": "mainNav"
+      },
+      "children": [
+        {
+          "$el": "div",
+          "attrs": {
+            "class": "container"
+          },
+          "children": [
+            {
+              "$el": "a",
+              "attrs": {
+                "class": "navbar-brand",
+                "href": "#page-top"
+              },
+              "children": [
+                {
+                  "$el": "img",
+                  "attrs": {
+                    "src": "https://startbootstrap.github.io/startbootstrap-agency/assets/img/navbar-logo.svg",
+                    "alt": "..."
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "$el": "button",
+              "attrs": {
+                "class": "navbar-toggler",
+                "type": "button",
+                "data-bs-toggle": "collapse",
+                "data-bs-target": "#navbarResponsive",
+                "aria-controls": "navbarResponsive",
+                "aria-expanded": "false",
+                "aria-label": "Toggle navigation"
+              },
+              "children": []
+            },
+            {
+              "$el": "div",
+              "attrs": {
+                "class": "collapse navbar-collapse",
+                "id": "navbarResponsive"
+              },
+              "children": [
+                {
+                  "$el": "ul",
+                  "attrs": {
+                    "class": "navbar-nav text-uppercase ms-auto py-4 py-lg-0"
+                  },
+                  "children": [
+                    {
+                      "$el": "li",
+                      "attrs": {
+                        "class": "nav-item"
+                      },
+                      "children": [
+                        {
+                          "$el": "a",
+                          "attrs": {
+                            "class": "nav-link",
+                            "href": "#services"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "$el": "li",
+                      "attrs": {
+                        "class": "nav-item"
+                      },
+                      "children": [
+                        {
+                          "$el": "a",
+                          "attrs": {
+                            "class": "nav-link",
+                            "href": "#portfolio"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "$el": "li",
+                      "attrs": {
+                        "class": "nav-item"
+                      },
+                      "children": [
+                        {
+                          "$el": "a",
+                          "attrs": {
+                            "class": "nav-link",
+                            "href": "#about"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "$el": "li",
+                      "attrs": {
+                        "class": "nav-item"
+                      },
+                      "children": [
+                        {
+                          "$el": "a",
+                          "attrs": {
+                            "class": "nav-link",
+                            "href": "#team"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "$el": "li",
+                      "attrs": {
+                        "class": "nav-item"
+                      },
+                      "children": [
+                        {
+                          "$el": "a",
+                          "attrs": {
+                            "class": "nav-link",
+                            "href": "#contact"
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -5,6 +5,7 @@
         <button type="button" @click="view = 'schema'">Schema</button>
         <button type="button" @click="view = 'form'">Form</button>
         <button type="button" @click="view = 'table'">Table</button> 
+        <button type="button" @click="view = 'htmljson'">HTML To JSON</button> 
       </div>
       <div class="tabs">
         <div class="form flex gap-4 w-full" v-if="view == 'schema' && model"> 
@@ -49,6 +50,9 @@
         </div>
         <div class="form" v-if="view == 'table'"> 
           <CrudTable :resource="rows" />  
+        </div>
+        <div class="form" v-if="view == 'htmljson'"> 
+          <CrudCommonHtmlToJson />  
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 <template> 
-  <FormKitSchema :schema="model.properties" />
+  <FormKitSchema :schema="model.properties || model" />
 </template>
 
 <script setup> 
@@ -10,10 +10,12 @@ const { current={} } = useAppContext()
 const route = useRoute() 
 const env = useRuntimeConfig()
 
-let { data:model } = await useAsyncData('model_'+route.path, ({ $axios }) => {  
+let { data:model } = await useAsyncData('model2_'+route.path, ({ $axios }) => {  
   return $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `pages['${route.path}'].resource`, '404') }`)
   .then( ({data}) => {
     return data 
   }).catch(console.error)
 })
+ 
+useHead(current.head ?? {})
 </script>

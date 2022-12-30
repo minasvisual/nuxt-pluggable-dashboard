@@ -44,6 +44,14 @@
         "/":{
           "resource":"layouts/index.json"
         }
+      },
+      "head":{
+        "link": [
+          { "href":"https://startbootstrap.github.io/startbootstrap-agency/css/styles.css", "ref":"stylesheet" }
+        ],
+        "script": [ 
+          { "src": "https://startbootstrap.github.io/startbootstrap-agency/js/scripts.js" } 
+        ]
       }
     }
 ]
