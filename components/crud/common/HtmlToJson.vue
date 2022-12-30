@@ -5,29 +5,41 @@
     <div class="w-1/4">
       <JsonEditor  
         mode="tree"
-        :value="model"
-        :queryLanguagesIds="['javascript']"  
+        v-model:text="model" 
       />
     </div> 
   </section>
 </template>
 
-<script setup> 
-const model = ref([])
-const ignore = ['svg','script','!--']
+<script setup>  
+const model = ref('[]')
+const ignore = ['script','!--','#comment']
+
+function checkTextValue (node) {
+  let nodeName = node?.nodeName?.toLowerCase()
+  let nodeValue = node?.nodeValue?.trim().replace('\\n', '')
+  if( ignore.includes(nodeName) ) return false
+  if( nodeName == '#text' && !nodeValue ) return false
+  return true
+}
 
 function getTagJson(tag){  
   let children = []
-  let childs = [...tag.children]
-  
-  childs.forEach(i => {
-    if( !ignore.includes(i.tagName?.toLowerCase()) )
-      children.push(getTagJson(i))
-  })
+  let childs = [...tag.childNodes]
+  let tagName = tag?.nodeName?.toLowerCase()
+ 
+  if( childs.length > 0  ){ 
+    childs.forEach(i => { 
+      if( checkTextValue(i) ) children.push(getTagJson(i))
+    })    
+  } 
+
+  if( tagName == '#text' )
+    return tag.nodeValue
 
   return {
-    "$el": tag.tagName.toLowerCase(),
-    "attrs": [...tag.attributes].reduce(
+    "$el": tagName,
+    "attrs": [...(tag.attributes ?? [])].reduce(
       (pv, i, k) => (pv = {...pv, [i.name]: i.value}),
       ({})
     ),
@@ -42,15 +54,14 @@ var stringToHTML = function (str) {
 }
 
 function convert (input) {   
-  model.value = []
+  let childs = []
   let base = stringToHTML(input?.target?.innerText)
-  let doc = [...base.children]
+  let doc = [...base.childNodes]
  
-  doc.forEach(i => {
-    if( !ignore.includes(i.tagName?.toLowerCase()) )
-      model.value.push(getTagJson(i))
-  })
-  console.log(base)
+  childs = doc.filter(i => checkTextValue(i)).map(i => getTagJson(i))
+  // console.log(childs)
+  model.value = JSON.stringify(childs)
+  // console.log(model.value)
 }
 
 onMounted(() => {
