@@ -11,10 +11,11 @@ export const useAppContext = defineStore('App', {
     message(message){
       alert(message)
     },
-    loadModel(file){ 
+    loadModel(file, type = 'resources'){ 
+      let env = useRuntimeConfig() 
       let { $axios } = useNuxtApp() 
       console.log('loadModel', file)
-      return $axios.get(`${env.public.VUE_APP_BASE_API}${this.current.resources_path}${ _.get(this.current, `resources[${file}].resource`, '404') }`)
+      return $axios.get(`${env.public.VUE_APP_BASE_API}${this.current.resources_path}${ _.get(this.current, `${type}[${file}].resource`, '404') }`)
                   .then( ({data}) => data )
                   .catch(console.error)
     },

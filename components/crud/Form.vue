@@ -36,25 +36,6 @@
       default: () => ({})
     }, 
   })
-
-  // const normalizeInput = async (row) => {  
-  //   if( row.children && Array.isArray(row.children) )
-  //     for(let idx in row.children){ 
-  //       row.children[idx] = await normalizeInput(row.children[idx])
-  //     }  
-
-  //   let input = {
-  //     ...row,
-  //     label: _.get(row, 'label', _.capitalize(row?.name)),
-  //     placeholder: _.get(row, 'placeholder', _.capitalize(row?.name)),
-  //   }
-  //   if( input['type'] || (!input['$cmp'] && !input['$el'] && !input['type']) ) input['$formkit'] = input.type || 'text'
-
-  //   if( input.model && typeof input.model == 'string' ) 
-  //     input.model = await App.loadModel(input.model)
-    
-  //   return input
-  // }
  
   const save = (data) => {
     Instance.setModel(JSON.parse(JSON.stringify(model)))

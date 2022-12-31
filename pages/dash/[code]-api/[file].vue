@@ -2,9 +2,8 @@
   <NuxtLayout name="logged" >
     <section class="content m-1 md:mx-12" v-if="model"> 
       <CrudAuth @auth:logged="doLogged">
-        <CommonsModal v-model:show="form.__isOpen" >
-          <template #title>Create/Edit {{ form.id }}</template>
-          <CrudForm :model="model" :data="form" @saved="postActions" />
+        <CommonsModal v-model:show="form.__isOpen" :title="false" > 
+          <CrudForm :model="model" :data="form" @saved="e =>postActions('saved', e)" />
         </CommonsModal>
 
         <CrudTable :resource="resource" @create="actions" @edit="actions" @delete="actions"  />  
@@ -44,8 +43,10 @@
   }
 
   let postActions = (type) => {
-    if( type == 'saved')
+    if( type == 'saved' )
       form.value = {}
+
+    
   }
 
   const doLogged = ({ request }) => {
