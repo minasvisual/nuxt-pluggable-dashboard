@@ -3,7 +3,7 @@
         { 
             "id": 1, 
             "autocomplete": 1,
-            "dynamicselect": 1,
+            "dynamicselect": 2,
             "code": "[2,3,5,6,7]",
             "imageTextPath": "596d41cecf7d1599d28f8a6c72efa500.jpg",
             "imageText": "https://imagens-clubedoingresso.s3.amazonaws.com/596d41cecf7d1599d28f8a6c72efa500.jpg",

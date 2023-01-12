@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge'
 import _ from 'lodash'
-// import moment from 'moment'
+import moment from 'moment'
 
 const { has, sortBy, get, isNil, isObject, omit, isEqual, capitalize, round } = _
  
@@ -73,13 +73,14 @@ export const getErrorMessage = (error) => {
 //     return data
 // }
 
-// const formatDate = function(value, format, from, utc=false) {
-//     if (value) {
-//       let date = moment(String(value), from)
-//       if(utc) date = date.utc()
-//       return date.format(format)
-//     }
-// }
+export const formatDate = function(value, format, from, utc=false) {
+    if (value) {
+      let date = moment(String(value), from)
+      console.log('formatDate', value, date)
+      if(utc) date = date.utc()
+      return date.format(format)
+    }
+}
 
 export const interpolate = (string, scope, def) => {
     if( typeof string !== 'string' ) return string; 

@@ -1,5 +1,5 @@
 <template>
-    <a :href="cell.action.handler" :target="cell.action.target" v-html="replaceContent()"></a>
+    <a :href="cell?.action?.handler" :target="(cell?.action?.target ?? '_self')" v-html="replaceContent()"></a>
 </template>
 <script>
 import { interpolate } from '~/libs/core/helpers'

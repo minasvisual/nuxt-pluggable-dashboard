@@ -14,9 +14,9 @@
       "readonly": true,
       "config": {
         "grid": true,
+        "filter": false,
         "sort": 1
-      },
-      "depth": 2
+      }
     },
     {
       "component": "div",
@@ -70,8 +70,7 @@
           "label": "Switch",
           "type": "switch",
           "config": {
-            "grid": true,
-            "type": "switch"
+            "grid": true
           },
           "depth": 3
         }
