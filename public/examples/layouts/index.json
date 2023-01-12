@@ -1,148 +1,192 @@
-{
-  "properties":[
-    {
-      "$el": "nav",
-      "attrs": {
-        "class": "navbar navbar-expand-lg navbar-dark fixed-top",
-        "id": "mainNav"
-      },
-      "children": [
-        {
-          "$el": "div",
-          "attrs": {
-            "class": "container"
+[
+  {
+    "$el": "nav",
+    "attrs": {
+      "class": "navbar navbar-expand-md navbar-dark fixed-top bg-dark"
+    },
+    "children": [
+      {
+        "$el": "div",
+        "attrs": {
+          "class": "container-fluid"
+        },
+        "children": [
+          {
+            "$el": "a",
+            "attrs": {
+              "class": "navbar-brand",
+              "href": "#"
+            },
+            "children": [
+              "Fixed navbar"
+            ]
           },
-          "children": [
-            {
-              "$el": "a",
-              "attrs": {
-                "class": "navbar-brand",
-                "href": "#page-top"
-              },
-              "children": [
-                {
-                  "$el": "img",
-                  "attrs": {
-                    "src": "https://startbootstrap.github.io/startbootstrap-agency/assets/img/navbar-logo.svg",
-                    "alt": "..."
-                  },
-                  "children": []
-                }
-              ]
+          {
+            "$el": "button",
+            "attrs": {
+              "class": "navbar-toggler",
+              "type": "button",
+              "data-bs-toggle": "collapse",
+              "data-bs-target": "#navbarCollapse",
+              "aria-controls": "navbarCollapse",
+              "aria-expanded": "false",
+              "aria-label": "Toggle navigation"
             },
-            {
-              "$el": "button",
-              "attrs": {
-                "class": "navbar-toggler",
-                "type": "button",
-                "data-bs-toggle": "collapse",
-                "data-bs-target": "#navbarResponsive",
-                "aria-controls": "navbarResponsive",
-                "aria-expanded": "false",
-                "aria-label": "Toggle navigation"
-              },
-              "children": []
+            "children": [
+              {
+                "$el": "span",
+                "attrs": {
+                  "class": "navbar-toggler-icon"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "$el": "div",
+            "attrs": {
+              "class": "collapse navbar-collapse",
+              "id": "navbarCollapse"
             },
-            {
-              "$el": "div",
-              "attrs": {
-                "class": "collapse navbar-collapse",
-                "id": "navbarResponsive"
-              },
-              "children": [
-                {
-                  "$el": "ul",
-                  "attrs": {
-                    "class": "navbar-nav text-uppercase ms-auto py-4 py-lg-0"
+            "children": [
+              {
+                "$el": "ul",
+                "attrs": {
+                  "class": "navbar-nav me-auto mb-2 mb-md-0"
+                },
+                "children": [
+                  {
+                    "$el": "li",
+                    "attrs": {
+                      "class": "nav-item"
+                    },
+                    "children": [
+                      {
+                        "$el": "a",
+                        "attrs": {
+                          "class": "nav-link active",
+                          "aria-current": "page",
+                          "href": "#"
+                        },
+                        "children": [
+                          "Home"
+                        ]
+                      }
+                    ]
                   },
-                  "children": [
-                    {
-                      "$el": "li",
-                      "attrs": {
-                        "class": "nav-item"
-                      },
-                      "children": [
-                        {
-                          "$el": "a",
-                          "attrs": {
-                            "class": "nav-link",
-                            "href": "#services"
-                          },
-                          "children": []
-                        }
-                      ]
+                  {
+                    "$el": "li",
+                    "attrs": {
+                      "class": "nav-item"
                     },
-                    {
-                      "$el": "li",
-                      "attrs": {
-                        "class": "nav-item"
-                      },
-                      "children": [
-                        {
-                          "$el": "a",
-                          "attrs": {
-                            "class": "nav-link",
-                            "href": "#portfolio"
-                          },
-                          "children": []
-                        }
-                      ]
+                    "children": [
+                      {
+                        "$el": "a",
+                        "attrs": {
+                          "class": "nav-link",
+                          "href": "#"
+                        },
+                        "children": [
+                          "Link"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$el": "li",
+                    "attrs": {
+                      "class": "nav-item"
                     },
-                    {
-                      "$el": "li",
-                      "attrs": {
-                        "class": "nav-item"
-                      },
-                      "children": [
-                        {
-                          "$el": "a",
-                          "attrs": {
-                            "class": "nav-link",
-                            "href": "#about"
-                          },
-                          "children": []
-                        }
-                      ]
+                    "children": [
+                      {
+                        "$el": "a",
+                        "attrs": {
+                          "class": "nav-link disabled"
+                        },
+                        "children": [
+                          "Disabled"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "$el": "form",
+                "attrs": {
+                  "class": "d-flex",
+                  "role": "search"
+                },
+                "children": [
+                  {
+                    "$el": "input",
+                    "attrs": {
+                      "class": "form-control me-2",
+                      "type": "search",
+                      "placeholder": "Search",
+                      "aria-label": "Search"
                     },
-                    {
-                      "$el": "li",
-                      "attrs": {
-                        "class": "nav-item"
-                      },
-                      "children": [
-                        {
-                          "$el": "a",
-                          "attrs": {
-                            "class": "nav-link",
-                            "href": "#team"
-                          },
-                          "children": []
-                        }
-                      ]
+                    "children": []
+                  },
+                  {
+                    "$el": "button",
+                    "attrs": {
+                      "class": "btn btn-outline-success",
+                      "type": "submit"
                     },
-                    {
-                      "$el": "li",
-                      "attrs": {
-                        "class": "nav-item"
-                      },
-                      "children": [
-                        {
-                          "$el": "a",
-                          "attrs": {
-                            "class": "nav-link",
-                            "href": "#contact"
-                          },
-                          "children": []
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
+                    "children": [
+                      "Search"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "$el": "main",
+    "attrs": {
+      "class": "container"
+    },
+    "children": [
+      {
+        "$el": "div",
+        "attrs": {
+          "class": "bg-light p-5 rounded"
+        },
+        "children": [
+          {
+            "$el": "h1",
+            "attrs": { "class": "h1" },
+            "children": [
+              "Navbar example"
+            ]
+          },
+          {
+            "$el": "p",
+            "attrs": {
+              "class": "lead py-2"
+            },
+            "children": [
+              "This example is a quick exercise to illustrate how fixed to top navbar works. As you scroll, it will remain fixed to the top of your browser’s viewport."
+            ]
+          },
+          {
+            "$el": "a",
+            "attrs": {
+              "class": "btn btn-lg btn-primary",
+              "href": "/docs/5.3/components/navbar/",
+              "role": "button"
+            },
+            "children": [
+              "View navbar docs »"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

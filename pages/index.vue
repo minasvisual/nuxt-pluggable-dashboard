@@ -21,8 +21,5 @@ let { data:model } = await useAsyncData('model_'+route.path, async ({ $axios }) 
   }).catch(console.error)
 })
  
-useHead(current.head ?? {})
-
-onMounted(() => {
-})
+useHead(current.head ?? {}) 
 </script>
