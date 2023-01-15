@@ -2,6 +2,7 @@
   <div class="form">
     <div v-if="res.message" class="text-red">{{ res.message }}</div>
     <FormKit v-if="schema" type="form" method="post" submit-label="Submit" form-class="w-full"
+            :actions="can(model, 'submit')"
             v-model="row" 
             @submit="save" 
     >
@@ -18,7 +19,7 @@
   import { FormKit, FormKitSchema } from '@formkit/vue'
   import Resource from '~/libs/core/resource'
   import { useAppContext } from '~/store/global'; 
-  import { normalizeInput } from '~/libs/core/helpers'; 
+  import { normalizeInput, can } from '~/libs/core/helpers'; 
 
   let { $axios } = useNuxtApp() 
   let Instance = Resource({ $axios })
@@ -46,7 +47,7 @@
       alert("Saved ")
       res.value = rs
       emit('saved', rs)
-    }).catch(err => res.value = get(err, 'response.data', err) )
+    }).catch(err => res.value = _.get(err, 'response.data', err) )
   }
 
   let row = ref(data)

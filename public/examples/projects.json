@@ -45,6 +45,16 @@
           "resource":"layouts/index.json"
         }
       },
+      "sections":{ 
+        "header":{
+          "resource":"layouts/header.json",
+          "label": "Header Example"
+        },  
+        "contact":{
+          "resource":"layouts/contact.json",
+          "label": "Form Example"
+        }  
+      },
       "head":{
         "meta": [
           { "charset": "utf-8" },

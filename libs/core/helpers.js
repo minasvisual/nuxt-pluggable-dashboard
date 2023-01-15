@@ -284,15 +284,19 @@ export const calcPages = (totalRows, perPage) => {
 }
 
 export const normalizeInput = async (row, modifier) => {  
+  if( typeof row == 'string' ) return row
+
   if( row.children && Array.isArray(row.children) )
     for(let idx in row.children){ 
       row.children[idx] = await normalizeInput(row.children[idx], modifier)
     }  
 
+  if( row['$el'] ) return row
+
   let input = {
     ...row,
-    label: _.get(row, 'label', _.capitalize(row?.name)),
-    placeholder: _.get(row, 'placeholder', _.capitalize(row?.name)),
+    label: _.get(row, 'label', _.capitalize(row?.name ?? '')),
+    placeholder: _.get(row, 'placeholder', _.capitalize(row?.name ?? '')),
   }
   if( input['type'] || (!input['$cmp'] && !input['$el'] && !input['type']) ) input['$formkit'] = input.type || 'text'
  
