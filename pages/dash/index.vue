@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout class="content" name="logged" >
-    <div class="container mt-4">
-      <p>Home</p>  
+    <div class="content m-1 md:mx-12">
+      <h1 class="text-lg py-2">Home</h1>  
     </div>
   </NuxtLayout>
 </template>

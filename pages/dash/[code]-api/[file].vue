@@ -50,7 +50,7 @@
   }
 
   const doLogged = ({ request }) => {
-    _.set(model.value, 'api', {...model.value.api, ...request, 'novavar': true })
+    _.set(model.value, 'api', {...model.value.api, ...request })
     
     // Inst.setModel(model.value)
   }

@@ -1,6 +1,6 @@
 <template>
-  <NuxtLayout class="content" name="logged" >
-    <div class="container mt-4">
+  <NuxtLayout name="logged" >
+    <div class="content m-1 md:mx-12">
       <p>Home</p>  
     </div>
   </NuxtLayout>

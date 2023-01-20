@@ -15,17 +15,19 @@
 </template>
 
 <script setup>
-  import _ from 'lodash'
-  import { FormKit, FormKitSchema } from '@formkit/vue'
+  import _ from 'lodash' 
   import Resource from '~/libs/core/resource'
   import { useAppContext } from '~/store/global'; 
-  import { normalizeInput, can } from '~/libs/core/helpers'; 
+  import { useAuth } from '~/store/auth'; 
+  import { normalizeInput, can, mergeDeep } from '~/libs/core/helpers'; 
 
   let { $axios } = useNuxtApp() 
   let Instance = Resource({ $axios })
   const emit = defineEmits(['saved'])
   const App = useAppContext()
+  const Auth = useAuth()
   const schema = ref([])
+  let session = inject('session') 
 
   const { model, data } = defineProps({
     model: {
@@ -61,6 +63,8 @@
   const modifyInput = async (input) => {
     if( input.model && typeof input.model == 'string' ) 
       input.model = await App.loadModel(input.model)
+    
+    input.model = mergeDeep((input.model || {}), { api:Auth?.session?.request })
 
     return input
   }
