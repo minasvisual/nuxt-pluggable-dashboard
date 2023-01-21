@@ -5,7 +5,7 @@
     </span>
     <div class="formkit-wrapper" :class="[props.wrapperClass ?? '']"> 
         <textarea :class="loaded ? 'block':'hidden'" ref="element"></textarea> 
-    </div>
+    </div> 
     <span class="formkit-help" :class="[props.helpClass ?? '']" v-if="context.help">
       {{ context.help }}
     </span>
@@ -18,8 +18,6 @@
 </template>
 
 <script setup>     
-import 'jodit/build/jodit.min.css'
-
 const { context } = defineProps(['context'])
 const model = ref(context.value)
 const loaded = ref(false)
@@ -46,6 +44,7 @@ const config = ref({
 
 const changeInput = (content) => {
   // console.log("editor change", model.value)
+  model.value = content
   context.node.input(content)
 }
   
@@ -67,3 +66,6 @@ onBeforeUnmount(() => {
 })
 </script>
  
+<style scoped>
+@import 'jodit/build/jodit.min.css';
+</style>
