@@ -10,6 +10,7 @@
 
 <script lang="ts" setup> 
   import _ from 'lodash'
+  import 'jodit/build/jodit.min.css'
   import './assets/tailwind.css' 
   import '@formkit/themes/genesis'
   import { useAppContext } from '~/store/global'

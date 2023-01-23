@@ -65,7 +65,4 @@ onBeforeUnmount(() => {
   model.value = ''
 })
 </script>
- 
-<style scoped>
-@import 'jodit/build/jodit.min.css';
-</style>
+  
