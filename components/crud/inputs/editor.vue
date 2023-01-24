@@ -53,7 +53,6 @@ onMounted(async () => {
 
   config.value.defaultMode = Jodit.MODE_WYSIWYG
   editor.value = new Jodit(element.value, config.value)
-  console.log(editor.value)
   editor.value.value = model.value
   editor.value.events.on('change', changeInput)
 

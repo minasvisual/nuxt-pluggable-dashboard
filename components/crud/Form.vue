@@ -21,7 +21,7 @@
   import { useAuth } from '~/store/auth'; 
   import { normalizeInput, can, mergeDeep } from '~/libs/core/helpers'; 
 
-  let { $axios } = useNuxtApp() 
+  let { $axios, $bus, $message } = useNuxtApp() 
   let Instance = Resource({ $axios })
   const emit = defineEmits(['saved'])
   const App = useAppContext()
@@ -46,9 +46,11 @@
     console.log('Save', data)
     let exclude = Object.keys(data).filter(i => i.includes('__'))
     Instance.saveData(_.omit(data, exclude)).then((rs) => {
-      alert("Saved ")
+      $message("Saved ")
       res.value = rs
       emit('saved', rs)
+
+      $bus.emit('form:created', data)
     }).catch(err => res.value = _.get(err, 'response.data', err) )
   }
 

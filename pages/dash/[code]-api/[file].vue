@@ -3,7 +3,10 @@
     <section class="content m-1 md:mx-12" v-if="model"> 
       <CrudAuth @auth:logged="doLogged">
         <CommonsModal v-model:show="form.__isOpen" :title="false" > 
-          <CrudForm :model="model" :data="form" @saved="e =>postActions('saved', e)" />
+          <CrudForm :model="model" :data="form" 
+                    @saved="e =>postActions('saved', e)" 
+                    @cancel="e =>postActions('cancel', e)" 
+          />
         </CommonsModal>
 
         <CrudTable :resource="resource" @create="actions" @edit="actions" @delete="actions"  />  
@@ -16,7 +19,7 @@
   import _ from 'lodash'   
   import { useAppContext } from '~/store/global';
   import Resource from '~/libs/core/resource'
-  const { $axios, $message } = useNuxtApp()
+  const { $axios, $message, $bus } = useNuxtApp()
   const { current={} } = useAppContext() 
   const env = useRuntimeConfig()
  
@@ -36,17 +39,18 @@
     row = JSON.parse(JSON.stringify(row))
     // Instance.setModel(JSON.parse(JSON.stringify(model.value)))
 
-    if( target == 'delete' )
-      console.log("fiel deleted ")
-    else
+    if( target == 'delete' ){
+      console.debug("fiel deleted ") 
+    }else{
       form.value = { ...row, __isOpen:true } 
+    }
   }
 
   let postActions = (type) => {
-    if( type == 'saved' )
+    if( type == 'saved' ){
       form.value = {}
-
-    
+      $bus.emit('table:refresh', {})
+    } 
   }
 
   const doLogged = ({ request }) => {
@@ -66,7 +70,7 @@
     try { 
       // model.value = await $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
 
-      console.table("controller mounted", model.value)
+      console.debug("controller mounted", model.value)
 
       Instance.setModel(JSON.parse(JSON.stringify(model.value))) 
     } catch (error) {
@@ -76,7 +80,7 @@
 
   onUnmounted(async () => {
     try { 
-      console.error("controller unmounted", model.value)
+      console.debug("controller unmounted", model.value)
     } catch (error) {
       console.error("onunmounted", error)
     }

@@ -63,7 +63,7 @@
            calcPages, mergeDeep } 
   from '~/libs/core/helpers' 
   import ResourceClass from '~/libs/core/resource'
-  import { useAppContext } from '~/store/global'; 
+  import { useAppContext } from '~/store/global' 
   
   let { resource, model:defModel } = defineProps({  
     model:{
@@ -78,7 +78,7 @@
   
   let model = defModel ? ref(defModel) : inject('model')  
   let session = inject('session') 
-  let { $axios, $message } = useNuxtApp() 
+  let { $axios, $message, $bus } = useNuxtApp() 
   const App = useAppContext()
   let Instance = ResourceClass({ $axios })
   let route = useRoute() 
@@ -229,6 +229,8 @@
       Instance.setModel({ ...model.value })
  
       await getDatasource()
+
+      $bus.listen('table:refresh', getDatasource)
     } catch (error) {
       console.error("onmounted", error)
     }
