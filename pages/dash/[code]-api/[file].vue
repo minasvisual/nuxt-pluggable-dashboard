@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="logged" >
     <section class="content m-1 md:mx-12" v-if="model"> 
-      <CrudAuth @auth:logged="doLogged">
+      <CrudAuth @auth:logged="doLogged" #default="{ methods }">
         <CommonsModal v-model:show="form.__isOpen" :title="false" > 
           <CrudForm :model="model" :data="form" 
                     @saved="e =>postActions('saved', e)" 
@@ -9,13 +9,23 @@
           />
         </CommonsModal>
 
-        <CrudTable :resource="resource" @create="actions" @edit="actions" @delete="actions"  />  
+        <CrudTable :resource="resource" @create="actions" @edit="actions" @delete="actions">
+          <template #toolbar-center>
+            <span>{{  model.title }}</span>
+          </template>  
+          <template #toolbar-right>
+            <div >
+              <button v-if="current.auth" class="border" @click="methods.logout"><LogoutIcon class="h-6"/></button>
+            </div>
+          </template>
+        </CrudTable>
       </CrudAuth>
     </section>
   </NuxtLayout>
 </template>
 
 <script setup>
+  import { LogoutIcon } from '@heroicons/vue/solid'
   import _ from 'lodash'   
   import { useAppContext } from '~/store/global';
   import Resource from '~/libs/core/resource'

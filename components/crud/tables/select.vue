@@ -55,12 +55,13 @@ export default {
 </script>
 
 <style lang="css">
-  .table-select select{
+  .table-select{
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;
     text-overflow: '';
     border: none  !important;
     background-color: transparent !important;
+    color: #333;
   }
 </style>

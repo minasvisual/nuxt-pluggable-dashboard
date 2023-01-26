@@ -1,9 +1,6 @@
 <template >
   <section class="content text-center" >
-    <section v-if="login">
-      <div class="auth-nav flex justify-end">
-        <button class="border" @click="logout">Api logout</button>
-      </div>
+    <section v-if="login"> 
       <slot v-bind:schema="schema">
         vazio
       </slot>
