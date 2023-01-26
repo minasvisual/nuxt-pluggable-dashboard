@@ -1,9 +1,10 @@
 <template>
     <select 
         class="table-select"
-        v-if="renderComponent"
-        :valur="data"
+        v-if="renderComponent" 
+        :value="data"
         size="sm" 
+        disabled
     >
         <!-- v-on="$listeners" -->
       <option v-for="(opt, idx) in (cell.options || options)" :key="idx" :value="opt.value">{{ opt.label }}</option>

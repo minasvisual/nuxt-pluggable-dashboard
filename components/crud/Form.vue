@@ -26,8 +26,7 @@
   const emit = defineEmits(['saved'])
   const App = useAppContext()
   const Auth = useAuth()
-  const schema = ref([])
-  let session = inject('session') 
+  const schema = ref([]) 
 
   const { model, data } = defineProps({
     model: {

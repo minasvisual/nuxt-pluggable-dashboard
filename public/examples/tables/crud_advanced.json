@@ -64,7 +64,11 @@
           "type": "toggle",
           "config": {
             "grid": true,
-            "type": "toggle"
+            "type": "toggle",
+            "filter": {
+              "type": "toggle",
+              "filterExp": "{prop},eq,{value}"
+            }
           },
           "depth": 2
         },
@@ -107,6 +111,10 @@
           "type": "autocomplete", 
           "config": {
             "grid": true,
+            "filter": {
+              "type": "select", 
+              "filterExp": "{prop},eq,{value}"
+            },
             "sort": 1
           },
           "options": [
@@ -134,7 +142,11 @@
             }
           },
           "config": {
-            "grid": true
+            "grid": true,
+            "filter": {
+              "filterField": "include",
+              "filterExp": "join:{prop},eq,{value}"
+            }
           }
         }
       ]
@@ -149,6 +161,7 @@
           "type": "image", 
           "config": {
             "grid": true,
+            "filter": false,
             "type": "image"
           }
         },
@@ -159,6 +172,7 @@
           "baseUrl": "https://imagens-clubedoingresso.s3.amazonaws.com/",
           "config": {
             "grid": true,
+            "filter": false,
             "type": "expression",
             "action":{
               "template": "<img src='https://imagens-clubedoingresso.s3.amazonaws.com/{data}' height=30 width=auto />"
@@ -179,6 +193,7 @@
           },
           "config": {
             "grid": true,
+            "filter": false,
             "type": "image"
           }
         }

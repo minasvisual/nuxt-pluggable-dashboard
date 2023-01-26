@@ -116,16 +116,23 @@ export const filterParams = (api, queryInfo) => {
         params[ pagination.sortField || 'order' ] = interpolate( get(pagination, 'sortExp', '{prop},{order}'), pagData)
     }
 
-    let filterField = interpolate( get(pagination, 'filterField', 'filter'), get(filters, '[0]', {}) )
     if( get(queryInfo, 'filters', []).length > 0 ){
-      params[ filterField ] = []
-      for(let i = 0; i < get(queryInfo, 'filters', []).length; i++ ){
-        let filterExp = get(filters[i], 'filterExp', (pagination.filterExp || '{prop},like,%{value}%'))
+      for(let i = 0; i < get(queryInfo, 'filters', []).length; i++ ){  
+        let filterField = interpolate(
+          get(filters[i], 'filterField', (pagination?.filterField || 'filter')), 
+          get(filters, '[0]', {}) 
+        )
+        let filterExp = get(filters[i], 'filterExp', (pagination?.filterExp || '{prop},like,%{value}%'))
+        if ( !params[filterField] ) params[ filterField ] = []
         if( has(filters, `[${i}].prop`) && has(filters, `[${i}].value`) && filters[i].value && has(pagination, 'filterField') && (has(pagination, 'filterExp') || has(filters[i], 'filterExp')) )
             params[ filterField ].push( interpolate(filterExp, filters[i]) )
       }
     }else if( has(pagination, 'filterField') ){
-          delete params[ filterField ]
+      let filterField = interpolate(
+        get(pagination, 'filterField', 'filter'), 
+        get(filters, '[0]', {}) 
+      )
+      delete params[ filterField ]
     }
     console.log('filter params', params)
     return {...api, params};
@@ -254,7 +261,9 @@ export const fetchQueryInfo = (type, data) => {
     queryInfo.sort = { prop: data.column, order: data.asc === true ? 'ascending':'descending' }
   }
   if( type == 'filter' ){
-    queryInfo.filters = Object.keys(data).map((key) => ({ prop: key, value: data[key]?.value, filterExp: data[key]?.filter?.filterExp }))
+    queryInfo.filters = Object.keys(data).map((key) => ({ 
+      prop: key, value: data[key]?.value, filterExp: data[key]?.filter?.filterExp, filterField: data[key]?.filter?.filterField
+    }))
   }
   if( type == 'page' ){
     queryInfo.page = data
