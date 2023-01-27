@@ -88,7 +88,7 @@
   import { RefreshIcon, TrashIcon, PlusIcon, PencilIcon, ArrowDownIcon, ArrowUpIcon } from '@heroicons/vue/solid'
   import _ from 'lodash' 
   import { schemaColumns, can, isSelected, selectionChange, selectionAll, fetchQueryInfo, filterParams, validateQueryInfo, 
-           calcPages, mergeDeep, paginate } 
+           calcPages, mergeDeep } 
   from '~/libs/core/helpers' 
   import ResourceClass from '~/libs/core/resource'
   import { useAppContext } from '~/store/global' 
