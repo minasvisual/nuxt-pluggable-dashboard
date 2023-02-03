@@ -85,6 +85,6 @@
     }
   ],
   "api":{
-    "rootApi": "https://api.mantovaniarts.com/pluggable/contact"
+    "rootApi": "https://jsonplaceholder.typicode.com/todos"
   }
 }

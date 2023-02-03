@@ -13,7 +13,7 @@ const route = useRoute()
 const env = useRuntimeConfig() 
 
 let { data:model } = await useAsyncData('model_'+route.path, async ({ $axios }) => {  
-  let defaultProj = env.public.VUE_APP_FRONT_PROJECT ? _.find(projects, ['code', env.public.VUE_APP_FRONT_PROJECT]) : current 
+  let defaultProj =  _.get(current, `pages['${route.path}'].resource`) ? current: _.find(projects, ['code', env.public.VUE_APP_FRONT_PROJECT]) 
     
   return await $axios.get(`${env.public.VUE_APP_BASE_API}${defaultProj.resources_path}${ _.get(defaultProj, `pages['${route.path}'].resource`) }`)
   .then( ({data}) => {
