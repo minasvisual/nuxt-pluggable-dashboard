@@ -89,5 +89,24 @@
       }
     },
     "head":{}
+  },
+  {
+    "code": "ets23",
+    "name": "Enter The Shadows",
+    "url": "https://ets-2023.mantovaniarts.com",
+    "domain": "ets-2023.mantovaniarts.com",
+    "resources_path": "https://api.mantovaniarts.com/ets23/",
+    "resources":{
+      "artists":{
+        "resource":"resources/artists.json",
+        "label": "CRUD Example"
+      }
+    },
+    "pages":{
+      "/":{
+        "resource":"pages/index.json"
+      }
+    },
+    "head":{}
   }
 ]
