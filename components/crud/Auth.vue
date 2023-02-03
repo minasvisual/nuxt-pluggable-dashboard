@@ -1,7 +1,7 @@
 <template >
   <section class="content text-center" >
     <section v-if="login"> 
-      <slot v-bind:schema="schema">
+      <slot v-bind:schema="schema" v-bind:methods="{ logout }">
         vazio
       </slot>
     </section>
