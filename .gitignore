@@ -3,6 +3,7 @@ node_modules
 .nuxt
 .vscode
 .output
+.env
 nuxt.d.ts
 
 .yarn/*

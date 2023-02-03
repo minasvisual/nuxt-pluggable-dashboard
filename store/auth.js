@@ -159,7 +159,7 @@ export const useAuth = defineStore('Auth', {
           sessionStorage.removeItem(`${$app.current.code}_session`)
         }
         this.setAuth([$app.current.code, auth]) 
-        navigateTo('/auth/login')
+        navigateTo('/dash')
       }, 
     }
 })

@@ -7,6 +7,7 @@ const features = (node) => {
   const { $axios } = useNuxtApp()
   const schemaModel = inject('model')
   const Instance = ResourceClass({ $axios })
+  let uploading = false
    
   // We wait for our node to be fully  "created" before we start to add our
   // handlers to ensure the core Vue plugin has added its context object:
@@ -15,32 +16,32 @@ const features = (node) => {
     const upload = async (e) => { 
       console.log('upload change')
       let file = e.target.files[0]
-      let { model, api } = node.props
+      let { model = {}, overwrite = {} } = node.props
       
       const formData = new FormData()
       formData.append('file', file)
 
       // model = URL.createObjectURL(file);
-      model.api = mergeDeep(model.api, api)
+      model = mergeDeep(model, overwrite)
       Instance.setModel(model)
  
       return await Instance.saveData( 
-          formData
-        )
-        .then((data) => {
-          if( data )
-            node.input( _.get(data, (node.props.wrap || '[0].src'), data) ) 
-          else {
-             alert('Erro ao fazer upload')
-             console.error(data)
-          }
-          uploading = false
-        })
-        .catch((err) => {
-          alert(err.message || err)
-          console.error(err) 
-          uploading = false
-        })
+        formData
+      )
+      .then(({data}) => {
+        if( data )
+          node.input( _.get(data, _.get(model, 'api.wrapData', '[0].src'), JSON.stringify(data)) ) 
+        else {
+            alert('Erro ao fazer upload')
+            console.error(data)
+        }
+        uploading = false
+      })
+      .catch((err) => {
+        alert(err.message || err)
+        console.error(err) 
+        uploading = false
+      })
     } 
 
     const selectFile = (e) => {
@@ -143,6 +144,6 @@ const schema = [
 ]
  
 export const image = createInput(schema, {
-  props: ['wrap', 'api', 'model', 'baseUrl'],
+  props: ['overwrite', 'model', 'baseUrl'],
   features: [features],
 })

@@ -1,19 +1,25 @@
 <template> 
-  <FormKitSchema :schema="model.properties" />
+<CommonsFragment>
+  <FormKitSchema v-if="model" :schema="model?.properties || model" />
+</CommonsFragment>
 </template>
 
 <script setup> 
 import _ from 'lodash'   
 import { useAppContext } from '~/store/global'; 
 const { $axios, $message } = useNuxtApp()
-const { current={} } = useAppContext() 
+const { current={}, projects = [] } = useAppContext() 
 const route = useRoute() 
-const env = useRuntimeConfig()
+const env = useRuntimeConfig() 
 
-let { data:model } = await useAsyncData('model_'+route.path, ({ $axios }) => {  
-  return $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `pages['${route.path}'].resource`, '404') }`)
+let { data:model } = await useAsyncData('model_'+route.path, async ({ $axios }) => {  
+  let defaultProj =  _.get(current, `pages['${route.path}'].resource`) ? current: _.find(projects, ['code', env.public.VUE_APP_FRONT_PROJECT]) 
+    
+  return await $axios.get(`${env.public.VUE_APP_BASE_API}${defaultProj.resources_path}${ _.get(defaultProj, `pages['${route.path}'].resource`) }`)
   .then( ({data}) => {
     return data 
   }).catch(console.error)
 })
+ 
+useHead(current.head ?? {}) 
 </script>

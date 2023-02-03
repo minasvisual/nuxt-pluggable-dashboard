@@ -1,8 +1,8 @@
 <template >
-  <section class="content text-center" >
+  <section class="content text-center" > 
     <slot v-if="login" v-bind:schema="schema" v-bind:methods="{ logout }">
       vazio
-    </slot>
+    </slot> 
     <div  v-else class="w-1/3 mx-auto">
         <h3 v-if="loading" class="text-center">Authenticating...
           SPINNER
@@ -17,7 +17,7 @@
           #default="{ hasErrors }"
         >
 
-          <h4 class="text-center">Project Authentication</h4>
+          <h4 class="text-center py-4">Project Authentication</h4>
           
           <FormKit  type="text" name="username" placeholder="Username" /> 
 
@@ -25,11 +25,11 @@
 
           <FormKit  type="checkbox" name="remember" label="remember" /> 
 
-          <div class="action-buttons mt-3">
+          <div class="action-buttons mt-3 flex gap-4">
             <button
                 type="button"
                 color="danger"
-                class="mr-2"
+                class="py-2 px-4 border bg-red-800 text-white rounded hover:text-gray-400"
                 @click="$emit('close', { refresh: false })"
               >
                   Cancel
@@ -37,6 +37,7 @@
             <button
                 type="submit"
                 color="success"
+                class="py-2 px-4 border bg-green-800 text-white rounded hover:text-gray-400"
                 :disabled="hasErrors"
               >
                   Send
@@ -108,20 +109,20 @@
       loading.value = false;
     }
   }
-  const success = function(res){
-      let token = auth.storageToken(res)
-      let { data, headers } = res;
+  const success = function(res){ 
+      let { token, request,  ...data } = res;
 
       if( !token ) {
         loading.value = false;
-        return emit('auth:failed', {message: 'token not found', config, data, headers})
-      }
-      let authRequest = auth.authRequest(token)
+        return emit('auth:failed', {message: 'token not found', config, data, headers: request.headers })
+      } 
       
-      emit('auth:logged', { logged: true, request: authRequest })
-      loading.value = false;
-      login.value = true;
-                  
+      emit('auth:logged', { logged: true, request })
+
+      nextTick(() => {
+        loading.value = false;
+        login.value = true;
+      })
   }
   const error = function({ response, message, ...data }){
     app.message( getErrorMessage({ response, message, ...data }) )
@@ -145,22 +146,22 @@
       return emit('auth:failed', {message: e.message})
     }
   }
-  //   logout(){
-  //     console.debug("called auth logout")
-  //     this.loading = true;
-  //     return this.doLogout().then(() => {
-  //       this.loading = false;
-  //       this.login = false;
-  //     })
-  //   }
-  // },
-  // beforeMount(){
-  //   this.login = false
-  // },
-  
+  const logout = () => {
+    console.debug("called auth logout")
+    loading.value = true;
+    return  auth.logout().then(() => {
+      loading = false;
+      login = false;
+    })
+  } 
+
+    
   provide('session', session) 
   provide('project', app.current) 
 
+  onBeforeMount(() => {
+    login.value = false
+  })
   onMounted(async () => {
     try{
       schema.value.api = merge(get(app.current, 'api', {}), schema.value.api)

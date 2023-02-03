@@ -35,21 +35,22 @@
   const props = computed(() => context.node?.props || {})
   const valid = ref(true)
   const model = ref([])
- 
+  
   function checkFormat(data){
-        if( data === null || data === undefined) {
-          model.value = []  
-          valid.value = true
-        } else if( typeof data == 'string' && ['[',']'].includes(data) ){
-            try {
-                model.value = JSON.parse(data);
-                valid.value = true
-            } catch (e) {
-                valid.value = false;
-            }
-        } else{
+    if( data === null || data === undefined ) {
+      model.value = []  
+      valid.value = true
+    } else if( typeof data == 'string' ) {
+        try {
+          console.log('chec', typeof data)
+            model.value = JSON.parse(data)
+            valid.value = true
+        } catch (e) {
             valid.value = false;
         }
+    } else{
+        valid.value = false;
+    }
   }
   function addTag (event) {
       event.preventDefault()
@@ -75,8 +76,7 @@
     if( context.output && context.output == 'json')
       context.node.input(JSON.stringify(data))
     else
-      context.node.input(data)
-    console.debug('value:', data)  
+      context.node.input(data) 
   }
 
   onMounted(() => {

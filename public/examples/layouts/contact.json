@@ -1,0 +1,90 @@
+{
+  "type": "form",
+  "submit": false,
+  "properties": [
+    {
+      "$el": "div",
+      "attrs": {
+        "class": "w-1/3 m-auto"
+      },
+      "children": [
+        {
+          "$el": "div",
+          "attrs": {
+            "class": "mb-3 "
+          },
+          "children": [
+            {
+              "name": "name",
+              "type": "text",
+              "label-class": "form-label",
+              "label": "Name"
+            }
+          ]
+        },
+        {
+          "$el": "div",
+          "attrs": {
+            "class": "mb-3"
+          },
+          "children": [
+            {
+              "name": "email",
+              "type": "email",
+              "label-class": "form-label",
+              "label": "Email address"
+            }
+          ]
+        },
+        {
+          "$el": "div",
+          "attrs": {
+            "class": "mb-3"
+          },
+          "children": [
+            {
+              "name": "subject",
+              "type": "text",
+              "label-class": "form-label",
+              "label": "Subject"
+            }
+          ]
+        }, 
+        {
+          "$el": "div",
+          "attrs": {
+            "class": "mb-3"
+          },
+          "children": [
+            {
+              "name": "project",
+              "type": "hidden",
+              "label-class": "form-label",
+              "value": "example"
+            },
+            {
+              "name": "message",
+              "type": "textarea",
+              "label-class": "form-label",
+              "label": "Message"
+            }
+          ]
+        },
+        
+        {
+          "$el": "button",
+          "attrs": {
+            "type": "submit",
+            "class": "btn btn-info"
+          },
+          "children": [
+            "Submit"
+          ]
+        }
+      ]
+    }
+  ],
+  "api":{
+    "rootApi": "https://jsonplaceholder.typicode.com/todos"
+  }
+}

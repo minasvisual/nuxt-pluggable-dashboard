@@ -3,21 +3,9 @@
     <span class="formkit-label" :class="[props.labelClass ?? '']" v-if="context.label">
       {{ context.label }}
     </span>
-    <div class="formkit-wrapper" :class="[props.wrapperClass ?? '']">
-      <ClientOnly >
-        <QuillEditor 
-          v-if="loaded"
-          theme="snow"
-          :toolbar="toolbar" 
-          :modules="modules"
-          :options="{placeholder: 'Compose an epic...'}"
-          v-model:content="model"
-          v-bind="context.attributes"
-          contentType="html"
-          @textChange="changeInput"
-        /> 
-      </ClientOnly>
-    </div>
+    <div class="formkit-wrapper" :class="[props.wrapperClass ?? '']"> 
+        <textarea :class="loaded ? 'block':'hidden'" ref="element"></textarea> 
+    </div> 
     <span class="formkit-help" :class="[props.helpClass ?? '']" v-if="context.help">
       {{ context.help }}
     </span>
@@ -29,39 +17,51 @@
   </div>
 </template>
 
-<script setup>   
+<script setup>     
 const { context } = defineProps(['context'])
 const model = ref(context.value)
 const loaded = ref(false)
-const toolbar = ref([
-  ['bold', 'italic', 'underline', 'strike'],        
-  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  [{ 'color': [] }, { 'background': [] }],
-  [{ 'font': [] }],
-  [{ 'align': [] }],
-  ['clean','code-block','image'],
-])
-const modules = ref([])  
 const props = computed(() => context.node?.props || {})
 const hasMessages = computed(() => Object.keys(context?.messages || {}).length > 0 )
+const element = ref()  
+const editor = ref()  
+const config = ref({
+  textIcons: false,
+  iframe: false,
+  iframeStyle: '*,.jodit_wysiwyg {color:red;}',
+  height: 'auto',
+  minHeight:400,
+  maxHeight:600,
+  // defaultMode: Jodit.MODE_WYSIWYG,
+  imageDefaultWidth:'100%',
+  observer: {
+    timeout: 100
+  },
+  commandToHotkeys: {
+    'openreplacedialog': 'ctrl+p'
+  },
+})
 
 const changeInput = (content) => {
   // console.log("editor change", model.value)
-  context.node.input(model.value)
+  model.value = content
+  context.node.input(content)
 }
+  
+onMounted(async () => {
+  const {Jodit} = await import("jodit").then((mod) => mod) 
 
-onBeforeMount(async () => {
-  let htmlEditButton = await import("quill-html-edit-button").then((mod) => mod.default)
-  modules.value = [
-    { 
-      name: 'htmlEditButton',
-      module: htmlEditButton, 
-      options:{} 
-    }
-  ]
+  config.value.defaultMode = Jodit.MODE_WYSIWYG
+  editor.value = new Jodit(element.value, config.value)
+  editor.value.value = model.value
+  editor.value.events.on('change', changeInput)
 
   loaded.value = true
 })
+
+onBeforeUnmount(() => {
+  editor.value.destruct()
+  model.value = ''
+})
 </script>
- 
+  

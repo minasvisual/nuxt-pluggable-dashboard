@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge'
 import _ from 'lodash'
-// import moment from 'moment'
+import moment from 'moment'
 
 const { has, sortBy, get, isNil, isObject, omit, isEqual, capitalize, round } = _
  
@@ -73,13 +73,14 @@ export const getErrorMessage = (error) => {
 //     return data
 // }
 
-// const formatDate = function(value, format, from, utc=false) {
-//     if (value) {
-//       let date = moment(String(value), from)
-//       if(utc) date = date.utc()
-//       return date.format(format)
-//     }
-// }
+export const formatDate = function(value, format, from, utc=false) {
+    if (value) {
+      let date = moment(String(value), from)
+      console.log('formatDate', value, date)
+      if(utc) date = date.utc()
+      return date.format(format)
+    }
+}
 
 export const interpolate = (string, scope, def) => {
     if( typeof string !== 'string' ) return string; 
@@ -115,16 +116,23 @@ export const filterParams = (api, queryInfo) => {
         params[ pagination.sortField || 'order' ] = interpolate( get(pagination, 'sortExp', '{prop},{order}'), pagData)
     }
 
-    let filterField = interpolate( get(pagination, 'filterField', 'filter'), get(filters, '[0]', {}) )
     if( get(queryInfo, 'filters', []).length > 0 ){
-      params[ filterField ] = []
-      for(let i = 0; i < get(queryInfo, 'filters', []).length; i++ ){
-        let filterExp = get(filters[i], 'filterExp', (pagination.filterExp || '{prop},like,%{value}%'))
+      for(let i = 0; i < get(queryInfo, 'filters', []).length; i++ ){  
+        let filterField = interpolate(
+          get(filters[i], 'filterField', (pagination?.filterField || 'filter')), 
+          get(filters, '[0]', {}) 
+        )
+        let filterExp = get(filters[i], 'filterExp', (pagination?.filterExp || '{prop},like,%{value}%'))
+        if ( !params[filterField] ) params[ filterField ] = []
         if( has(filters, `[${i}].prop`) && has(filters, `[${i}].value`) && filters[i].value && has(pagination, 'filterField') && (has(pagination, 'filterExp') || has(filters[i], 'filterExp')) )
             params[ filterField ].push( interpolate(filterExp, filters[i]) )
       }
     }else if( has(pagination, 'filterField') ){
-          delete params[ filterField ]
+      let filterField = interpolate(
+        get(pagination, 'filterField', 'filter'), 
+        get(filters, '[0]', {}) 
+      )
+      delete params[ filterField ]
     }
     console.log('filter params', params)
     return {...api, params};
@@ -253,7 +261,9 @@ export const fetchQueryInfo = (type, data) => {
     queryInfo.sort = { prop: data.column, order: data.asc === true ? 'ascending':'descending' }
   }
   if( type == 'filter' ){
-    queryInfo.filters = Object.keys(data).map((key) => ({ prop: key, value: data[key]?.value, filterExp: data[key]?.filter?.filterExp }))
+    queryInfo.filters = Object.keys(data).map((key) => ({ 
+      prop: key, value: data[key]?.value, filterExp: data[key]?.filter?.filterExp, filterField: data[key]?.filter?.filterField
+    }))
   }
   if( type == 'page' ){
     queryInfo.page = data
@@ -283,15 +293,19 @@ export const calcPages = (totalRows, perPage) => {
 }
 
 export const normalizeInput = async (row, modifier) => {  
+  if( typeof row == 'string' ) return row
+
   if( row.children && Array.isArray(row.children) )
     for(let idx in row.children){ 
       row.children[idx] = await normalizeInput(row.children[idx], modifier)
     }  
 
+  if( row['$el'] ) return row
+
   let input = {
     ...row,
-    label: _.get(row, 'label', _.capitalize(row?.name)),
-    placeholder: _.get(row, 'placeholder', _.capitalize(row?.name)),
+    label: _.get(row, 'label', _.capitalize(row?.name ?? '')),
+    placeholder: _.get(row, 'placeholder', _.capitalize(row?.name ?? '')),
   }
   if( input['type'] || (!input['$cmp'] && !input['$el'] && !input['type']) ) input['$formkit'] = input.type || 'text'
  

@@ -125,6 +125,7 @@
   "api": {
     "rootApi": "https://jsonplaceholder.typicode.com/users",
     "pagination": {
+      "local": true,
       "pageField": "page",
       "limitField": "per_page",
       "sortField": "direction",

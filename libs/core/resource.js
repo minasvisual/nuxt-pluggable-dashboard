@@ -10,24 +10,7 @@ export default ({ $axios,  }) => {
   // table
   let rows = {}
   let total = 1
-
-  // this.request = (query, options={}, config = {}) => {
-  //   let { wrap=true, session } = config
-    
-  //   // if( session !== false && process.env.VUE_APP_LOGIN == 'true' ){
-  //   //   const token = localStorage.getItem('dash_session')
-  //   //   let headerName = ( process.env.VUE_APP_LOGIN_TOKEN_HEADER || 'access-token')
-  //   //   if ( !has(options, `headers[${headerName}]`) && token ) { 
-  //   //     let headerValue = interpolate(( process.env.VUE_APP_LOGIN_TOKEN_HEADER_EXPRESSION || '{token}'), {token})
-  //   //     set(options, `headers[${headerName}]`, headerValue);
-  //   //   }
-  //   // }
-  
-  //   return $axios({ url: query,  ...options }).then((res) => {
-  //     console.debug('Cached request', res.request.fromCache !== true)
-  //     return wrap ? res.data: res 
-  //   })
-  // }
+ 
   const setModel = (modelObj={}) => {
     model = JSON.parse(JSON.stringify(modelObj))
     schema = model.properties
@@ -203,6 +186,17 @@ export default ({ $axios,  }) => {
     return $axios(url, options, sessionConfig)
   }
 
+  const paginate = ({ local = false, perPage = 5, page = 1 }) => { 
+    if( !local ) return rows
+    console.debug('paginate', rows.length, ((perPage * page) - perPage), (perPage * page))
+    return  [...rows].slice( ((perPage * page) - perPage), (perPage * page))
+  }
+
+  const sorting = ({ local, col, order }) => {
+    if( !local ) return rows
+    return _.orderBy([...rows], col. order)
+  }
+
   return {
     loadModel,
     loadModelByUrl,
@@ -211,6 +205,8 @@ export default ({ $axios,  }) => {
     getData,
     getDataObject,
     saveData,
-    deleteData
+    deleteData,
+    paginate,
+    sorting,
   }
 }

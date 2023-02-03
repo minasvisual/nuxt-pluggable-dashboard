@@ -1,49 +1,93 @@
 [
-    {
-      "code": "example",
-      "name": "Example",
-      "url": "https://placeholder.com",
-      "resources_path": "/examples/",
-      "resources":{
-        "basic":{
-          "resource":"tables/crud.json",
-          "label": "CRUD Example"
-        },
-        "advanced":{
-          "resource":"tables/crud_advanced.json",
-          "label": "CRUD Advanced Example"
-        },
-        "graphql":{
-          "resource":"tables/graphql.json",
-          "label": "Graphql Example"
-        },
-        "standalone":{
-          "resource":"forms/form_standalone.json",
-          "label": "Form Standalone Example"
-        },
-        "building":{
-          "resource":"forms/page_builder.json",
-          "label": "Page block building"
-        }
+  {
+    "code": "example",
+    "name": "Example",
+    "url": "https://placeholder.com",
+    "domain": "localhost:3000",
+    "resources_path": "/examples/",
+    "resources":{
+      "basic":{
+        "resource":"tables/crud.json",
+        "label": "CRUD Example"
       },
-      "widgets":{
-        "tiles":{
-          "resource":"widgets/widget_tiles.json",
-          "label": "Tiles test"
-        },
-        "bar":{
-          "resource":"widgets/widget_example.json",
-          "label": "Bar Chart test"
-        },
-        "lines":{
-          "resource":"widgets/widget_advanced.json",
-          "label": "Advanced line test"
-        }
+      "advanced":{
+        "resource":"tables/crud_advanced.json",
+        "label": "CRUD Advanced Example"
       },
-      "pages":{
-        "/":{
-          "resource":"layouts/index.json"
-        }
+      "graphql":{
+        "resource":"tables/graphql.json",
+        "label": "Graphql Example"
+      },
+      "standalone":{
+        "resource":"forms/form_standalone.json",
+        "label": "Form Standalone Example"
+      },
+      "building":{
+        "resource":"forms/page_builder.json",
+        "label": "Page block building"
       }
+    },
+    "widgets":{
+      "tiles":{
+        "resource":"widgets/widget_tiles.json",
+        "label": "Tiles test"
+      },
+      "bar":{
+        "resource":"widgets/widget_example.json",
+        "label": "Bar Chart test"
+      },
+      "lines":{
+        "resource":"widgets/widget_advanced.json",
+        "label": "Advanced line test"
+      }
+    },
+    "pages":{
+      "/":{
+        "resource":"layouts/index.json"
+      }
+    },
+    "sections":{ 
+      "header":{
+        "resource":"layouts/header.json",
+        "label": "Header Example"
+      },  
+      "contact":{
+        "resource":"layouts/contact.json",
+        "label": "Form Example"
+      }  
+    },
+    "head":{
+      "meta": [
+        { "charset": "utf-8" },
+        { "name": "viewport", "content": "width=device-width, initial-scale=1" },
+        { "hid": "description", "name": "description", "content": "Meta description" }
+      ],
+      "style": [ 
+        { "children": "@import url('https://getbootstrap.com/docs/5.3/dist/css/bootstrap.css')", "type": "text/css" },
+        { "children": "@import url('/examples/assets/style.css')", "type": "text/css" }
+      ],  
+      "script": [ 
+        { "body": true, "src": "https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" } 
+      ]
     }
+  },
+  {
+    "code": "example2",
+    "name": "Example 2",
+    "url": "https://placeholder.com",
+    "domain": "localhost:3001",
+    "resources_path": "/examples/",
+    "resources":{
+      "basic":{
+        "resource":"tables/crud.json",
+        "label": "CRUD Example"
+      }
+    },
+    "pages":{
+      "/":{
+        "resource":"layouts/index2.json"
+      }
+    },
+    "head":{}
+  }
 ]

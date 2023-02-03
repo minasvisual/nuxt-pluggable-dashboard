@@ -2,6 +2,7 @@
   <div class="form">
     <div v-if="res.message" class="text-red">{{ res.message }}</div>
     <FormKit v-if="schema" type="form" method="post" submit-label="Submit" form-class="w-full"
+            :actions="can(model, 'submit')"
             v-model="row" 
             @submit="save" 
     >
@@ -14,17 +15,18 @@
 </template>
 
 <script setup>
-  import _ from 'lodash'
-  import { FormKit, FormKitSchema } from '@formkit/vue'
+  import _ from 'lodash' 
   import Resource from '~/libs/core/resource'
   import { useAppContext } from '~/store/global'; 
-  import { normalizeInput } from '~/libs/core/helpers'; 
+  import { useAuth } from '~/store/auth'; 
+  import { normalizeInput, can, mergeDeep } from '~/libs/core/helpers'; 
 
-  let { $axios } = useNuxtApp() 
+  let { $axios, $bus, $message } = useNuxtApp() 
   let Instance = Resource({ $axios })
   const emit = defineEmits(['saved'])
   const App = useAppContext()
-  const schema = ref([])
+  const Auth = useAuth()
+  const schema = ref([]) 
 
   const { model, data } = defineProps({
     model: {
@@ -36,25 +38,6 @@
       default: () => ({})
     }, 
   })
-
-  // const normalizeInput = async (row) => {  
-  //   if( row.children && Array.isArray(row.children) )
-  //     for(let idx in row.children){ 
-  //       row.children[idx] = await normalizeInput(row.children[idx])
-  //     }  
-
-  //   let input = {
-  //     ...row,
-  //     label: _.get(row, 'label', _.capitalize(row?.name)),
-  //     placeholder: _.get(row, 'placeholder', _.capitalize(row?.name)),
-  //   }
-  //   if( input['type'] || (!input['$cmp'] && !input['$el'] && !input['type']) ) input['$formkit'] = input.type || 'text'
-
-  //   if( input.model && typeof input.model == 'string' ) 
-  //     input.model = await App.loadModel(input.model)
-    
-  //   return input
-  // }
  
   const save = (data) => {
     Instance.setModel(JSON.parse(JSON.stringify(model)))
@@ -62,10 +45,12 @@
     console.log('Save', data)
     let exclude = Object.keys(data).filter(i => i.includes('__'))
     Instance.saveData(_.omit(data, exclude)).then((rs) => {
-      alert("Saved ")
+      $message("Saved ")
       res.value = rs
       emit('saved', rs)
-    }).catch(err => res.value = get(err, 'response.data', err) )
+
+      $bus.emit('form:created', data)
+    }).catch(err => res.value = _.get(err, 'response.data', err) )
   }
 
   let row = ref(data)
@@ -79,6 +64,8 @@
   const modifyInput = async (input) => {
     if( input.model && typeof input.model == 'string' ) 
       input.model = await App.loadModel(input.model)
+    
+    input.model = mergeDeep((input.model || {}), { api:Auth?.session?.request })
 
     return input
   }

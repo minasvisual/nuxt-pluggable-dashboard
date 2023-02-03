@@ -1,0 +1,147 @@
+{
+  "$el": "nav",
+  "attrs": {
+    "class": "navbar navbar-expand-md navbar-dark fixed-top bg-dark"
+  },
+  "children": [
+    {
+      "$el": "div",
+      "attrs": {
+        "class": "container-fluid"
+      },
+      "children": [
+        {
+          "$el": "a",
+          "attrs": {
+            "class": "navbar-brand",
+            "href": "#"
+          },
+          "children": [
+            "Fixed navbar"
+          ]
+        },
+        {
+          "$el": "button",
+          "attrs": {
+            "class": "navbar-toggler",
+            "type": "button",
+            "data-bs-toggle": "collapse",
+            "data-bs-target": "#navbarCollapse",
+            "aria-controls": "navbarCollapse",
+            "aria-expanded": "false",
+            "aria-label": "Toggle navigation"
+          },
+          "children": [
+            {
+              "$el": "span",
+              "attrs": {
+                "class": "navbar-toggler-icon"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "$el": "div",
+          "attrs": {
+            "class": "collapse navbar-collapse",
+            "id": "navbarCollapse"
+          },
+          "children": [
+            {
+              "$el": "ul",
+              "attrs": {
+                "class": "navbar-nav me-auto mb-2 mb-md-0"
+              },
+              "children": [
+                {
+                  "$el": "li",
+                  "attrs": {
+                    "class": "nav-item"
+                  },
+                  "children": [
+                    {
+                      "$el": "a",
+                      "attrs": {
+                        "class": "nav-link active",
+                        "aria-current": "page",
+                        "href": "#"
+                      },
+                      "children": [
+                        "Home"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$el": "li",
+                  "attrs": {
+                    "class": "nav-item"
+                  },
+                  "children": [
+                    {
+                      "$el": "a",
+                      "attrs": {
+                        "class": "nav-link",
+                        "href": "#"
+                      },
+                      "children": [
+                        "Link"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$el": "li",
+                  "attrs": {
+                    "class": "nav-item"
+                  },
+                  "children": [
+                    {
+                      "$el": "a",
+                      "attrs": {
+                        "class": "nav-link disabled"
+                      },
+                      "children": [
+                        "Disabled"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$el": "form",
+              "attrs": {
+                "class": "d-flex",
+                "role": "search"
+              },
+              "children": [
+                {
+                  "$el": "input",
+                  "attrs": {
+                    "class": "form-control me-2",
+                    "type": "search",
+                    "placeholder": "Search",
+                    "aria-label": "Search"
+                  },
+                  "children": []
+                },
+                {
+                  "$el": "button",
+                  "attrs": {
+                    "class": "btn btn-outline-success",
+                    "type": "submit"
+                  },
+                  "children": [
+                    "Search"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

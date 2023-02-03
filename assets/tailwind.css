@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[readonly],
+select[readonly],
+textarea[readonly] {
+  @apply bg-gray-100 text-gray-500
+}

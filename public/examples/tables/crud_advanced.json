@@ -49,7 +49,13 @@
           "readonly": true, 
           "config": {
             "grid": true,
-            "sort": 1
+            "sort": 1,
+            "type": "link",
+            "action": {
+              "handler": "https://google.com",
+              "target": "_blank",
+              "label": "<span title='{data}'>#ID</span>"
+            }
           }
         },
         {
@@ -58,7 +64,11 @@
           "type": "toggle",
           "config": {
             "grid": true,
-            "type": "toggle"
+            "type": "toggle",
+            "filter": {
+              "type": "toggle",
+              "filterExp": "{prop},eq,{value}"
+            }
           },
           "depth": 2
         },
@@ -101,8 +111,11 @@
           "type": "autocomplete", 
           "config": {
             "grid": true,
-            "sort": 1,
-            "type": "action"
+            "filter": {
+              "type": "select", 
+              "filterExp": "{prop},eq,{value}"
+            },
+            "sort": 1
           },
           "options": [
             {
@@ -129,7 +142,11 @@
             }
           },
           "config": {
-            "grid": true
+            "grid": true,
+            "filter": {
+              "filterField": "include",
+              "filterExp": "join:{prop},eq,{value}"
+            }
           }
         }
       ]
@@ -144,6 +161,7 @@
           "type": "image", 
           "config": {
             "grid": true,
+            "filter": false,
             "type": "image"
           }
         },
@@ -154,6 +172,7 @@
           "baseUrl": "https://imagens-clubedoingresso.s3.amazonaws.com/",
           "config": {
             "grid": true,
+            "filter": false,
             "type": "expression",
             "action":{
               "template": "<img src='https://imagens-clubedoingresso.s3.amazonaws.com/{data}' height=30 width=auto />"
@@ -174,6 +193,7 @@
           },
           "config": {
             "grid": true,
+            "filter": false,
             "type": "image"
           }
         }
@@ -190,21 +210,15 @@
           "children": [ 
             {
               "name": "street",
-              "label": "Street",
-              "config": {
-                "grid": true
-              },
-              "depth": 2
+              "label": "Street"
             },
             {
               "name": "number",
-              "label": "number",
-              "depth": 2
+              "label": "number"
             },
             {
               "name": "country",
-              "label": "Country",
-              "depth": 2
+              "label": "Country"
             } 
           ]
         }
@@ -247,7 +261,7 @@
         "grid": true,
         "type": "date",
         "action": {
-          "format": "D/M/YY \\a\\s hh:mm",
+          "format": "D/M \\a\\s hh:mm",
           "utc": true
         }
       }

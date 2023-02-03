@@ -11,7 +11,7 @@
   </section>
 </template>
 
-<script setup> 
+<script setup>  
 const model = ref('[]')
 const ignore = ['script','!--','#comment']
 

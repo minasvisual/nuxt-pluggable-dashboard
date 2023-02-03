@@ -28,9 +28,9 @@
                     <div
                         class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:p-6 md:w-2/3"
                     >   
-                            <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900 flex justify-between">
+                            <DialogTitle as="h3" class="relative text-lg leading-6 font-medium text-gray-900 flex justify-between">
                                 <slot name="title"></slot> 
-                                <XIcon class="h-4 text-sm cursor-pointer" @click="$emit('update:show', false)"/>
+                                <XIcon class="h-4 text-sm cursor-pointer absolute right-0" @click="$emit('update:show', false)"/>
                             </DialogTitle>
                             <div class="mt-2">
                                 <slot></slot>
