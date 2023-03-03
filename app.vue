@@ -27,8 +27,7 @@
       result = _.find(app.projects, ['code', currentCookie.value])
     } else {
       result = _.get(app.projects, '[0]', {})
-    }
-    console.log('resikveCurrent', result,  hosting.value)
+    } 
 
     return result
   }

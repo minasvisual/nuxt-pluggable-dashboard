@@ -65,7 +65,8 @@
     if( input.model && typeof input.model == 'string' ) 
       input.model = await App.loadModel(input.model)
     
-    input.model = mergeDeep((input.model || {}), { api:Auth?.session?.request })
+    if( Auth?.session?.request )
+    	input.model = mergeDeep((input.model || {}), { api:Auth?.session?.request })
 
     return input
   }
