@@ -37,7 +37,12 @@
   })
 
   const { data:projects } = await useAsyncData('data_projects', ({ $axios }) => {  
-    return $axios.get(env.public.VUE_APP_BASE_API + env.public.VUE_APP_DATABASE).then( ({data}) => data )
+    return $axios.get(env.public.VUE_APP_BASE_API + env.public.VUE_APP_DATABASE, {
+      headers: JSON.parse(_.get(env.public, 'VUE_APP_DATABASE_HEADERS', '{}'))
+    }).then(  ({data}) =>  {
+      console.log(_.get(data,  env.public.VUE_APP_DATABASE_WRAPDATA))
+        return (env.public.VUE_APP_DATABASE_WRAPDATA ? _.get(data,  env.public.VUE_APP_DATABASE_WRAPDATA, data):data )
+    }).catch(e => console.error(_.get(e, 'response.data', e)))
   })
  
   app.projects = projects.value 

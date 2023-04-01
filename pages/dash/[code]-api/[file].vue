@@ -21,6 +21,9 @@
         </CrudTable>
       </CrudAuth>
     </section>
+    <section v-else>
+      <p class="text-center p-4">PAGE ERROR {{ error }}</p>
+    </section>
   </NuxtLayout>
 </template>
 
@@ -36,8 +39,12 @@
   let Instance = Resource({ $axios })
   let route = useRoute() 
 
-  let { data:model } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {  
-    return $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
+  let { data:model, error } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {  
+    let baseModelPath = current.resources_path?.includes('http') ? '': env.public.VUE_APP_BASE_API
+    return $axios.get(
+      `${baseModelPath}${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`,{
+      headers: JSON.parse(_.get(env.public, 'VUE_APP_DATABASE_HEADERS', '{}'))
+    }).then( ({data}) => data )
   })
 
   provide('model', model)  
