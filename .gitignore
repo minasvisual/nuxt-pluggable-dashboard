@@ -4,6 +4,7 @@ node_modules
 .vscode
 .output
 .env
+.env.copy
 nuxt.d.ts
 
 .yarn/*
