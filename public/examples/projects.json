@@ -19,11 +19,11 @@
         "label": "Graphql Example"
       },
       "standalone":{
-        "resource":"forms/form_standalone.json",
+        "resource":"form/form_standalone.json",
         "label": "Form Standalone Example"
       },
       "building":{
-        "resource":"forms/page_builder.json",
+        "resource":"form/page_builder.json",
         "label": "Page block building"
       }
     },
