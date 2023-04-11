@@ -63,7 +63,7 @@
 
       Instance.setModel({ ...model, api })
 
-      row.value = await Instance.getData(payload, config)
+      row.value = await Instance.getDataObject(payload, config)
         
       console.debug("concluiu  getDatasource", api)
     } catch (error) {
@@ -104,7 +104,8 @@
   })
 
   onMounted(() => {
-    getDatasource()
+    if( model.type == 'form' )
+        getDatasource()
   })
 
   onUnmounted(() => { 
