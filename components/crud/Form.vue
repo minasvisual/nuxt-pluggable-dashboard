@@ -19,7 +19,7 @@
   import Resource from '~/libs/core/resource'
   import { useAppContext } from '~/store/global'; 
   import { useAuth } from '~/store/auth'; 
-  import { normalizeInput, can, mergeDeep } from '~/libs/core/helpers'; 
+  import { normalizeInput, can, mergeDeep, filterParams } from '~/libs/core/helpers'; 
 
   let { $axios, $bus, $message } = useNuxtApp() 
   let Instance = Resource({ $axios })
@@ -39,22 +39,38 @@
     }, 
   })
  
-  const save = (data) => {
+  const save = (payload) => {
     Instance.setModel(JSON.parse(JSON.stringify(model)))
 
-    console.log('Save', data)
-    let exclude = Object.keys(data).filter(i => i.includes('__'))
-    Instance.saveData(_.omit(data, exclude)).then((rs) => {
+    console.log('Save', payload)
+    let exclude = Object.keys(payload).filter(i => i.includes('__'))
+    Instance.saveData(_.omit(payload, exclude)).then((rs) => {
       $message("Saved ")
       res.value = rs
       emit('saved', rs)
 
-      $bus.emit('form:created', data)
+      $bus.emit('form:created', payload)
     }).catch(err => res.value = _.get(err, 'response.data', err) )
   }
 
   let row = ref(data)
   let res = ref({})
+ 
+  const getDatasource = async (payload={}, config={}) => {
+    try { 
+      console.debug("chamou to formDatasource", model)  
+      let api = filterParams({ ..._.get(model, 'api', {}) }, { data: row.value }) 
+
+      Instance.setModel({ ...model, api })
+
+      row.value = await Instance.getDataObject(payload, config)
+        
+      console.debug("concluiu  getDatasource", api)
+    } catch (error) {
+      console.error('error formDatarousce', error)
+      alert("Error to getData")
+    }
+  }
 
   watch(model, (newVal) => {
     console.log('form wathc', newVal)
@@ -65,7 +81,8 @@
     if( input.model && typeof input.model == 'string' ) 
       input.model = await App.loadModel(input.model)
     
-    input.model = mergeDeep((input.model || {}), { api:Auth?.session?.request })
+    if( Auth?.session?.request )
+    	input.model = mergeDeep((input.model || {}), { api:Auth?.session?.request })
 
     return input
   }
@@ -85,6 +102,12 @@
       console.error("onmounted", error)
     }
   })
+
+  onMounted(() => {
+    if( model.type == 'form' )
+        getDatasource()
+  })
+
   onUnmounted(() => { 
     console.log("onmounted")
   })

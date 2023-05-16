@@ -20,6 +20,7 @@
             },
             "switch": true,
             "tags": "[\"Pluggable\",\"Dashboard\"]",
+            "repeats": ["Pluggable","Dashboard"],
             "wysiwyg": "<h3>pluggable dashboard<h3><ul><li>List</li></ul>",
             "created": "2021-04-09T23:59:00.000Z"
         }

@@ -9,6 +9,7 @@ import JsonInput from '~/components/crud/inputs/json.vue'
 import EditorInput from '~/components/crud/inputs/editor.vue'
 import ToggleInput from '~/components/crud/inputs/toggle.vue'
 import TagsInput from '~/components/crud/inputs/tags.vue'
+import RepeaterInput from '~/components/crud/inputs/repeater.vue'
 import GridInput from '~/components/crud/inputs/grid.vue' 
 import DateRange from '~/components/crud/inputs/daterange.vue' 
 import CurrencyInput from '~/components/crud/inputs/currency.vue' 
@@ -64,6 +65,7 @@ const config: DefaultConfigOptions = {
     'editor': inputByComponent(EditorInput, 'input'),
     'toggle': inputByComponent(ToggleInput, 'input', ['boolean']),
     'tags': inputByComponent(TagsInput, 'input', ['output']),
+    'repeater': inputByComponent(RepeaterInput, 'list', ['schema','inline']),
     'grid': inputByComponent(GridInput, 'input', ['model','overwrite']), 
     'daterange': inputByComponent(DateRange, 'input', ['format']), 
     'currency': inputByComponent(CurrencyInput, 'input',), 

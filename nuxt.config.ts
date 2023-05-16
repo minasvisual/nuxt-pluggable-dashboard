@@ -9,20 +9,17 @@ let envs = Object.keys(process.env).filter(i => i.includes('VUE_APP_'))
 console.log(pick(process.env, envs))
 
 export default defineNuxtConfig({
-  publicRuntimeConfig: {
+  runtimeConfig: {
     ...pick(process.env, envs),
-  },
-  privateRuntimeConfig: {
-    ...pick(process.env, envs)
-  },
+    public: {
+      ...pick(process.env, envs),
+    }
+  }, 
   modules: [
+    '@pinia/nuxt',
     '@formkit/nuxt',
-    'nuxt-jsoneditor'
-  ], 
-  buildModules: [
-      // pinia plugin - https://pinia.esm.dev
-      "@pinia/nuxt",
-  ],
+    'nuxt-jsoneditor',
+  ],  
   build: {
       transpile: ['@heroicons/vue'], 
   },

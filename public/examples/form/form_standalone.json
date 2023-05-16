@@ -5,117 +5,130 @@
   "domain": "basic",
   "properties": [
     {
-      "component": "h3",
+      "$el": "h2",
       "children": "Fake Rest API"
-    }, 
+    },
     {
       "name": "id",
       "label": "ID",
       "readonly": true,
       "config": {
         "grid": true,
-        "filter": false,
         "sort": 1
       }
     },
     {
-      "component": "div",
-      "class": "d-flex",
-      "children": [
-        {
-          "name": "autocomplete",
-          "label": "Autocomplete",
-          "type": "autocomplete",
-          "config": {
-            "grid": true,
-            "sort": 1,
-            "type": "select"
-          },
-          "options": [
-            {
-              "value": "1",
-              "label": "Jon Doe"
-            },
-            {
-              "value": "2",
-              "label": "Jane Roe"
-            }
-          ],
-          "depth": 3
-        },
-        {
-          "name": "dynamicselect",
-          "label": "Dynamic Select",
-          "type": "select",
-          "options": [],
-          "attributes": {
-            "url": "/examples/advanced_data.json",
-            "fieldLabel": "name",
-            "fieldValue": "id",
-            "wrapData": "users",
-            "requestOptions": {
-              "headers": {
-                "app-key": "qwertyuiop"
-              }
-            }
-          },
-          "config": {
-            "grid": true,
-            "type": "select"
-          },
-          "depth": 3
-        },
-        {
-          "name": "switch",
-          "label": "Switch",
-          "type": "switch",
-          "config": {
-            "grid": true
-          },
-          "depth": 3
-        }
-      ],
-      "depth": 2
-    },
-    {
-      "type": "group",
-      "name": "grid",
-      "label": "Users list",
-      "validation": "min:2,length",
-      "repeatable": true,
-      "add-label": "+ Add Item",
+      "$el": "div",
+      "attrs":{"class": "flex gap-2"},
       "children": [
         {
           "name": "name",
           "label": "Name",
+          "config": {
+            "grid": true,
+            "sort": 1
+          },
           "depth": 2
         },
         {
           "name": "email",
           "label": "Email",
+          "config": {
+            "grid": true,
+            "sort": 1
+          },
+          "depth": 2
+        },
+        {
+          "name": "phone",
+          "label": "Phone",
+          "mask": "(000) [000] 0000-0000",
+          "config": {
+            "grid": true,
+            "sort": 1
+          },
+          "depth": 2
+        },
+        {
+          "name": "gender",
+          "label": "Gender",
+          "type": "select",
+          "config": {
+            "grid": true,
+            "type": "action",
+            "action": {
+              "handler": "basic:save",
+              "source": "row",
+              "type": "select"
+            },
+            "filter": {
+              "type": "select",
+              "options": [
+                {
+                  "value": "male",
+                  "label": "Male"
+                },
+                {
+                  "value": "female",
+                  "label": "Female"
+                }
+              ]
+            }
+          },
+          "options": [
+            {
+              "value": "male",
+              "label": "Male"
+            },
+            {
+              "value": "female",
+              "label": "Female"
+            }
+          ],
           "depth": 2
         }
       ]
+    },
+    {
+      "name": "address",
+      "type": "group",
+      "children": [
+        {
+          "$el": "div",
+          "attrs":{"class": "flex gap-2"},
+          "children": [
+            {
+              "name": "street",
+              "label": "Street",
+              "depth": 2
+            },
+            {
+              "name": "suite",
+              "label": "Suite",
+              "depth": 2
+            },
+            {
+              "name": "city",
+              "label": "City",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "website",
+      "label": "Website",
+      "type": "editor"
     }
   ],
   "api": {
-    "rootApi": "/examples/advanced_data.json",
+    "rootApi": "https://jsonplaceholder.typicode.com/users/1",
+    "bypassGetData": true,
     "urlGetById": "",
-    "urlPut": "",
-    "wrapDataById": "settings",
+    "urlPatch": "", 
     "headers": {
       "Accept": "application/json"
-    },
-    "bypassGetDataById": true
-  },
-  "toolbar": [
-    {
-      "label": "Custom",
-      "handler": "model:grid",
-      "source": "context",
-      "data": {
-        "schema": "tables/crud.json"
-      }
     }
-  ]
+  } 
 }

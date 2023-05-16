@@ -47,7 +47,7 @@
                           :model="gete(col, 'model', {})"
                           :overwrite="gete(col, 'overwrite', {})"
                           :options="gete(col, 'options', [])"
-                          @input="e => changeFilters({ [col.key]:{ value:e, filter: col?.filter }})"  
+                          @input="e => setFilter(col)"  
                   ></FormKit>
                 </th>
                 <th class="px-6 flex items-center justify-end">
@@ -108,8 +108,7 @@
   let session = inject('session') 
   let { $axios, $message, $bus } = useNuxtApp() 
   const App = useAppContext()
-  let Instance = ResourceClass({ $axios })
-  let route = useRoute() 
+  let Instance = ResourceClass({ $axios }) 
   let ready = ref(false)
   let schema = ref([])
   let filters = ref({})
@@ -119,6 +118,7 @@
   let tableCount = ref(1)
   let config = reactive({})
   let queryInfo = reactive({})
+  const gete = _.get
 
   const emit = defineEmits(['create','edit','delete','selected'])
       
@@ -198,9 +198,12 @@
     })
   }
 
+  const setFilter = (col) => 
+      changeFilters({ [col.key]:{ value:col, filter: col?.filter }})
+
   const changeFilters = (e) => {
     nextTick(() => { 
-      console.log("changeFilters change", e)
+      console.debug("changeFilters change", e)
       filters.value = Object.assign(filters.value, e)
       queryInfo = { ...queryInfo, ...fetchQueryInfo('filter', filters.value) }
 
@@ -239,8 +242,6 @@
  
     return input
   }
-
-  const gete = _.get
 
   watch(model, () => {
     Instance.setModel({ ...model.value })

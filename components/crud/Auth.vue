@@ -1,5 +1,5 @@
 <template >
-  <section class="content text-center" >
+  <section class="" >
     <section v-if="login"> 
       <slot v-bind:schema="schema" v-bind:methods="{ logout }">
         vazio
@@ -12,6 +12,7 @@
         <FormKit 
           v-else
           type="form"
+          form-class="content text-center"
           method="post"
           v-model="model"
           @submit="doAuth"

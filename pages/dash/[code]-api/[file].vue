@@ -1,25 +1,35 @@
 <template>
   <NuxtLayout name="logged" >
-    <section class="content m-1 md:mx-12" v-if="model"> 
-      <CrudAuth @auth:logged="doLogged" #default="{ methods }">
-        <CommonsModal v-model:show="form.__isOpen" :title="false" > 
-          <CrudForm :model="model" :data="form" 
+    <section class="w-full md:container md:mx-auto" v-if="model"> 
+      <CrudAuth @auth:logged="doLogged" #default="{ methods }"> 
+        <template v-if="model?.type == 'form'">
+          <CrudForm :model="model" :data="resource" 
                     @saved="e =>postActions('saved', e)" 
                     @cancel="e =>postActions('cancel', e)" 
           />
-        </CommonsModal>
-
-        <CrudTable :resource="resource" @create="actions" @edit="actions" @delete="actions">
-          <template #toolbar-center>
-            <span>{{  model.title }}</span>
-          </template>  
-          <template #toolbar-right>
-            <div >
-              <button v-if="current.auth" class="border" @click="methods.logout"><LogoutIcon class="h-6"/></button>
-            </div>
-          </template>
-        </CrudTable>
+        </template>
+        <template v-else>
+          <CommonsModal v-model:show="form.__isOpen" :title="false" > 
+            <CrudForm :model="model" :data="form" 
+                      @saved="e =>postActions('saved', e)" 
+                      @cancel="e =>postActions('cancel', e)" 
+            />
+          </CommonsModal> 
+          <CrudTable :resource="resource" @create="actions" @edit="actions" @delete="actions">
+            <template #toolbar-center>
+              <span>{{  model.title }}</span>
+            </template>  
+            <template #toolbar-right>
+              <div >
+                <button v-if="current.auth" class="border" @click="methods.logout"><LogoutIcon class="h-6"/></button>
+              </div>
+            </template>
+          </CrudTable>
+        </template>
       </CrudAuth>
+    </section>
+    <section v-else>
+      <p class="text-center p-4">PAGE ERROR {{ error }}</p>
     </section>
   </NuxtLayout>
 </template>
@@ -36,8 +46,13 @@
   let Instance = Resource({ $axios })
   let route = useRoute() 
 
-  let { data:model } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {  
-    return $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
+  let { data:model, error } = await useAsyncData('model_'+route.params.file, ({ $axios }) => {  
+    let baseModelPath = current.resources_path?.includes('http') ? '': env.public.VUE_APP_BASE_API
+    console.log(current.resources_path)
+    return $axios.get(
+      `${baseModelPath}${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`,{
+      headers: JSON.parse(_.get(env.public, 'VUE_APP_DATABASE_HEADERS', '{}'))
+    }).then( ({data}) => data )
   })
 
   provide('model', model)  
@@ -64,23 +79,13 @@
   }
 
   const doLogged = ({ request }) => {
-    _.set(model.value, 'api', {...model.value.api, ...request })
-    
-    // Inst.setModel(model.value)
+    _.set(model.value, 'api', {...model.value.api, ...request })    
   }
-  
-  // watch(route.params.file, async () => {
-  //   console.error("watch file", route.params)
-  //   model.value = await $axios.get(`${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
 
-  //   getDatasource()
-  // })
-  
   onMounted(async() => {
     try { 
-      // model.value = await $axios.get(`${env.public.VUE_APP_BASE_API}${current.resources_path}${ _.get(current, `resources[${route.params.file}].resource`, '404') }`).then( ({data}) => data )
-
       console.debug("controller mounted", model.value)
+      if( !model.value ) throw 'onmounted > model undefined';
 
       Instance.setModel(JSON.parse(JSON.stringify(model.value))) 
     } catch (error) {

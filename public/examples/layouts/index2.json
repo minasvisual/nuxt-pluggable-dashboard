@@ -1,0 +1,9 @@
+[
+  {
+    "$el": "h1",
+    "attrs": { "class": "h1 text-center p-8 font-bold text-lg" },
+    "children": [
+      "Switcher example project"
+    ]
+  }
+]

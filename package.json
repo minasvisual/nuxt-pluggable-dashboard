@@ -4,23 +4,24 @@
     "dev": "npx nuxi dev",
     "build": "npx nuxi build",
     "start": "node .output/server/index.mjs",
-    "allupdate": "yarn upgrade-interactive"
+    "allupdate": "yarn upgrade-interactive",
+    "mock": "http-server --proxy http://localhost:8080? --cors"
   },
   "devDependencies": {
     "autoprefixer": "10.4.4",
-    "nuxt": "^3.0.0-rc.1",
+    "nuxt": "^3.2.3",
     "postcss": "8.4.12",
     "sass": "1.49.11",
     "sass-loader": "12.6.0",
     "tailwindcss": "3.0.23"
   },
   "dependencies": {
-    "@formkit/nuxt": "^1.0.0-beta.6",
+    "@formkit/nuxt": "^1.0.0-beta.15",
     "@formkit/themes": "^1.0.0-beta.6",
     "@headlessui/vue": "1.4.3",
     "@heroicons/vue": "1.0.6",
     "@nuxt/ui-templates": "npm:@nuxt/ui-templates-edge@0.0.0-27479051.598a8a0",
-    "@pinia/nuxt": "^0.4.3",
+    "@pinia/nuxt": "^0.4.7",
     "@tailwindcss/aspect-ratio": "0.4.0",
     "@tailwindcss/forms": "0.5.0",
     "@tailwindcss/line-clamp": "0.3.1",
@@ -33,8 +34,9 @@
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.2",
+    "nodemailer": "^6.9.2",
     "nuxt-jsoneditor": "^1.6.2",
-    "pinia": "2.0.13"
+    "pinia": "^2.0.32"
   },
   "engines": {
     "node": "^14.16.0 || ^16.11.0 || ^17.0.0"

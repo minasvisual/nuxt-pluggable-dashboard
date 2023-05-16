@@ -16,14 +16,37 @@
   import { useAppContext } from '~/store/global'
   const env = useRuntimeConfig()
   const app = useAppContext()
-  const currentCookie = useCookie('current')
+  const currentCookie = useCookie('current') 
+
+  const resolveCurrent = () => {
+    let result = _.get(app.projects, '[0]', {})
+ 
+    if( _.some(app.projects, ['domain', hosting.value.host]) ){
+      result = _.find(app.projects, ['domain', hosting.value.host])
+    }else if ( currentCookie.value ) {
+      result = _.find(app.projects, ['code', currentCookie.value])
+    } else {
+      result = _.get(app.projects, '[0]', {})
+    } 
+
+    return result
+  }
+
+  const { data:hosting } = await useAsyncData(({ ssrContext }): any => {  
+    return { host: ssrContext?.event.req.headers.host }
+  })
 
   const { data:projects } = await useAsyncData('data_projects', ({ $axios }) => {  
-    return $axios.get(env.public.VUE_APP_BASE_API + env.public.VUE_APP_DATABASE).then( ({data}) => data )
+    return $axios.get(env.public.VUE_APP_BASE_API + env.public.VUE_APP_DATABASE, {
+      headers: JSON.parse(_.get(env.public, 'VUE_APP_DATABASE_HEADERS', '{}'))
+    }).then(  ({data}) =>  {
+      console.log(_.get(data,  env.public.VUE_APP_DATABASE_WRAPDATA))
+        return (env.public.VUE_APP_DATABASE_WRAPDATA ? _.get(data,  env.public.VUE_APP_DATABASE_WRAPDATA, data):data )
+    }).catch(e => console.error(_.get(e, 'response.data', e)))
   })
  
-  app.projects = projects.value
-  app.current = currentCookie.value ? _.find(app.projects, ['code', currentCookie.value]): _.get(app.projects, '[0]', {})
+  app.projects = projects.value 
+  app.current = resolveCurrent()
 </script>
 
 <style lang="scss">
