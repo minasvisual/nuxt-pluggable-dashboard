@@ -104,7 +104,7 @@
   })
 
   onMounted(() => {
-    if( model.type == 'form' )
+    if( model.type == 'form' && _.get(model, 'api.getData', true))
         getDatasource()
   })
 

@@ -5,10 +5,10 @@ import ContactTemplate from '~~/server/views/contact'
 export default defineEventHandler( async (event) => {
   try {
     let mailer = Mailer()
-    let { target, email, subject, message, name, recaptcha } = await readBody(event) 
+    let { target, email, subject, message, name, project } = await readBody(event) 
       
     let ip =  _.get(event.node.req, "headers['x-real-ip']")
-    let template = mailer.buildTemplate(ContactTemplate, { name, email, message, ip })
+    let template = mailer.buildTemplate(ContactTemplate, { name, email, message, ip, url:project })
 
     let params = {
       to: target,
