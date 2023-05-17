@@ -34,7 +34,7 @@ export default () => {
       }
     });
   }
-  // init();
+  init();
 
   // send mail with defined transport object
   const send = async function(params, cb){
