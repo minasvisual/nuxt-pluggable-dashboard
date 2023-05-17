@@ -27,7 +27,9 @@
     if( schema.value?.api ){
       Instance.setModel(schema.value)
       if( _.get(schema.value, 'api.getData', false) )
-        await Instance.getData({}, {})
+        return await Instance.getData({}, {})
+      else
+        return []
     }else{
       return {}
     }
