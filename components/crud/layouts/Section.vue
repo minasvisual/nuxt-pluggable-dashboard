@@ -4,8 +4,9 @@
  
 <script setup>  
   import { $attrs } from '@formkit/inputs';
-import ResourceClass from '~/libs/core/resource'
-  import { useAppContext } from '~/store/global';  
+  import ResourceClass from '~/libs/core/resource'
+  import { useAppContext } from '~/store/global'; 
+  import _ from 'axios'
 
   const { $axios } = useNuxtApp()  
   const { current={}, loadModel } = useAppContext()  
@@ -25,7 +26,8 @@ import ResourceClass from '~/libs/core/resource'
   const { data:section } = await useAsyncData('data_'+model, async ({ }) => {  
     if( schema.value?.api ){
       Instance.setModel(schema.value)
-      return await Instance.getData({}, {})
+      if( _.get(schema.value, 'api.getData', false) )
+        await Instance.getData({}, {})
     }else{
       return {}
     }
