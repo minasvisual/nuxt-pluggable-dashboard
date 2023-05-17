@@ -6,7 +6,7 @@
   import { $attrs } from '@formkit/inputs';
   import ResourceClass from '~/libs/core/resource'
   import { useAppContext } from '~/store/global'; 
-  import _ from 'axios'
+  import _ from 'lodash'
 
   const { $axios } = useNuxtApp()  
   const { current={}, loadModel } = useAppContext()  
@@ -26,10 +26,10 @@
   const { data:section } = await useAsyncData('data_'+model, async ({ }) => {  
     if( schema.value?.api ){
       Instance.setModel(schema.value)
-      if( _.get(schema.value, 'api.getData', false) )
+      if( _.get(schema.value, 'api.getData', true) )
         return await Instance.getData({}, {})
       else
-        return []
+        return {}
     }else{
       return {}
     }
