@@ -20,12 +20,14 @@
             <FormKitSchema :schema="model.properties || model" />
           </div>
           <div class="w-1/3">
-            <JsonEditor  
-              mode="tree"
-              :value="model"
-              :queryLanguagesIds="['javascript']"  
-              @change="setValue"
-            />
+            <ClientOnly>
+              <JsonEditor  
+                mode="tree"
+                :value="model"
+                :queryLanguagesIds="['javascript']"  
+                @change="setValue"
+              />            
+            </ClientOnly>
           </div>
         </div>
         <div class="form flex gap-4 w-full" v-if="view == 'form' && model"> 
@@ -40,19 +42,23 @@
             <CrudForm v-if="render" :model="model" :data="row" />
           </div>
           <div class="w-1/3">
-            <JsonEditor  
-              mode="tree"
-              :value="model"
-              :queryLanguagesIds="['javascript']"  
-              @change="setValue"
-            />
+            <ClientOnly>
+              <JsonEditor  
+                mode="tree"
+                :value="model"
+                :queryLanguagesIds="['javascript']"  
+                @change="setValue"
+              />
+            </ClientOnly>
           </div>
         </div>
         <div class="form" v-if="view == 'table'"> 
           <CrudTable :resource="rows" />  
         </div>
         <div class="form" v-if="view == 'htmljson'"> 
-          <CrudCommonHtmlToJson />  
+          <ClientOnly>
+            <CrudCommonHtmlToJson /> 
+          </ClientOnly>
         </div>
       </div>
     </section>
