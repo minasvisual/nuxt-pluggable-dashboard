@@ -15,7 +15,7 @@
 
   const { data:schema } = await useAsyncData('forms_'+model, ({ }) => {  
     return loadModel(model, 'sections').then( 
-      data => { 
+      data => {  
         if( typeof data == 'string' && data.includes('{') ) data = JSON.parse(data) 
         return data 
       }

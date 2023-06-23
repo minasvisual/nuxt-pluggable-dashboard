@@ -7,15 +7,15 @@ export default defineEventHandler( async (event) => {
     let mailer = Mailer()
     let { target, email, subject, message, name, project } = await readBody(event) 
       
-    let ip =  _.get(event.node.req, "headers['x-real-ip']")
+    let ip =  _.get(event.node.req, "headers['x-real-ip']", _.get(event, "node.req.headers['x-forwarded-for']"))
     let template = mailer.buildTemplate(ContactTemplate, { name, email, message, ip, url:project })
 
     let params = {
-      to: target,
+      to: target, 
       replyTo: email,
-      subject: 'Contact coursestube - '+subject ,
+      subject: 'Contact - '+subject ,
       html: template,
-      text: template,
+      text: template.replace('<br>', '\\r\\n'),
     } as any
 
     let mail = await mailer.sendSync(params)    

@@ -7,14 +7,14 @@ export default () => {
   const init = async () => {
     if( !process.env.SMTP_URL ) return console.warn('SMTP URL unavailable')
 
-    // user|pass|host|port|host
-    const [SMTP_USER,SMTP_PASS,SMTP_HOST,SMTP_PORT,SMTP_REMOTE] = (process.env.SMTP_URL || '').split('|')
+    // user|pass|host|port|
+    let [SMTP_USER, SMTP_PASS, SMTP_HOST, SMTP_PORT, SMTP_REMOTE] = (process.env.SMTP_URL || '').split('|')
 
     transporter = nodemailer.createTransport({
         name: SMTP_REMOTE,
         host: SMTP_HOST,
         port: parseInt(SMTP_PORT),
-        secureConnection: true, // true for 465, false for other ports
+        secureConnection: SMTP_PORT === '465', // true for 465, false for other ports
         auth: {
             user: SMTP_USER, // generated ethereal user
             pass: SMTP_PASS  // generated ethereal password
@@ -39,11 +39,12 @@ export default () => {
   // send mail with defined transport object
   const send = async function(params, cb){
         const Logger = console
-        const [SMTP_USER] = (process.env.SMTP_URL || '').split('|')
+        let [SMTP_USER, SMTP_PASS, SMTP_HOST, SMTP_PORT] = (process.env.SMTP_URL || '').split('|')
           // setup email data with unicode symbols
         let mailOptions = {
-            from: SMTP_USER, // sender address
+            from: _.get(params, 'from', SMTP_USER), // sender address
             to: _.get( params, 'to','mantovaniarts@hotmail.com'), // list of receivers
+            replyTo: _.get( params, 'replyTo'), // list of receivers
             subject: _.get( params, 'subject','Erro myguild'), // Subject line
             text: _.get( params, 'text', 'HTML Text Disable'), // plain text body
             html: _.get( params, 'body', _.get(params, 'text', 'Content undefined').replace(/\r\n/g, "<br />") ) // html body

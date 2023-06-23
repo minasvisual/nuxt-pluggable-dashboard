@@ -1,9 +1,8 @@
 <template> 
-  <FormKitSchema :class="{'display': ready ? 'block':'none'}" :schema="schema?.properties || schema" :data="section" />
+  <FormKitSchema :class="({'display': ready ? 'block':'none'})" :schema="schema?.properties || schema" :data="section" />
 </template>
  
-<script setup>  
-  import { $attrs } from '@formkit/inputs';
+<script setup>   
   import ResourceClass from '~/libs/core/resource'
   import { useAppContext } from '~/store/global'; 
   import _ from 'lodash'

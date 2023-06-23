@@ -1,4 +1,4 @@
-VUE_APP_BASE_API=https://api.mantovaniarts.com/toponeav
+VUE_APP_BASE_API=https://mantovaniarts.com/toponeav
 VUE_APP_ENV=local
 VUE_APP_DATABASE=/projects.json
 VUE_APP_FRONT_PROJECT=example
